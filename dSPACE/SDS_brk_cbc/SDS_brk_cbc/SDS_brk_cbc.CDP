@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Root>
+	<creator type="key">ControlDesk 6.3p1</creator>
+	<project>
+		<Creator type="key">ControlDesk</Creator>
+		<Name type="key">SDS_brk_cbc.CDP</Name>
+		<DisplayName type="key">SDS_brk_cbc</DisplayName>
+		<Flags type="key">4096</Flags>
+		<Type type="key">1</Type>
+		<UniqueID type="key">232062779</UniqueID>
+		<EntityID type="key">{D2678215-FD29-4B66-830E-4604346AEE3F}</EntityID>
+		<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+		<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+		<ItemInfoDescr type="key"/>
+		<ItemInfoAddInfoDb type="key"/>
+		<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		<item>
+			<Targets type="key">project</Targets>
+			<Name type="key">SDS_brk_cbc</Name>
+			<DisplayName type="key">SDS_brk_cbc</DisplayName>
+			<Path type="key">..</Path>
+			<Flags type="key">4100</Flags>
+			<Type type="key">3</Type>
+			<UniqueID type="key">251261916</UniqueID>
+			<EntityID type="key">{4E96434D-4E3A-4494-8216-4FE9D5CF8EAC}</EntityID>
+			<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			<item>
+				<Docs type="key">.doc,.docx,.pdf</Docs>
+				<Name type="key">Specifications</Name>
+				<DisplayName type="key">Specifications</DisplayName>
+				<Path type="key">.</Path>
+				<Type type="key">3</Type>
+				<UniqueID type="key">254932219</UniqueID>
+				<EntityID type="key">{171FBFC7-BCD9-4B12-9C6D-ED80003A6586}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.doc,.docx,.pdf</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Docs type="key">.mpp</Docs>
+				<Name type="key">Project Plans</Name>
+				<DisplayName type="key">Project Plans</DisplayName>
+				<Path type="key">.</Path>
+				<Type type="key">3</Type>
+				<UniqueID type="key">311850680</UniqueID>
+				<EntityID type="key">{6B21C2A4-2097-4020-8507-A5E28E29FD94}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.mpp</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">datasetmanager_global</Targets>
+				<Name type="key">Global Data Sets</Name>
+				<DisplayName type="key">Global Data Sets</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<Type type="key">29</Type>
+				<UniqueID type="key">696613399</UniqueID>
+				<EntityID type="key">{6A956D84-63E3-4C4C-82CC-C7465E70F383}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">variablesmanagement</Targets>
+				<Name type="key">Variable Descriptions</Name>
+				<DisplayName type="key">Variable Descriptions</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<ExtendedFlags type="key">4</ExtendedFlags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">840817427</UniqueID>
+				<EntityID type="key">{93EDCCA2-099A-4675-BDF9-DA80FE81AA6C}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">SDS_brk_cbc.vdb</Name>
+					<DisplayName type="key">C:\Users\cordunoalbarran\Documents\dSPACE\ControlDesk\6.3\SDS_brk_cbc\SDS_brk_cbc\Variable Descriptions\SDS_brk_cbc.vdb</DisplayName>
+					<Path type="key">.\Variable Descriptions</Path>
+					<Flags type="key">276</Flags>
+					<Type type="key">18</Type>
+					<UniqueID type="key">1031658118</UniqueID>
+					<EntityID type="key">{16357C34-F18D-472B-9185-DD30F95EB954}</EntityID>
+					<ItemInfoDate type="key">10/1/2019 3:39:18 PM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+				</item>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">sds_brk_cbc_v1.sdf</Name>
+					<DisplayName type="key">sds_brk_cbc_v1.sdf</DisplayName>
+					<Path type="key">.\Variable Descriptions\sds_brk_cbc_v1.sdf</Path>
+					<Flags type="key">18704</Flags>
+					<Type type="key">7</Type>
+					<UniqueID type="key">322532081</UniqueID>
+					<EntityID type="key">{66572736-899C-4DD3-97AE-BB3072A9014A}</EntityID>
+					<ItemInfoDate type="key">10/1/2019 3:39:18 PM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoLog type="key">
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-01 21:56:53 (UTC)]
+
+Variable description reloaded on 01.10.2019 15:42:06 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-01 22:41:36 (UTC)]
+
+Variable description reloaded on 01.10.2019 16:10:51 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-01 23:10:29 (UTC)]
+
+Variable description reloaded on 01.10.2019 16:50:34 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-01 23:50:07 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:01:56 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:01:16 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:08:14 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:07:08 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:13:35 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:12:35 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:18:53 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:18:08 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:40:50 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:34:44 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:52:49 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:52:30 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:55:23 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:55:01 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:58:51 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:58:32 (UTC)]
+
+Variable description reloaded on 01.10.2019 18:03:22 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 01:03:00 (UTC)]
+
+Variable description reloaded on 01.10.2019 18:21:28 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 01:19:46 (UTC)]
+
+Variable description reloaded on 01.10.2019 19:24:53 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 02:24:07 (UTC)]
+
+Variable description reloaded on 01.10.2019 19:32:23 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 02:28:25 (UTC)]
+
+Variable description reloaded on 02.10.2019 10:20:24 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 17:20:04 (UTC)]
+
+Variable description reloaded on 02.10.2019 13:23:15 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 20:22:59 (UTC)]
+
+Variable description reloaded on 02.10.2019 13:31:47 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 20:31:40 (UTC)]
+
+Variable description reloaded on 02.10.2019 13:43:09 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 20:42:58 (UTC)]
+
+Variable description reloaded on 02.10.2019 13:56:42 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 20:56:20 (UTC)]
+
+Variable description reloaded on 02.10.2019 13:59:23 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 20:56:20 (UTC)]
+</ItemInfoLog>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_brk_cbc_v1.trc</Name>
+						<DisplayName type="key">sds_brk_cbc_v1.trc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_brk_cbc_v1.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">66338315</UniqueID>
+						<EntityID type="key">{D07845F1-9D11-4471-B9F4-EA097D51EA74}</EntityID>
+						<ItemInfoDate type="key">10/2/2019 1:59:23 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_brk_cbc_v1.map</Name>
+						<DisplayName type="key">sds_brk_cbc_v1.map</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_brk_cbc_v1.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">922414423</UniqueID>
+						<EntityID type="key">{3D1C45A5-979B-45A3-89B6-BCE79EAD8A93}</EntityID>
+						<ItemInfoDate type="key">10/2/2019 1:59:23 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_brk_cbc_v1.ppc</Name>
+						<DisplayName type="key">sds_brk_cbc_v1.ppc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_brk_cbc_v1.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">30</Type>
+						<UniqueID type="key">1007614256</UniqueID>
+						<EntityID type="key">{ED040B9D-D51E-4E0A-9418-7F67C5DC1E9F}</EntityID>
+						<ItemInfoDate type="key">10/2/2019 1:59:23 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+				</item>
+			</item>
+			<item>
+				<Targets type="key">datasetmanager</Targets>
+				<Name type="key">Data Sets</Name>
+				<DisplayName type="key">Data Sets</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">260</Flags>
+				<Type type="key">29</Type>
+				<UniqueID type="key">580032273</UniqueID>
+				<EntityID type="key">{39F61AE2-28B0-49D1-93B0-360B51802CD2}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">.vfe</Targets>
+				<Name type="key">Variable Filters</Name>
+				<DisplayName type="key">Variable Filters</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">2304</Flags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">412221901</UniqueID>
+				<EntityID type="key">{68746583-BAF5-4FD8-9857-CD8509A8AE9D}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">.lab</Targets>
+				<Docs type="key">.lab,.txt</Docs>
+				<Name type="key">Label Lists</Name>
+				<DisplayName type="key">Label Lists</DisplayName>
+				<Path type="key">.</Path>
+				<Type type="key">3</Type>
+				<UniqueID type="key">545643417</UniqueID>
+				<EntityID type="key">{63AD919E-43EA-4749-B3CF-B70B660C0914}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.lab,.txt</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">interpreter,.py</Targets>
+				<Docs type="key">.py</Docs>
+				<Name type="key">Python Scripts</Name>
+				<DisplayName type="key">Python Scripts</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<ExtendedFlags type="key">4224</ExtendedFlags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">78070913</UniqueID>
+				<EntityID type="key">{DC432793-D744-436A-85D2-43159168D0AD}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.py</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">busnavigator,.xml</Targets>
+				<Name type="key">BusNavigator</Name>
+				<DisplayName type="key">BusNavigator</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">260</Flags>
+				<ExtendedFlags type="key">256</ExtendedFlags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">73095511</UniqueID>
+				<EntityID type="key">{9023B405-0E6C-494A-AE4C-E6F0C815542F}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">signaleditor</Targets>
+				<Name type="key">Signal Description Sets</Name>
+				<DisplayName type="key">Signal Description Sets</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">802899581</UniqueID>
+				<EntityID type="key">{F097D39B-2B34-4990-B22F-CF20BB96C4BC}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+		</item>
+		<item>
+			<Name type="key">Events</Name>
+			<DisplayName type="key">Events</DisplayName>
+			<Path type="key">.</Path>
+			<Flags type="key">4</Flags>
+			<Type type="key">3</Type>
+			<UniqueID type="key">540917810</UniqueID>
+			<EntityID type="key">{8C219444-8E0B-40D0-877D-27570D0F0B96}</EntityID>
+			<ItemInfoDate type="key">10/1/2019 3:39:19 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			<item>
+				<Name type="key">Project.events</Name>
+				<DisplayName type="key">Project.events</DisplayName>
+				<Path type="key">.\Events</Path>
+				<Flags type="key">4</Flags>
+				<Type type="key">52</Type>
+				<UniqueID type="key">798242378</UniqueID>
+				<EntityID type="key">{F290C555-E52B-4D93-8D95-42A3AF4322E4}</EntityID>
+				<ItemInfoDate type="key">10/1/2019 3:39:19 PM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+		</item>
+	</project>
+	<experiments>
+		<experiment>
+			<Creator type="key">ControlDesk</Creator>
+			<Name type="key">brk_cbc.CDE</Name>
+			<DisplayName type="key">brk_cbc</DisplayName>
+			<Path type="key">.\brk_cbc</Path>
+			<Flags type="key">4096</Flags>
+			<Type type="key">2</Type>
+			<UniqueID type="key">238025353</UniqueID>
+			<EntityID type="key">{C7C48DFF-5DE4-46B9-BF81-74155480E32E}</EntityID>
+			<ItemInfoDate type="key">10/1/2019 3:39:17 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		</experiment>
+	</experiments>
+	<UserManager/>
+	<XILAPIEESPort Version="1"/>
+	<SignalEditor/>
+	<Interpreter/>
+	<VariablesManagement Version="100">
+		<CreatorVersion type="key">603000375</CreatorVersion>
+	</VariablesManagement>
+	<ProjectExperiment>
+		<LastActiveExperiment type="key">brk_cbc</LastActiveExperiment>
+	</ProjectExperiment>
+	<MeasureDataManagement Version="4"/>
+	<Instrumentation Version="1">
+		<UniqueIds Version="3">
+			<Count type="key">1</Count>
+			<File1 type="key">brk_cbc/Layout1</File1>
+			<Id1 type="key">0</Id1>
+		</UniqueIds>
+	</Instrumentation>
+	<DiagnosticsManagement/>
+	<PlatformManagement Version="10"/>
+	<DataSetManager>
+		<Version>
+			<Version type="key">2</Version>
+		</Version>
+		<Work/>
+		<ActiveWork/>
+		<Reference/>
+		<ActiveReference/>
+		<Master/>
+		<ActiveMaster/>
+		<InitialMaster/>
+		<Incomplete/>
+		<IncompleteReadonly/>
+		<DataSet/>
+		<Readonly/>
+		<LabelListFilter>
+			<LabelListFilterFile type="key"/>
+			<LabelListFilterActive type="key">0</LabelListFilterActive>
+		</LabelListFilter>
+		<AutomaticDownload/>
+	</DataSetManager>
+</Root>

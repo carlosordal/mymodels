@@ -1,0 +1,1903 @@
+-- ****************************************************************************
+--
+--  Trace file: Campari_GatewayTest_MABXII.trc
+--
+--  RTI1401 7.11 (02-Nov-2018)
+--  Tue Mar 26 14:13:39 2019
+--
+--  Copyright 2019, dSPACE GmbH. All rights reserved.
+--
+-- ****************************************************************************
+--
+--  Used options:
+--    TRCGenerateVirtualBlocks      = 0
+--    TRCGenerateLabels             = 0
+--    TRCGenerateStates             = 0
+--    TRCGenerateDerivatives        = 0
+--    TRCGenerateParamValues        = 0
+--    TRCGenerateApplicationKeyword = 0
+--    TRCOnlyGlobals                = 0
+--    TRCIsOmitVdOn                 = 0
+--
+--  Trace file format: 3
+
+-- ******** Keywords **********************************************************
+-- _application "Campari_GatewayTest_MABXII.map"
+
+_genname     "RTI"
+_genversion  "7.11"
+_gendate     "03/26/2019 14:13:43"
+_description ""
+_author      "RTI1401 7.11 (02-Nov-2018)"
+_model       "Campari_GatewayTest_MABXII"
+
+-- Default data type formats
+_floating_point_type(64,IEEE)
+_integer_type(32)
+
+-- No Data Capture blocks within model: use base sample time as sampling period
+sampling_period[0]
+{
+  value:       0.0001
+  alias:       "HostService"
+  increment:   0.0001
+  unit:        "s"
+}
+
+
+
+
+-- Type definitions for arrays
+typedef Campari_GatewayTest_MABXII_ArrayDT10_4 int(32)[4]
+typedef Campari_GatewayTest_MABXII_ArrayDT10_2 int(32)[2]
+
+
+-- ******** Simulation control variables **************************************
+
+finalTime
+{
+ type:  flt(64,IEEE)*
+ alias: "finalTime"
+ desc:  "Simulation stop time. When reached, simState switches to STOP."
+ flags:  READONLY
+ unit:  "s"
+ addr:    0x00681784
+}
+
+currentTime
+{
+ type:  flt(64,IEEE)*
+ alias: "currentTime"
+ desc:  "Current simulation time. Increments with execution of Timer Task 1."
+ flags: READONLY
+ unit:  "s"
+ addr:    0x00681780
+}
+
+modelStepSize
+{
+ type:  flt(64,IEEE)
+ alias: "modelStepSize"
+ desc:  "Fixed step size of the model, sample time of Timer Task 1."
+ flags: READONLY
+ unit:  "s"
+ addr:    0x00681788
+}
+
+simState
+{
+ type:  int(32)
+ alias: "simState"
+ desc:  "Simulation state: STOP=0 PAUSE=1 RUN=2"
+ unit:  "-"
+ addr:    0x0025cb58
+}
+
+msg_last_error_no
+{
+ type:  uint(32)
+ alias: "errorNumber"
+ desc:  "Error number of last error message (zero if no error)."
+ unit:  "-"
+ flags: READONLY
+ addr:    0x0067b2b4
+}
+
+p_dsts_sum_of_reset_time
+{
+ type:  flt(64,IEEE)*
+ alias: "sumOfResetTime"
+ desc:  "Internal variable for summing up reset time."
+ unit:  "s"
+ flags: READONLY|HIDDEN
+ addr:    0x0021fd18
+}
+
+
+-- ******** Task Information variables ****************************************
+group "Task Info"
+{
+ 
+}
+  group "Timer Task 1"
+  {
+   
+  }
+
+  pRti_TIMERA_STime
+  {
+   type:  flt(64,IEEE)*
+   alias: "sampleTime"
+   flags: READONLY
+		 addr:    0x006818f8
+		}
+  pRti_TIMERA_TTime
+  {
+   type:  flt(64,IEEE)*
+   alias: "turnaroundTime"
+   flags: READONLY
+ addr:    0x006818fc
+}
+  pRti_TIMERA_TState
+  {
+   type:  int(32)*
+   alias: "state"
+   flags: READONLY
+		 addr:    0x00681900
+		}
+  pRti_TIMERA_OType
+  {
+   type:  int(32)*
+   alias: "overrunCheckType"
+   flags: READONLY
+ addr:    0x00681904
+}
+  pRti_TIMERA_OMax
+  {
+   type:  int(32)*
+   alias: "overrunQueueMax"
+   flags: READONLY
+ addr:    0x00681908
+}
+  pRti_TIMERA_ORpt
+  {
+   type:  int(32)*
+   alias: "overrunQueueCount"
+   flags: READONLY
+ addr:    0x0068190c
+}
+  pRti_TIMERA_OCnt
+  {
+   type:  int(32)*
+   alias: "overrunCount"
+   flags: READONLY
+ addr:    0x00681910
+}
+  pRti_TIMERA_TCnt
+  {
+   type:  flt(64,IEEE)*
+   alias: "taskCallCount"
+   flags: READONLY
+		 addr:    0x00681914
+		}
+  pRti_TIMERA_Prio
+  {
+   type:  int(32)*
+   alias: "priority"
+   flags: READONLY
+ addr:    0x00681918
+}
+  endgroup
+
+
+endgroup
+
+
+-- ******** Model variables ***************************************************
+
+group "Model Root"
+	group "DASM" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[20]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "DASM"
+
+	group "HaLF" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[21]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "HaLF"
+
+	group "PTS" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[22]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "PTS"
+
+	group "RHSC2" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[23]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "RHSC2"
+
+	group "RHSC_CANtx_Trigger" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[2]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "RHSC_CANtx_Trigger"
+
+	group "RHSC_CRC" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[3]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "RHSC_CRC"
+
+	group "SDS_CBC_CMD3" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[8]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_CMD3"
+
+	group "SDS_CBC_ConvLmpRst" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[18]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_ConvLmpRst"
+
+	group "SDS_CBC_HAZ_SW" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[6]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_HAZ_SW"
+
+	group "SDS_CBC_HDLP_SW" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[13]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_HDLP_SW"
+
+	group "SDS_CBC_HDLP_Wash" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[10]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_HDLP_Wash"
+
+	group "SDS_CBC_HiBmLvr" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[5]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_HiBmLvr"
+
+	group "SDS_CBC_Horn" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[9]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_Horn"
+
+	group "SDS_CBC_IGNPOS" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[4]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_IGNPOS"
+
+	group "SDS_CBC_IP_Dimmer" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[12]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_IP_Dimmer"
+
+	group "SDS_CBC_OVERLAY_REQ" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[17]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "SDS_CBC_OVERLAY_REQ"
+
+	group "SDS_CBC_RFFunct" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[14]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_RFFunct"
+
+	group "SDS_CBC_TRN-I_1L_2R_0N" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[7]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_TRN-I_1L_2R_0N"
+
+	group "SDS_CBC_WPRSW" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[16]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_WPRSW"
+
+	group "SDS_CBC_WPR_Wash" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[11]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_WPR_Wash"
+
+	group "SDS_CBC_WprWshSW" -- block-group
+	{
+	 block: "Constant"
+	}
+		-- Skipping output Out1
+		p_1_Campari_GatewayTest_MABXII_real_T_2[15]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Value"
+		 flags:   PARAM
+		 addr:    0x0025cb3c
+		}
+
+
+	endgroup -- block-group "SDS_CBC_WprWshSW"
+
+	group "Unit Delay" -- block-group
+	{
+	 block: "UnitDelay"
+	}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[15]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Out1"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_1_Campari_GatewayTest_MABXII_real_T_2[19]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "InitialCondition"
+		 flags:   PARAM
+ addr:    0x0025cb3c
+}
+
+
+	endgroup -- block-group "Unit Delay"
+
+  
+  
+	group "CHASSI_CAN_SETUP_M1_C1" -- subsystem-group
+
+
+	endgroup -- subsystem-group "CHASSI_CAN_SETUP_M1_C1"
+  
+  
+	group "CHASSI_CAN_SETUP_M1_C2" -- subsystem-group
+
+
+	endgroup -- subsystem-group "CHASSI_CAN_SETUP_M1_C2"
+  
+  
+	group "CRC_is_OK1" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_boolean_T_2[0]
+		{
+		 type:    uint(8)*
+		 alias:   "y"
+		 range:   < 0 ; 1 >
+		 bitmask: 0x01
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb30
+		}
+
+		p_1_Campari_GatewayTest_MABXII_real_T_0[0]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "const"
+		 flags:   PARAM
+ addr:    0x0025cb34
+}
+
+		group "Constant" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			trcref0_const
+			{
+			 refgroup: ".."
+			 refvar:   "const"
+			 alias:    "const"
+}
+			trcref0_Value
+			{
+			 refgroup: ".."
+			 refvar:   "const"
+			 alias:    "Value"
+			 flags:    DEPRECATED|HIDDEN
+}
+
+
+		endgroup -- block-group "Constant"
+
+		group "Compare" -- block-group
+		{
+		 block: "RelationalOperator"
+		}
+			p_0_Campari_GatewayTest_MABXII_boolean_T_2[0]
+			{
+			 type:    uint(8)*
+			 alias:   "Out1"
+			 range:   < 0 ; 1 >
+			 bitmask: 0x01
+			 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb30
+		}
+
+
+		endgroup -- block-group "Compare"
+
+
+
+	endgroup -- subsystem-group "CRC_is_OK1"
+  
+  
+	group "DIO_TYPE4_BIT_IN_CH_BL1" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_boolean_T_2[1]
+		{
+		 type:    uint(8)*
+		 alias:   "Out"
+		 desc:    "No data (unused channel) "
+		 range:   < 0 ; 1 >
+		 bitmask: 0x01
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb30
+		}
+
+	endgroup -- subsystem-group "DIO_TYPE4_BIT_IN_CH_BL1"
+  
+  
+	group "DIO_TYPE4_BIT_IN_CH_BL2" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_boolean_T_2[2]
+		{
+		 type:    uint(8)*
+		 alias:   "Out"
+		 desc:    "No data (unused channel) "
+		 range:   < 0 ; 1 >
+		 bitmask: 0x01
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb30
+}
+
+	endgroup -- subsystem-group "DIO_TYPE4_BIT_IN_CH_BL2"
+  
+  
+	group "Gateway (GW) STD" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_real_T_0[57]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX count 1"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[58]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "TX count 1"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[59]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX count 2"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[60]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "TX count 2"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+
+	endgroup -- subsystem-group "Gateway (GW) STD"
+  
+  
+	group "NET_CFG_PT" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_real_T_0[53]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "TX status"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[54]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "TX time"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[55]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "TX delta time"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[56]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "TX delay time"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+
+	endgroup -- subsystem-group "NET_CFG_PT"
+  
+  
+	group "NET_CFG_PT_CAN1" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_real_T_0[16]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NET_CFG_STAT_PT"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[17]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ACC"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[18]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ADCM"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[19]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_AHLM"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[20]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_VSIM_C"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[21]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ASCM"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[22]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_CBC_PT"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[23]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_DTCM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[24]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ECM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[25]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_EPS"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[26]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ESM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[27]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ESC"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[28]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_EPB"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[29]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_RF_HUB"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[30]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_IC"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[31]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_DASM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[32]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_FDCM"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[33]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_EPPM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[34]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ORC"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[35]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_PTS"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[36]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_SCCM"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[37]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ELSD"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[38]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_TCM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[39]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_TPM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[40]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_PASS_PT"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[41]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_AFLS"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[42]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ITBM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[43]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_OCM"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[44]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_HaLF"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[45]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_BSMO"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[46]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ESL"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[47]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_HCP"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[48]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_ANC"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[49]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "NetCfg_RHSC2"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[50]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX status"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[51]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX time"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[52]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX delta time"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+
+	endgroup -- subsystem-group "NET_CFG_PT_CAN1"
+  
+  
+	group "RTI Data" -- subsystem-group
+
+
+	endgroup -- subsystem-group "RTI Data"
+  
+  
+	group "SDS_CAN_Tx_Sub" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_real_T_0[65]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Out1"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+
+
+		group "Data Type Conversion" -- block-group
+		{
+		 block: "DataTypeConversion"
+		}
+			p_0_Campari_GatewayTest_MABXII_real_T_0[61]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Out1"
+			 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+
+
+		endgroup -- block-group "Data Type Conversion"
+
+		group "Zero-Order\nHold1" -- block-group
+		{
+		 block: "ZeroOrderHold"
+		}
+			p_0_Campari_GatewayTest_MABXII_uint8_T_1[7]
+			{
+			 type:    uint(8)*
+			 alias:   "Out1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+
+
+		endgroup -- block-group "Zero-Order\nHold1"
+
+		group "Zero-Order\nHold5" -- block-group
+		{
+		 block: "ZeroOrderHold"
+		}
+			-- Skipping output
+
+
+		endgroup -- block-group "Zero-Order\nHold5"
+
+		group "Unit Delay" -- block-group
+		{
+		 block: "UnitDelay"
+		}
+			p_0_Campari_GatewayTest_MABXII_uint8_T_1[6]
+			{
+			 type:    uint(8)*
+			 alias:   "Out1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+			p_1_Campari_GatewayTest_MABXII_uint8_T_3[3]
+			{
+			 type:    uint(8)*
+			 alias:   "InitialCondition"
+			 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+		endgroup -- block-group "Unit Delay"
+
+  
+  
+		group "Counter\nLimited" -- subsystem-group
+
+			p_0_Campari_GatewayTest_MABXII_uint8_T_1[3]
+			{
+			 type:    uint(8)*
+			 alias:   "y"
+			 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+
+			p_1_Campari_GatewayTest_MABXII_uint8_T_1[1]
+			{
+			 type:    uint(8)*
+			 alias:   "uplimit"
+			 flags:   PARAM
+		 addr:    0x0025cb38
+		}
+
+			group "Data Type\nPropagation" -- block-group
+			{
+			 block: "S-Function"
+			}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "In1"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "In2"
+				 flags:   READONLY
+		 addr:    0x0025cb2c
+		}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "In3"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+
+
+
+			endgroup -- block-group "Data Type\nPropagation"
+
+			group "Output" -- block-group
+			{
+			 block: "UnitDelay"
+			}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[3]
+				{
+				 type:    uint(8)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb2c
+		}
+				p_1_Campari_GatewayTest_MABXII_uint8_T_3[1]
+				{
+				 type:    uint(8)*
+				 alias:   "InitialCondition"
+				 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+			endgroup -- block-group "Output"
+
+  
+  
+			group "Increment\nReal World" -- subsystem-group
+
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[4]
+				{
+				 type:    uint(8)*
+				 alias:   "y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+
+
+				group "FixPt\nConstant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_Campari_GatewayTest_MABXII_uint8_T_3[0]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+				endgroup -- block-group "FixPt\nConstant"
+
+				group "FixPt\nSum1" -- block-group
+				{
+				 block: "Sum"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[4]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb2c
+		}
+
+
+				endgroup -- block-group "FixPt\nSum1"
+
+				group "FixPt\nData Type\nDuplicate" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[4]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x0025cb2c
+}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[3]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x0025cb2c
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate"
+
+
+
+			endgroup -- subsystem-group "Increment\nReal World"
+  
+  
+			group "Wrap To Zero" -- subsystem-group
+
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "Y"
+				 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb2c
+		}
+
+				trcref0_uplimit
+				{
+				 refgroup: ".."
+				 refvar:   "uplimit"
+				 alias:    "uplimit"
+}
+				-- Skipping parameter "uplimit"
+
+				group "Constant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_Campari_GatewayTest_MABXII_uint8_T_3[2]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+				endgroup -- block-group "Constant"
+
+				group "FixPt\nSwitch" -- block-group
+				{
+				 block: "Switch"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[5]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+					trcref0_uplimit
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "uplimit"
+		}
+					trcref0_Threshold
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "Threshold"
+					 flags:    DEPRECATED|HIDDEN
+}
+
+
+				endgroup -- block-group "FixPt\nSwitch"
+
+				group "FixPt\nData Type\nDuplicate1" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[5]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x0025cb2c
+}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[4]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+		 addr:    0x0025cb2c
+		}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+			endgroup -- subsystem-group "Wrap To Zero"
+
+
+		endgroup -- subsystem-group "Counter\nLimited"
+  
+  
+		group "SDS_CBC_CMD" -- subsystem-group
+
+			p_0_Campari_GatewayTest_MABXII_real_T_0[65]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "TX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+
+		endgroup -- subsystem-group "SDS_CBC_CMD"
+  
+  
+		group "SDS_CBC_CMD1" -- subsystem-group
+
+			p_0_Campari_GatewayTest_MABXII_real_T_0[64]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "TX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+
+		endgroup -- subsystem-group "SDS_CBC_CMD1"
+  
+  
+		group "Wrap To Zero" -- subsystem-group
+
+			p_0_Campari_GatewayTest_MABXII_uint8_T_1[8]
+			{
+			 type:    uint(8)*
+			 alias:   "Y"
+			 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb2c
+		}
+
+			p_1_Campari_GatewayTest_MABXII_uint8_T_1[0]
+			{
+			 type:    uint(8)*
+			 alias:   "Threshold"
+			 flags:   PARAM
+		 addr:    0x0025cb38
+		}
+
+			group "Constant" -- block-group
+			{
+			 block: "Constant"
+			}
+				-- Skipping output Out1
+				p_1_Campari_GatewayTest_MABXII_uint8_T_3[4]
+				{
+				 type:    uint(8)*
+				 alias:   "Value"
+				 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+			endgroup -- block-group "Constant"
+
+			group "FixPt\nSwitch" -- block-group
+			{
+			 block: "Switch"
+			}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[8]
+				{
+				 type:    uint(8)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+				trcref0_Threshold
+				{
+				 refgroup: ".."
+				 refvar:   "Threshold"
+				 alias:    "Threshold"
+}
+				-- Skipping parameter "Threshold"
+
+
+			endgroup -- block-group "FixPt\nSwitch"
+
+			group "FixPt\nData Type\nDuplicate1" -- block-group
+			{
+			 block: "DataTypeDuplicate"
+			}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[8]
+				{
+				 type:    uint(8)*
+				 alias:   "In1"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[7]
+				{
+				 type:    uint(8)*
+				 alias:   "In2"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+
+				-- Skipping inport In3
+
+
+
+
+			endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+		endgroup -- subsystem-group "Wrap To Zero"
+
+
+	endgroup -- subsystem-group "SDS_CAN_Tx_Sub"
+  
+  
+	group "SDS_CBC_STAT" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_real_T_0[0]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Command_03_SwStat"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[1]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "Horn_Sw_Stat"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[2]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "HDLP_SW_Stat"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[3]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "HAZ_SW_Stat"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[4]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "CBC_OVERLAY_MODE"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[5]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "IPDimmerPos_Stat"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[6]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "U_CALL_BtnStat"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[7]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "E_CALL_BtnStat"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[8]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "WiperSpeed_Stat"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[9]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "MC_SDS_CBC_STAT"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[10]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "CRC_SDS_CBC_STAT"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[11]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX status"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[12]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX time"
+		 flags:   OUTPUT|READONLY
+ addr:    0x0025cb28
+}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[13]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "RX delta time"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+		p_0_Campari_GatewayTest_MABXII_real_T_0[14]
+		{
+		 type:    flt(64,IEEE)*
+		 alias:   "User outport"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb28
+		}
+
+	endgroup -- subsystem-group "SDS_CBC_STAT"
+  
+  
+	group "Subsystem" -- subsystem-group
+
+		p_0_Campari_GatewayTest_MABXII_uint8_T_1[0]
+		{
+		 type:    uint(8)*
+		 alias:   "Out1"
+		 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb2c
+		}
+
+
+  
+  
+		group "Counter\nLimited1" -- subsystem-group
+
+			p_0_Campari_GatewayTest_MABXII_uint8_T_1[0]
+			{
+			 type:    uint(8)*
+			 alias:   "y"
+			 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+
+			p_1_Campari_GatewayTest_MABXII_uint8_T_1[2]
+			{
+			 type:    uint(8)*
+			 alias:   "uplimit"
+			 flags:   PARAM
+		 addr:    0x0025cb38
+		}
+
+			group "Data Type\nPropagation" -- block-group
+			{
+			 block: "S-Function"
+			}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[2]
+				{
+				 type:    uint(8)*
+				 alias:   "In1"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[2]
+				{
+				 type:    uint(8)*
+				 alias:   "In2"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[2]
+				{
+				 type:    uint(8)*
+				 alias:   "In3"
+				 flags:   READONLY
+ addr:    0x0025cb2c
+}
+
+
+
+			endgroup -- block-group "Data Type\nPropagation"
+
+			group "Output" -- block-group
+			{
+			 block: "UnitDelay"
+			}
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[0]
+				{
+				 type:    uint(8)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+				p_1_Campari_GatewayTest_MABXII_uint8_T_3[6]
+				{
+				 type:    uint(8)*
+				 alias:   "InitialCondition"
+				 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+			endgroup -- block-group "Output"
+
+  
+  
+			group "Increment\nReal World" -- subsystem-group
+
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[1]
+				{
+				 type:    uint(8)*
+				 alias:   "y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+
+
+				group "FixPt\nConstant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_Campari_GatewayTest_MABXII_uint8_T_3[5]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+				endgroup -- block-group "FixPt\nConstant"
+
+				group "FixPt\nSum1" -- block-group
+				{
+				 block: "Sum"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[1]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+
+
+				endgroup -- block-group "FixPt\nSum1"
+
+				group "FixPt\nData Type\nDuplicate" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[1]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+		 addr:    0x0025cb2c
+		}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[0]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x0025cb2c
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate"
+
+
+
+			endgroup -- subsystem-group "Increment\nReal World"
+  
+  
+			group "Wrap To Zero" -- subsystem-group
+
+				p_0_Campari_GatewayTest_MABXII_uint8_T_1[2]
+				{
+				 type:    uint(8)*
+				 alias:   "Y"
+				 flags:   OUTPUT|READONLY
+		 addr:    0x0025cb2c
+		}
+
+				trcref0_uplimit
+				{
+				 refgroup: ".."
+				 refvar:   "uplimit"
+				 alias:    "uplimit"
+}
+				-- Skipping parameter "uplimit"
+
+				group "Constant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_Campari_GatewayTest_MABXII_uint8_T_3[7]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x0025cb40
+}
+
+
+				endgroup -- block-group "Constant"
+
+				group "FixPt\nSwitch" -- block-group
+				{
+				 block: "Switch"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[2]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x0025cb2c
+}
+					trcref0_uplimit
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "uplimit"
+}
+					trcref0_Threshold
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "Threshold"
+					 flags:    DEPRECATED|HIDDEN
+}
+
+
+				endgroup -- block-group "FixPt\nSwitch"
+
+				group "FixPt\nData Type\nDuplicate1" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[2]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+		 addr:    0x0025cb2c
+		}
+					p_0_Campari_GatewayTest_MABXII_uint8_T_1[1]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x0025cb2c
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+			endgroup -- subsystem-group "Wrap To Zero"
+
+
+		endgroup -- subsystem-group "Counter\nLimited1"
+
+
+	endgroup -- subsystem-group "Subsystem"
+
+
+
+endgroup -- "Model Root"
+-- ******** Tunable Parameters ************************************************
+
+group "Tunable Parameters"
+
+
+endgroup
+
+-- ******** State Machine Data ************************************************
+
+-- No Stateflow chart within the model.
+
+
+-- ******** Labels ************************************************************
+
+-- Generation of labels turned off with TRCGenerateLabels option.
+
+-- ******** RTT Dynamic Variables *********************************************
+
+group "RTT Dynamic Variables"
+
+endgroup
+
+-- ******** User variables from model_usr.trc *********************************
+
+-- RTI_USR_TRC_BEGIN
+
+-- No user file Campari_GatewayTest_MABXII_usr.trc found.
+
+-- RTI_USR_TRC_END
+
+-- ******** EESPort States Variables ******************************************
+group "XIL API"
+{ 
+  
+}
+
+  group "EESPort"
+  {  
+    
+  }
+
+    p_xilapi_eesport_activeerrorset_uint32_T
+    {
+      type:    uint(32)*
+      alias:   "Active ErrorSet"
+      desc:    "Index of active ErrorSet or 0 if no ErrorSet is active."
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 4294967295 >
+ addr:    0x00680dbc
+}
+
+    p_xilapi_eesport_erroractivated_uint32_T
+    {
+      type:    uint(32)*
+      alias:   "Error Activated"
+      desc:    "0 - no error is activated on hardware, 1 - at least one error is activated on hardware."  
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 1 >
+ addr:    0x00680dc0
+}
+
+    p_xilapi_eesport_errorswitching_uint32_T
+    {
+      type:    uint(32)*
+      alias:   "Error Switching"
+      desc:    "0 - no switching operation running on hardware, 1 -  switching operation running on hardware."
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 1 >
+ addr:    0x00680dc4
+}
+
+    xilapi_eesport_flags_uint32_T
+    {
+      type:    uint(32)
+      alias:   "Flags"
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 4294967295 >
+ addr:    0x00680dc8
+}
+
+    xilapi_eesport_trigger_uint32_T
+    {
+      type:    uint(32)
+      alias:   "Trigger"
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 4294967295 >
+ addr:    0x00680dcc
+}
+
+    endgroup -- "EESPort"
+
+endgroup -- "XILAPI"
+
+
+
+-- ******** [EOF] *************************************************************
+

@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Root>
+	<creator type="key">ControlDesk 6.3p1</creator>
+	<project>
+		<Creator type="key">ControlDesk</Creator>
+		<Name type="key">SDS_mode_v1.CDP</Name>
+		<DisplayName type="key">SDS_mode_v1</DisplayName>
+		<Flags type="key">4096</Flags>
+		<Type type="key">1</Type>
+		<UniqueID type="key">605264877</UniqueID>
+		<EntityID type="key">{692260FC-D433-4857-886C-DB3BDE4C2A56}</EntityID>
+		<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+		<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+		<ItemInfoDescr type="key"/>
+		<ItemInfoAddInfoDb type="key"/>
+		<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		<item>
+			<Targets type="key">project</Targets>
+			<Name type="key">SDS_mode_v1</Name>
+			<DisplayName type="key">SDS_mode_v1</DisplayName>
+			<Path type="key">..</Path>
+			<Flags type="key">4100</Flags>
+			<Type type="key">3</Type>
+			<UniqueID type="key">2691619</UniqueID>
+			<EntityID type="key">{627D3590-EBBE-439B-9194-B40C7C96B620}</EntityID>
+			<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			<item>
+				<Docs type="key">.doc,.docx,.pdf</Docs>
+				<Name type="key">Specifications</Name>
+				<DisplayName type="key">Specifications</DisplayName>
+				<Path type="key">.</Path>
+				<Type type="key">3</Type>
+				<UniqueID type="key">599967721</UniqueID>
+				<EntityID type="key">{BB7CD2F4-5ED5-4CC8-89F1-0DC14BA50D71}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.doc,.docx,.pdf</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Docs type="key">.mpp</Docs>
+				<Name type="key">Project Plans</Name>
+				<DisplayName type="key">Project Plans</DisplayName>
+				<Path type="key">.</Path>
+				<Type type="key">3</Type>
+				<UniqueID type="key">56859833</UniqueID>
+				<EntityID type="key">{08336D41-AE53-4CA8-A925-ABB1F3AA8294}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.mpp</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">datasetmanager_global</Targets>
+				<Name type="key">Global Data Sets</Name>
+				<DisplayName type="key">Global Data Sets</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<Type type="key">29</Type>
+				<UniqueID type="key">304768326</UniqueID>
+				<EntityID type="key">{D6FE1BB4-ACEA-4BE1-A01F-E872B86E7178}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">variablesmanagement</Targets>
+				<Name type="key">Variable Descriptions</Name>
+				<DisplayName type="key">Variable Descriptions</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<ExtendedFlags type="key">4</ExtendedFlags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">1003226580</UniqueID>
+				<EntityID type="key">{32A0C806-E192-4E3C-A0F1-475775AF4785}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">SDS_mode_v1.vdb</Name>
+					<DisplayName type="key">C:\Users\cordunoalbarran\Documents\dSPACE\ControlDesk\6.3\SDS_mode_v1\Variable Descriptions\SDS_mode_v1.vdb</DisplayName>
+					<Path type="key">.\Variable Descriptions</Path>
+					<Flags type="key">276</Flags>
+					<Type type="key">18</Type>
+					<UniqueID type="key">894526668</UniqueID>
+					<EntityID type="key">{BF1B1BEF-8B1B-46BB-B758-CF184A783F86}</EntityID>
+					<ItemInfoDate type="key">5/13/2019 11:02:30 AM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+				</item>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">sds_mod_v1.sdf</Name>
+					<DisplayName type="key">sds_mod_v1.sdf</DisplayName>
+					<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf</Path>
+					<Flags type="key">18688</Flags>
+					<Type type="key">7</Type>
+					<UniqueID type="key">138850527</UniqueID>
+					<EntityID type="key">{0CF5CF64-5E07-4057-9987-0E067B9013A5}</EntityID>
+					<ItemInfoDate type="key">5/13/2019 11:02:29 AM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoLog type="key">
+Original file added from ..\..\..\..\MATLAB\sds_mod_v1.sdf [2019-05-13 17:58:06 (UTC)]
+</ItemInfoLog>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.trc</Name>
+						<DisplayName type="key">sds_mod_v1.trc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">852055968</UniqueID>
+						<EntityID type="key">{2BF7C091-EEB3-489A-AD08-5A909C90BEE1}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 11:02:29 AM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.map</Name>
+						<DisplayName type="key">sds_mod_v1.map</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">393337719</UniqueID>
+						<EntityID type="key">{9931B265-EA2B-41B5-BAFC-6529FAB60560}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 11:02:29 AM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.ppc</Name>
+						<DisplayName type="key">sds_mod_v1.ppc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">30</Type>
+						<UniqueID type="key">165920723</UniqueID>
+						<EntityID type="key">{D65FB8EC-137A-44E4-A50A-53A273B76CB2}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 11:02:29 AM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+				</item>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">campari_gatewaytest_mabxii.sdf</Name>
+					<DisplayName type="key">campari_gatewaytest_mabxii.sdf</DisplayName>
+					<Path type="key">.\Variable Descriptions\campari_gatewaytest_mabxii.sdf</Path>
+					<Flags type="key">18688</Flags>
+					<Type type="key">7</Type>
+					<UniqueID type="key">17574982</UniqueID>
+					<EntityID type="key">{35549D36-421F-4E4B-88E9-BC337B39564A}</EntityID>
+					<ItemInfoDate type="key">5/13/2019 1:06:26 PM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoLog type="key">
+Original file added from ..\..\..\..\Campari CBC\campari_gatewaytest_mabxii.sdf [2019-04-24 19:26:36 (UTC)]
+</ItemInfoLog>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_gatewaytest_mabxii.trc</Name>
+						<DisplayName type="key">campari_gatewaytest_mabxii.trc</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_gatewaytest_mabxii.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">324251044</UniqueID>
+						<EntityID type="key">{2E460CFA-11CC-42FF-930B-F6524B92D362}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 1:06:27 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_gatewaytest_mabxii.map</Name>
+						<DisplayName type="key">campari_gatewaytest_mabxii.map</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_gatewaytest_mabxii.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">571502535</UniqueID>
+						<EntityID type="key">{D5A8F0A0-4133-40E5-9C3D-BA3F84CFDB80}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 1:06:27 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_gatewaytest_mabxii.ppc</Name>
+						<DisplayName type="key">campari_gatewaytest_mabxii.ppc</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_gatewaytest_mabxii.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">30</Type>
+						<UniqueID type="key">487404964</UniqueID>
+						<EntityID type="key">{CA6A81EB-8A8F-4EA5-965E-4B926E8FBA5B}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 1:06:27 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_gatewaytest_mabxii.trz</Name>
+						<DisplayName type="key">campari_gatewaytest_mabxii.trz</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_gatewaytest_mabxii.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">9418146</UniqueID>
+						<EntityID type="key">{500AD3DB-6E9A-4C37-8B97-3991973D65FC}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 1:06:27 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+				</item>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">campari_sim9.sdf</Name>
+					<DisplayName type="key">campari_sim9.sdf</DisplayName>
+					<Path type="key">.\Variable Descriptions\campari_sim9.sdf</Path>
+					<Flags type="key">18688</Flags>
+					<Type type="key">7</Type>
+					<UniqueID type="key">580576182</UniqueID>
+					<EntityID type="key">{30F36A3F-F545-41B0-8FB0-BEDD6A03B868}</EntityID>
+					<ItemInfoDate type="key">5/13/2019 2:27:01 PM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoLog type="key">
+Original file added from ..\..\..\..\MATLAB\Campari sim9\campari_sim9.sdf [2019-05-13 21:12:08 (UTC)]
+</ItemInfoLog>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_sim9.trc</Name>
+						<DisplayName type="key">campari_sim9.trc</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_sim9.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">751202832</UniqueID>
+						<EntityID type="key">{0D97C094-B5BB-4F98-A25B-CDEA3B916BFE}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 2:27:01 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_sim9.map</Name>
+						<DisplayName type="key">campari_sim9.map</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_sim9.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">644068379</UniqueID>
+						<EntityID type="key">{9D264963-D1E9-4047-A6C2-C497819AAADD}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 2:27:01 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">campari_sim9.ppc</Name>
+						<DisplayName type="key">campari_sim9.ppc</DisplayName>
+						<Path type="key">.\Variable Descriptions\campari_sim9.sdf</Path>
+						<Flags type="key">18692</Flags>
+						<Type type="key">30</Type>
+						<UniqueID type="key">565916678</UniqueID>
+						<EntityID type="key">{1D90F8CD-19C5-46D0-9350-A2E7C4CA3612}</EntityID>
+						<ItemInfoDate type="key">5/13/2019 2:27:01 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+				</item>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">sds_mod_v1.sdf</Name>
+					<DisplayName type="key">sds_mod_v1.sdf(#1)</DisplayName>
+					<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#1)</Path>
+					<Flags type="key">18688</Flags>
+					<Type type="key">7</Type>
+					<UniqueID type="key">1039389235</UniqueID>
+					<EntityID type="key">{0E86BE39-3A3F-4CA4-A904-A74406785AFA}</EntityID>
+					<ItemInfoDate type="key">5/13/2019 2:46:21 PM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoLog type="key">
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-05-13 21:41:18 (UTC)]
+
+Variable description reloaded on 16.05.2019 15:17:44 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_mod_v1\sds_mod_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-05-16 22:15:54 (UTC)]
+
+Variable description reloaded on 27.06.2019 10:12:06 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_mod_v1\sds_mod_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-06-27 17:05:51 (UTC)]
+
+Variable description reloaded on 02.08.2019 09:05:18 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_mod_v1\sds_mod_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-08-02 16:04:46 (UTC)]
+
+Variable description reloaded on 02.08.2019 09:10:39 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_mod_v1\sds_mod_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-08-02 16:10:14 (UTC)]
+</ItemInfoLog>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.trc</Name>
+						<DisplayName type="key">sds_mod_v1.trc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#1)</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">270702229</UniqueID>
+						<EntityID type="key">{5DDA66F6-6B15-41CD-AA71-27D0CFA2DAA6}</EntityID>
+						<ItemInfoDate type="key">8/2/2019 9:10:39 AM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.map</Name>
+						<DisplayName type="key">sds_mod_v1.map</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#1)</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">137811736</UniqueID>
+						<EntityID type="key">{AC3A2260-AE67-4152-A5D5-75FF7DDB862A}</EntityID>
+						<ItemInfoDate type="key">8/2/2019 9:10:39 AM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.ppc</Name>
+						<DisplayName type="key">sds_mod_v1.ppc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#1)</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">30</Type>
+						<UniqueID type="key">319963590</UniqueID>
+						<EntityID type="key">{C7A88BD3-4F58-40C7-ACE4-0D0C0DCB982E}</EntityID>
+						<ItemInfoDate type="key">8/2/2019 9:10:39 AM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+				</item>
+				<item>
+					<Component type="key">VariablesManagement</Component>
+					<Name type="key">sds_mod_v1.sdf</Name>
+					<DisplayName type="key">sds_mod_v1.sdf(#2)</DisplayName>
+					<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#2)</Path>
+					<Flags type="key">18704</Flags>
+					<Type type="key">7</Type>
+					<UniqueID type="key">524356321</UniqueID>
+					<EntityID type="key">{DB75007B-3105-4151-A4A2-9A14E965DB69}</EntityID>
+					<ItemInfoDate type="key">6/7/2019 12:43:33 PM</ItemInfoDate>
+					<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+					<ItemInfoDescr type="key"/>
+					<ItemInfoLog type="key">
+Original file added from ..\..\..\..\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf [2019-06-07 18:50:50 (UTC)]
+
+Variable description reloaded on 26.06.2019 15:49:03 (C:\Users\cordunoalbarran\Documents\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf)
+Original file added from ..\..\..\..\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf [2019-06-26 22:10:33 (UTC)]
+
+Variable description reloaded on 28.06.2019 12:43:20 (C:\Users\cordunoalbarran\Documents\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf)
+Original file added from ..\..\..\..\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf [2019-06-28 19:36:49 (UTC)]
+
+Variable description reloaded on 01.07.2019 13:00:54 (C:\Users\cordunoalbarran\Documents\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf)
+Original file added from ..\..\..\..\Repo\avdspace\experiments\SteeringBrakePropulsionActuatorModel\artifacts\camparimbxiisteeringbrakepropulsion.sdf [2019-07-01 18:02:07 (UTC)]
+
+Variable description reloaded on 01.10.2019 17:35:43 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_brk_cbc\sds_brk_cbc_v1.sdf [2019-10-02 00:34:44 (UTC)]
+
+Variable description reloaded on 01.10.2019 18:31:57 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_mod_v1\sds_mod_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-08-02 16:10:14 (UTC)]
+
+Variable description reloaded on 01.10.2019 18:33:41 (C:\Users\cordunoalbarran\Documents\MATLAB\SDS_mod_v1\sds_mod_v1.sdf)
+Original file added from ..\..\..\..\MATLAB\SDS_mod_v1\sds_mod_v1.sdf [2019-08-02 16:10:14 (UTC)]
+</ItemInfoLog>
+					<ItemInfoAddInfoDb type="key"/>
+					<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.trc</Name>
+						<DisplayName type="key">sds_mod_v1.trc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#2)</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">465941000</UniqueID>
+						<EntityID type="key">{473F94DC-FBED-4E68-992A-C6F3DCF6B004}</EntityID>
+						<ItemInfoDate type="key">10/1/2019 6:33:41 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.map</Name>
+						<DisplayName type="key">sds_mod_v1.map</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#2)</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">4</Type>
+						<UniqueID type="key">156666132</UniqueID>
+						<EntityID type="key">{1D4A9F92-ECDD-4294-819B-8AEB2E27B845}</EntityID>
+						<ItemInfoDate type="key">10/1/2019 6:33:41 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+					<item>
+						<Component type="key">VariablesManagement</Component>
+						<Name type="key">sds_mod_v1.ppc</Name>
+						<DisplayName type="key">sds_mod_v1.ppc</DisplayName>
+						<Path type="key">.\Variable Descriptions\sds_mod_v1.sdf(#2)</Path>
+						<Flags type="key">18692</Flags>
+						<ExtendedFlags type="key">1</ExtendedFlags>
+						<Type type="key">30</Type>
+						<UniqueID type="key">363413051</UniqueID>
+						<EntityID type="key">{8DF46CC4-F6BB-4CF9-9A7C-1730A3576212}</EntityID>
+						<ItemInfoDate type="key">10/1/2019 6:33:41 PM</ItemInfoDate>
+						<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+						<ItemInfoDescr type="key"/>
+						<ItemInfoAddInfoDb type="key"/>
+						<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+					</item>
+				</item>
+			</item>
+			<item>
+				<Targets type="key">datasetmanager</Targets>
+				<Name type="key">Data Sets</Name>
+				<DisplayName type="key">Data Sets</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">260</Flags>
+				<Type type="key">29</Type>
+				<UniqueID type="key">847534310</UniqueID>
+				<EntityID type="key">{B46E4DA6-B875-481E-8B47-71F2605E4EA6}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">.vfe</Targets>
+				<Name type="key">Variable Filters</Name>
+				<DisplayName type="key">Variable Filters</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">2304</Flags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">734969744</UniqueID>
+				<EntityID type="key">{F0B2022D-3A1F-400B-B745-C7DC4199FFFA}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">.lab</Targets>
+				<Docs type="key">.lab,.txt</Docs>
+				<Name type="key">Label Lists</Name>
+				<DisplayName type="key">Label Lists</DisplayName>
+				<Path type="key">.</Path>
+				<Type type="key">3</Type>
+				<UniqueID type="key">216340354</UniqueID>
+				<EntityID type="key">{EB28859D-2454-41B4-8177-CD55FE79BA10}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.lab,.txt</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">interpreter,.py</Targets>
+				<Docs type="key">.py</Docs>
+				<Name type="key">Python Scripts</Name>
+				<DisplayName type="key">Python Scripts</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<ExtendedFlags type="key">4224</ExtendedFlags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">264435494</UniqueID>
+				<EntityID type="key">{0716DD96-F882-4144-A8FD-FF857B3E1245}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDocs type="key">.py</ItemInfoDocs>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">busnavigator,.xml</Targets>
+				<Name type="key">BusNavigator</Name>
+				<DisplayName type="key">BusNavigator</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">260</Flags>
+				<ExtendedFlags type="key">256</ExtendedFlags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">389404293</UniqueID>
+				<EntityID type="key">{48284447-EA5A-446E-AD19-740522DF7063}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+			<item>
+				<Targets type="key">signaleditor</Targets>
+				<Name type="key">Signal Description Sets</Name>
+				<DisplayName type="key">Signal Description Sets</DisplayName>
+				<Path type="key">.</Path>
+				<Flags type="key">256</Flags>
+				<Type type="key">3</Type>
+				<UniqueID type="key">251486307</UniqueID>
+				<EntityID type="key">{F86D2720-F58E-4DAA-B4D3-EAF0FE3E0793}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:28 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+		</item>
+		<item>
+			<Name type="key">Events</Name>
+			<DisplayName type="key">Events</DisplayName>
+			<Path type="key">.</Path>
+			<Flags type="key">4</Flags>
+			<Type type="key">3</Type>
+			<UniqueID type="key">970467262</UniqueID>
+			<EntityID type="key">{8F5889FC-A7C3-4063-8B3A-17124A2B6A4B}</EntityID>
+			<ItemInfoDate type="key">5/13/2019 11:02:30 AM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			<item>
+				<Name type="key">Project.events</Name>
+				<DisplayName type="key">Project.events</DisplayName>
+				<Path type="key">.\Events</Path>
+				<Flags type="key">4</Flags>
+				<Type type="key">52</Type>
+				<UniqueID type="key">807690105</UniqueID>
+				<EntityID type="key">{5C81FA10-4094-4C9F-ABD6-EE28F5B4138F}</EntityID>
+				<ItemInfoDate type="key">5/13/2019 11:02:30 AM</ItemInfoDate>
+				<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+				<ItemInfoDescr type="key"/>
+				<ItemInfoAddInfoDb type="key"/>
+				<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+			</item>
+		</item>
+	</project>
+	<experiments>
+		<experiment>
+			<Creator type="key">ControlDesk</Creator>
+			<Name type="key">Campari_copy.CDE</Name>
+			<DisplayName type="key">Campari_copy</DisplayName>
+			<Path type="key">.\Campari_copy</Path>
+			<Flags type="key">4096</Flags>
+			<Type type="key">2</Type>
+			<UniqueID type="key">442775302</UniqueID>
+			<EntityID type="key">{8D028D62-14D7-4CB1-9FBB-558CD2596C2A}</EntityID>
+			<ItemInfoDate type="key">5/13/2019 1:06:25 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		</experiment>
+		<experiment>
+			<Creator type="key">ControlDesk</Creator>
+			<Name type="key">Campari_sim9.CDE</Name>
+			<DisplayName type="key">Campari_sim9</DisplayName>
+			<Path type="key">.\Campari_sim9</Path>
+			<Flags type="key">4096</Flags>
+			<Type type="key">2</Type>
+			<UniqueID type="key">149276672</UniqueID>
+			<EntityID type="key">{860CB2D1-1E57-4ED2-AF70-BA23E0BEF3E9}</EntityID>
+			<ItemInfoDate type="key">5/13/2019 2:26:59 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		</experiment>
+		<experiment>
+			<Creator type="key">ControlDesk</Creator>
+			<Name type="key">CBC_SDS_mode_v1.CDE</Name>
+			<DisplayName type="key">CBC_SDS_mode_v1</DisplayName>
+			<Path type="key">.\CBC_SDS_mode_v1</Path>
+			<Flags type="key">4096</Flags>
+			<Type type="key">2</Type>
+			<UniqueID type="key">770687694</UniqueID>
+			<EntityID type="key">{8406B39A-8F25-4EF8-A020-0F18225D6341}</EntityID>
+			<ItemInfoDate type="key">5/13/2019 2:46:20 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		</experiment>
+		<experiment>
+			<Creator type="key">ControlDesk</Creator>
+			<Name type="key">Brakes_Modes_v1.CDE</Name>
+			<DisplayName type="key">Brakes_Modes_v1</DisplayName>
+			<Path type="key">.\Brakes_Modes_v1</Path>
+			<Flags type="key">4096</Flags>
+			<Type type="key">2</Type>
+			<UniqueID type="key">73950328</UniqueID>
+			<EntityID type="key">{FF8D2490-BF03-4C23-936D-4683E21D1667}</EntityID>
+			<ItemInfoDate type="key">6/7/2019 12:43:32 PM</ItemInfoDate>
+			<ItemInfoPath type="key">$FPATH$</ItemInfoPath>
+			<ItemInfoDescr type="key"/>
+			<ItemInfoAddInfoDb type="key"/>
+			<ItemInfoAuthor type="key">cordunoalbarran</ItemInfoAuthor>
+		</experiment>
+	</experiments>
+	<UserManager/>
+	<XILAPIEESPort Version="1"/>
+	<SignalEditor/>
+	<Interpreter/>
+	<VariablesManagement Version="100">
+		<CreatorVersion type="key">603000375</CreatorVersion>
+	</VariablesManagement>
+	<ProjectExperiment>
+		<LastActiveExperiment type="key">Brakes_Modes_v1</LastActiveExperiment>
+	</ProjectExperiment>
+	<MeasureDataManagement Version="4"/>
+	<Instrumentation Version="1">
+		<UniqueIds Version="3">
+			<Count type="key">5</Count>
+			<File1 type="key">SDS_mode/Layout1</File1>
+			<Id1 type="key">0</Id1>
+			<File2 type="key">Campari_copy/Layout1</File2>
+			<Id2 type="key">1</Id2>
+			<File3 type="key">Campari_sim9/Layout1</File3>
+			<Id3 type="key">2</Id3>
+			<File4 type="key">CBC_SDS_mode_v1/Autonomy_SDS_CBC</File4>
+			<Id4 type="key">3</Id4>
+			<File5 type="key">Brakes_Modes_v1/Layout1</File5>
+			<Id5 type="key">4</Id5>
+		</UniqueIds>
+	</Instrumentation>
+	<DiagnosticsManagement/>
+	<PlatformManagement Version="10"/>
+	<DataSetManager>
+		<Version>
+			<Version type="key">2</Version>
+		</Version>
+		<Work/>
+		<ActiveWork/>
+		<Reference/>
+		<ActiveReference/>
+		<Master/>
+		<ActiveMaster/>
+		<InitialMaster/>
+		<Incomplete/>
+		<IncompleteReadonly/>
+		<DataSet/>
+		<Readonly/>
+		<LabelListFilter>
+			<LabelListFilterFile type="key"/>
+			<LabelListFilterActive type="key">0</LabelListFilterActive>
+		</LabelListFilter>
+		<AutomaticDownload/>
+	</DataSetManager>
+</Root>
