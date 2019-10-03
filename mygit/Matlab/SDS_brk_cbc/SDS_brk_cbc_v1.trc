@@ -1,0 +1,2755 @@
+-- ****************************************************************************
+--
+--  Trace file: SDS_brk_cbc_v1.trc
+--
+--  RTI1401 7.10 (02-May-2018)
+--  Wed Oct  2 13:56:06 2019
+--
+--  Copyright 2019, dSPACE GmbH. All rights reserved.
+--
+-- ****************************************************************************
+--
+--  Used options:
+--    TRCGenerateVirtualBlocks      = 0
+--    TRCGenerateLabels             = 0
+--    TRCGenerateStates             = 0
+--    TRCGenerateDerivatives        = 0
+--    TRCGenerateParamValues        = 0
+--    TRCGenerateApplicationKeyword = 0
+--    TRCOnlyGlobals                = 0
+--    TRCIsOmitVdOn                 = 0
+--
+--  Trace file format: 3
+
+-- ******** Keywords **********************************************************
+-- _application "SDS_brk_cbc_v1.map"
+
+_genname     "RTI"
+_genversion  "7.10"
+_gendate     "10/02/2019 13:56:09"
+_description ""
+_author      "RTI1401 7.10 (02-May-2018)"
+_model       "SDS_brk_cbc_v1"
+
+-- Default data type formats
+_floating_point_type(64,IEEE)
+_integer_type(32)
+
+-- No Data Capture blocks within model: use base sample time as sampling period
+sampling_period[0]
+{
+  value:       0.001
+  alias:       "HostService"
+  increment:   0.001
+  unit:        "s"
+}
+
+
+
+
+-- Type definitions for arrays
+typedef SDS_brk_cbc_v1_ArrayDT10_2 int(32)[2]
+
+
+-- ******** Simulation control variables **************************************
+
+finalTime
+{
+ type:  flt(64,IEEE)*
+ alias: "finalTime"
+ desc:  "Simulation stop time. When reached, simState switches to STOP."
+ flags:  READONLY
+ unit:  "s"
+ addr:    0x000cbedc
+}
+
+currentTime
+{
+ type:  flt(64,IEEE)*
+ alias: "currentTime"
+ desc:  "Current simulation time. Increments with execution of Timer Task 1."
+ flags: READONLY
+ unit:  "s"
+ addr:    0x000cbed8
+}
+
+modelStepSize
+{
+ type:  flt(64,IEEE)
+ alias: "modelStepSize"
+ desc:  "Fixed step size of the model, sample time of Timer Task 1."
+ flags: READONLY
+ unit:  "s"
+ addr:    0x000cbee0
+}
+
+simState
+{
+ type:  int(32)
+ alias: "simState"
+ desc:  "Simulation state: STOP=0 PAUSE=1 RUN=2"
+ unit:  "-"
+ addr:    0x000c05c8
+}
+
+msg_last_error_no
+{
+ type:  uint(32)
+ alias: "errorNumber"
+ desc:  "Error number of last error message (zero if no error)."
+ unit:  "-"
+ flags: READONLY
+ addr:    0x000c5944
+}
+
+p_dsts_sum_of_reset_time
+{
+ type:  flt(64,IEEE)*
+ alias: "sumOfResetTime"
+ desc:  "Internal variable for summing up reset time."
+ unit:  "s"
+ flags: READONLY|HIDDEN
+ addr:    0x000b1108
+}
+
+
+-- ******** Task Information variables ****************************************
+group "Task Info"
+{
+ flags: COLLAPSED
+}
+  group "Timer Task 1"
+  {
+   flags: COLLAPSED
+  }
+
+  pRti_TIMERA_STime
+  {
+   type:  flt(64,IEEE)*
+   alias: "sampleTime"
+   flags: READONLY
+ addr:    0x000cbf24
+}
+  pRti_TIMERA_TTime
+  {
+   type:  flt(64,IEEE)*
+   alias: "turnaroundTime"
+   flags: READONLY
+ addr:    0x000cbf28
+}
+  pRti_TIMERA_TState
+  {
+   type:  int(32)*
+   alias: "state"
+   flags: READONLY
+ addr:    0x000cbf2c
+}
+  pRti_TIMERA_OType
+  {
+   type:  int(32)*
+   alias: "overrunCheckType"
+   flags: READONLY
+ addr:    0x000cbf30
+}
+  pRti_TIMERA_OMax
+  {
+   type:  int(32)*
+   alias: "overrunQueueMax"
+   flags: READONLY
+ addr:    0x000cbf34
+}
+  pRti_TIMERA_ORpt
+  {
+   type:  int(32)*
+   alias: "overrunQueueCount"
+   flags: READONLY
+ addr:    0x000cbf38
+}
+  pRti_TIMERA_OCnt
+  {
+   type:  int(32)*
+   alias: "overrunCount"
+   flags: READONLY
+ addr:    0x000cbf3c
+}
+  pRti_TIMERA_TCnt
+  {
+   type:  flt(64,IEEE)*
+   alias: "taskCallCount"
+   flags: READONLY
+ addr:    0x000cbf40
+}
+  pRti_TIMERA_Prio
+  {
+   type:  int(32)*
+   alias: "priority"
+   flags: READONLY
+ addr:    0x000cbf44
+}
+  endgroup
+
+
+endgroup
+
+
+-- ******** Model variables ***************************************************
+
+group "Model Root"
+  
+  
+	group "Brakes" -- subsystem-group
+
+
+
+		group "Brk_PreFill_Rq" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[26]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "Brk_PreFill_Rq"
+
+		group "CRC_CCAN3_DAS_A3_A" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[23]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "CRC_CCAN3_DAS_A3_A"
+
+		group "CRC_DAS_A3_A" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[27]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "CRC_DAS_A3_A"
+
+		group "DAS_EPB_APPY_RQ" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[17]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "DAS_EPB_APPY_RQ"
+
+		group "DAS_EPB_RELSE_RQ" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[19]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "DAS_EPB_RELSE_RQ"
+
+		group "LFC_Request" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[21]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "LFC_Request"
+
+		group "LFC_Request_Type" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[20]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "LFC_Request_Type"
+
+		group "MC_CANC3_DAS_A3_A" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[22]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "MC_CANC3_DAS_A3_A"
+
+		group "RHSC_OpenLoopBraking_Rq" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[18]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "RHSC_OpenLoopBraking_Rq"
+
+		group "SDS_Brk_TX_Trigger" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[24]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_Brk_TX_Trigger"
+
+		group "SDS_Engaged_State" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[16]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_Engaged_State"
+
+		group "SDS_Motion_ref_Trigg" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[25]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_Motion_ref_Trigg"
+
+		group "Data Type Conversion" -- block-group
+		{
+		 block: "DataTypeConversion"
+		}
+			p_0_SDS_brk_cbc_v1_real_T_0[2]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Out1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+
+		endgroup -- block-group "Data Type Conversion"
+
+		group "Data Type Conversion1" -- block-group
+		{
+		 block: "DataTypeConversion"
+		}
+			p_0_SDS_brk_cbc_v1_real_T_0[0]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Out1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+
+		endgroup -- block-group "Data Type Conversion1"
+
+		group "Product" -- block-group
+		{
+		 block: "Product"
+		}
+			p_0_SDS_brk_cbc_v1_real_T_0[1]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Out1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+
+		endgroup -- block-group "Product"
+
+  
+  
+		group "Counter\nLimited" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_uint8_T_1[1]
+			{
+			 type:    uint(8)*
+			 alias:   "y"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+			p_1_SDS_brk_cbc_v1_uint8_T_1[2]
+			{
+			 type:    uint(8)*
+			 alias:   "uplimit"
+			 flags:   PARAM
+ addr:    0x000c05b0
+}
+
+			group "Data Type\nPropagation" -- block-group
+			{
+			 block: "S-Function"
+			}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[3]
+				{
+				 type:    uint(8)*
+				 alias:   "In1"
+				 flags:   READONLY
+ addr:    0x000c05a4
+}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[3]
+				{
+				 type:    uint(8)*
+				 alias:   "In2"
+				 flags:   READONLY
+ addr:    0x000c05a4
+}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[3]
+				{
+				 type:    uint(8)*
+				 alias:   "In3"
+				 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+
+
+			endgroup -- block-group "Data Type\nPropagation"
+
+			group "Output" -- block-group
+			{
+			 block: "UnitDelay"
+			}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[1]
+				{
+				 type:    uint(8)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+				p_1_SDS_brk_cbc_v1_uint8_T_3[7]
+				{
+				 type:    uint(8)*
+				 alias:   "InitialCondition"
+				 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+			endgroup -- block-group "Output"
+
+  
+  
+			group "Increment\nReal World" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_uint8_T_1[2]
+				{
+				 type:    uint(8)*
+				 alias:   "y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+				group "FixPt\nConstant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_SDS_brk_cbc_v1_uint8_T_3[8]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+				endgroup -- block-group "FixPt\nConstant"
+
+				group "FixPt\nSum1" -- block-group
+				{
+				 block: "Sum"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[2]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+				endgroup -- block-group "FixPt\nSum1"
+
+				group "FixPt\nData Type\nDuplicate" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[2]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[1]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate"
+
+
+
+			endgroup -- subsystem-group "Increment\nReal World"
+  
+  
+			group "Wrap To Zero" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_uint8_T_1[3]
+				{
+				 type:    uint(8)*
+				 alias:   "Y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+				trcref0_uplimit
+				{
+				 refgroup: ".."
+				 refvar:   "uplimit"
+				 alias:    "uplimit"
+}
+				-- Skipping parameter "uplimit"
+
+				group "Constant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_SDS_brk_cbc_v1_uint8_T_3[9]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+				endgroup -- block-group "Constant"
+
+				group "FixPt\nSwitch" -- block-group
+				{
+				 block: "Switch"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[3]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+					trcref0_uplimit
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "uplimit"
+}
+					trcref0_Threshold
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "Threshold"
+					 flags:    DEPRECATED|HIDDEN
+}
+
+
+				endgroup -- block-group "FixPt\nSwitch"
+
+				group "FixPt\nData Type\nDuplicate1" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[3]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[2]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+			endgroup -- subsystem-group "Wrap To Zero"
+
+
+		endgroup -- subsystem-group "Counter\nLimited"
+  
+  
+		group "Counter\nLimited1" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_uint8_T_1[0]
+			{
+			 type:    uint(8)*
+			 alias:   "y"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+			p_1_SDS_brk_cbc_v1_uint8_T_1[3]
+			{
+			 type:    uint(8)*
+			 alias:   "uplimit"
+			 flags:   PARAM
+ addr:    0x000c05b0
+}
+
+			group "Data Type\nPropagation" -- block-group
+			{
+			 block: "S-Function"
+			}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "In1"
+				 flags:   READONLY
+ addr:    0x000c05a4
+}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "In2"
+				 flags:   READONLY
+ addr:    0x000c05a4
+}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "In3"
+				 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+
+
+			endgroup -- block-group "Data Type\nPropagation"
+
+			group "Output" -- block-group
+			{
+			 block: "UnitDelay"
+			}
+				p_0_SDS_brk_cbc_v1_uint8_T_1[0]
+				{
+				 type:    uint(8)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+				p_1_SDS_brk_cbc_v1_uint8_T_3[6]
+				{
+				 type:    uint(8)*
+				 alias:   "InitialCondition"
+				 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+			endgroup -- block-group "Output"
+
+  
+  
+			group "Increment\nReal World" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_uint8_T_1[4]
+				{
+				 type:    uint(8)*
+				 alias:   "y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+				group "FixPt\nConstant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_SDS_brk_cbc_v1_uint8_T_3[10]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+				endgroup -- block-group "FixPt\nConstant"
+
+				group "FixPt\nSum1" -- block-group
+				{
+				 block: "Sum"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[4]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+				endgroup -- block-group "FixPt\nSum1"
+
+				group "FixPt\nData Type\nDuplicate" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[4]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[0]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate"
+
+
+
+			endgroup -- subsystem-group "Increment\nReal World"
+  
+  
+			group "Wrap To Zero" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_uint8_T_1[5]
+				{
+				 type:    uint(8)*
+				 alias:   "Y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+				trcref0_uplimit
+				{
+				 refgroup: ".."
+				 refvar:   "uplimit"
+				 alias:    "uplimit"
+}
+				-- Skipping parameter "uplimit"
+
+				group "Constant" -- block-group
+				{
+				 block: "Constant"
+				}
+					-- Skipping output Out1
+					p_1_SDS_brk_cbc_v1_uint8_T_3[11]
+					{
+					 type:    uint(8)*
+					 alias:   "Value"
+					 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+				endgroup -- block-group "Constant"
+
+				group "FixPt\nSwitch" -- block-group
+				{
+				 block: "Switch"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[5]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+					trcref0_uplimit
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "uplimit"
+}
+					trcref0_Threshold
+					{
+					 refgroup: "../.."
+					 refvar:   "uplimit"
+					 alias:    "Threshold"
+					 flags:    DEPRECATED|HIDDEN
+}
+
+
+				endgroup -- block-group "FixPt\nSwitch"
+
+				group "FixPt\nData Type\nDuplicate1" -- block-group
+				{
+				 block: "DataTypeDuplicate"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[5]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[4]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+					-- Skipping inport In3
+
+
+
+
+				endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+			endgroup -- subsystem-group "Wrap To Zero"
+
+
+		endgroup -- subsystem-group "Counter\nLimited1"
+  
+  
+		group "DAS_A3_A1" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_real_T_0[3]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "SDS_Engaged_State"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[4]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DAS_EPB_APPLY_RQ"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[5]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RHSC_OpenLoopBraking_Rq"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[6]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DAS_EPB_RELSE_RQ"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[7]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "LFC_Request_Type"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[8]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "LFC_Request"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[9]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Brk_PreFill_Rq"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[10]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "MC_DAS_A3_A"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[11]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "CRC_DAS_A3_A"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[12]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[13]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[14]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX delta time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+		endgroup -- subsystem-group "DAS_A3_A1"
+  
+  
+		group "EBCM_C1" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_real_T_0[15]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DriverBrakingTrue_EBCM"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[16]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DAS_RqActv"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[17]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrakePedalApplied"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[18]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrakePedalAppliedV"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[19]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "MIL_OnRq_EBCM"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[20]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "EBCMSysEmsMlfAtv"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[21]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrakePedalTravelSensor"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[22]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "EBCM_BrakeState"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[23]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrakeSysStateSec"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[24]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrkPdl_Stat_2"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[25]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "EstBrakeTorqueAppliedSec"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[26]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrkPdl_Flt_2"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[27]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "ThermalCapacitySec"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[28]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrakePedalTravelSensorV"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[29]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Brk_Stat_2"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[30]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "SDS_Engaged_State_EBCM"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[31]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "MC_EBCM_C1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[32]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "CRC_EBCM_C1"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[33]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[34]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[35]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX delta time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+		endgroup -- subsystem-group "EBCM_C1"
+  
+  
+		group "ESP_B5" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_real_T_0[36]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "qTargetExternal_Active"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[37]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BrakeSysStatePrim"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[38]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "ESC_BrakeState"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[39]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "EsBrakeTorqueAppliedPrim"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[40]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "HoldSufficientStatus"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[41]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "qTargetExternal"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[42]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "ThermalCapacityPrim"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[43]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "SDS_Engaged_State_ESC"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[44]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "MC_ESP_B5"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[45]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "CRC_ESP_B5"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[46]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[47]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[48]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX delta time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+		endgroup -- subsystem-group "ESP_B5"
+  
+  
+		group "ccan3_DAS_A3_A_tx1" -- subsystem-group
+
+
+
+			group "CRC_SDS_Motion_Ref" -- block-group
+			{
+			 block: "Constant"
+			}
+				-- Skipping output Out1
+				p_1_SDS_brk_cbc_v1_real_T_2[8]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "Value"
+				 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+			endgroup -- block-group "CRC_SDS_Motion_Ref"
+
+			group "Long_Accel_sds_mot_ref" -- block-group
+			{
+			 block: "Constant"
+			}
+				-- Skipping output Out1
+				p_1_SDS_brk_cbc_v1_real_T_2[9]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "Value"
+				 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+			endgroup -- block-group "Long_Accel_sds_mot_ref"
+
+			group "Veh_Speed_sds_mot_ref" -- block-group
+			{
+			 block: "Constant"
+			}
+				-- Skipping output Out1
+				p_1_SDS_brk_cbc_v1_real_T_2[10]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "Value"
+				 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+			endgroup -- block-group "Veh_Speed_sds_mot_ref"
+
+			group "Data Type Conversion1" -- block-group
+			{
+			 block: "DataTypeConversion"
+			}
+				p_0_SDS_brk_cbc_v1_real_T_0[97]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+
+			endgroup -- block-group "Data Type Conversion1"
+
+			group "Zero-Order\nHold" -- block-group
+			{
+			 block: "ZeroOrderHold"
+			}
+				-- Skipping output
+
+
+			endgroup -- block-group "Zero-Order\nHold"
+
+  
+  
+			group "Counter\nLimited1" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_uint8_T_1[9]
+				{
+				 type:    uint(8)*
+				 alias:   "y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+				p_1_SDS_brk_cbc_v1_uint8_T_1[0]
+				{
+				 type:    uint(8)*
+				 alias:   "uplimit"
+				 flags:   PARAM
+ addr:    0x000c05b0
+}
+
+				group "Data Type\nPropagation" -- block-group
+				{
+				 block: "S-Function"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[11]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[11]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[11]
+					{
+					 type:    uint(8)*
+					 alias:   "In3"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+
+
+				endgroup -- block-group "Data Type\nPropagation"
+
+				group "Output" -- block-group
+				{
+				 block: "UnitDelay"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[9]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+					p_1_SDS_brk_cbc_v1_uint8_T_3[1]
+					{
+					 type:    uint(8)*
+					 alias:   "InitialCondition"
+					 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+				endgroup -- block-group "Output"
+
+  
+  
+				group "Increment\nReal World" -- subsystem-group
+
+					p_0_SDS_brk_cbc_v1_uint8_T_1[10]
+					{
+					 type:    uint(8)*
+					 alias:   "y"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+					group "FixPt\nConstant" -- block-group
+					{
+					 block: "Constant"
+					}
+						-- Skipping output Out1
+						p_1_SDS_brk_cbc_v1_uint8_T_3[0]
+						{
+						 type:    uint(8)*
+						 alias:   "Value"
+						 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+					endgroup -- block-group "FixPt\nConstant"
+
+					group "FixPt\nSum1" -- block-group
+					{
+					 block: "Sum"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[10]
+						{
+						 type:    uint(8)*
+						 alias:   "Out1"
+						 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+					endgroup -- block-group "FixPt\nSum1"
+
+					group "FixPt\nData Type\nDuplicate" -- block-group
+					{
+					 block: "DataTypeDuplicate"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[10]
+						{
+						 type:    uint(8)*
+						 alias:   "In1"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[9]
+						{
+						 type:    uint(8)*
+						 alias:   "In2"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+						-- Skipping inport In3
+
+
+
+
+					endgroup -- block-group "FixPt\nData Type\nDuplicate"
+
+
+
+				endgroup -- subsystem-group "Increment\nReal World"
+  
+  
+				group "Wrap To Zero" -- subsystem-group
+
+					p_0_SDS_brk_cbc_v1_uint8_T_1[11]
+					{
+					 type:    uint(8)*
+					 alias:   "Y"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+					trcref0_uplimit
+					{
+					 refgroup: ".."
+					 refvar:   "uplimit"
+					 alias:    "uplimit"
+}
+					-- Skipping parameter "uplimit"
+
+					group "Constant" -- block-group
+					{
+					 block: "Constant"
+					}
+						-- Skipping output Out1
+						p_1_SDS_brk_cbc_v1_uint8_T_3[2]
+						{
+						 type:    uint(8)*
+						 alias:   "Value"
+						 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+					endgroup -- block-group "Constant"
+
+					group "FixPt\nSwitch" -- block-group
+					{
+					 block: "Switch"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[11]
+						{
+						 type:    uint(8)*
+						 alias:   "Out1"
+						 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+						trcref0_uplimit
+						{
+						 refgroup: "../.."
+						 refvar:   "uplimit"
+						 alias:    "uplimit"
+}
+						trcref0_Threshold
+						{
+						 refgroup: "../.."
+						 refvar:   "uplimit"
+						 alias:    "Threshold"
+						 flags:    DEPRECATED|HIDDEN
+}
+
+
+					endgroup -- block-group "FixPt\nSwitch"
+
+					group "FixPt\nData Type\nDuplicate1" -- block-group
+					{
+					 block: "DataTypeDuplicate"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[11]
+						{
+						 type:    uint(8)*
+						 alias:   "In1"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[10]
+						{
+						 type:    uint(8)*
+						 alias:   "In2"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+						-- Skipping inport In3
+
+
+
+
+					endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+				endgroup -- subsystem-group "Wrap To Zero"
+
+
+			endgroup -- subsystem-group "Counter\nLimited1"
+  
+  
+			group "DAS_A3_A" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_real_T_0[102]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX status"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[103]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[104]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX delta time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[105]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX delay time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+			endgroup -- subsystem-group "DAS_A3_A"
+  
+  
+			group "SDS_Motion_Ref" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_real_T_0[98]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX status"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[99]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[100]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX delta time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[101]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX delay time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+			endgroup -- subsystem-group "SDS_Motion_Ref"
+
+
+		endgroup -- subsystem-group "ccan3_DAS_A3_A_tx1"
+  
+  
+		group "ccan_DAS_A3_A_tx" -- subsystem-group
+
+
+
+			group "Zero-Order\nHold" -- block-group
+			{
+			 block: "ZeroOrderHold"
+			}
+				-- Skipping output
+
+
+			endgroup -- block-group "Zero-Order\nHold"
+
+  
+  
+			group "DAS_A3_A" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_real_T_0[93]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX status"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[94]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[95]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX delta time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+				p_0_SDS_brk_cbc_v1_real_T_0[96]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX delay time"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+			endgroup -- subsystem-group "DAS_A3_A"
+
+
+		endgroup -- subsystem-group "ccan_DAS_A3_A_tx"
+
+
+	endgroup -- subsystem-group "Brakes"
+  
+  
+	group "CAN_TYPE1_SETUP_M1_C1" -- subsystem-group
+
+
+	endgroup -- subsystem-group "CAN_TYPE1_SETUP_M1_C1"
+  
+  
+	group "CAN_TYPE1_SETUP_M1_C2" -- subsystem-group
+
+
+	endgroup -- subsystem-group "CAN_TYPE1_SETUP_M1_C2"
+  
+  
+	group "CBC" -- subsystem-group
+
+
+
+		group "RHSC_CRC" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[43]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "RHSC_CRC"
+
+		group "SDS_CBC_CMD3" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[32]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_CMD3"
+
+		group "SDS_CBC_CMD_TX_Trigger" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[44]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_CMD_TX_Trigger"
+
+		group "SDS_CBC_ConvLmpRst" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[42]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_ConvLmpRst"
+
+		group "SDS_CBC_HAZ_SW" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[30]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_HAZ_SW"
+
+		group "SDS_CBC_HDLP_SW" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[37]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_HDLP_SW"
+
+		group "SDS_CBC_HDLP_Wash" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[34]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_HDLP_Wash"
+
+		group "SDS_CBC_HiBmLvr" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[29]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_HiBmLvr"
+
+		group "SDS_CBC_Horn" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[33]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_Horn"
+
+		group "SDS_CBC_IGNPOS" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[28]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_IGNPOS"
+
+		group "SDS_CBC_IP_Dimmer" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[36]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_IP_Dimmer"
+
+		group "SDS_CBC_OVERLAY_REQ" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[41]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_OVERLAY_REQ"
+
+		group "SDS_CBC_RFFunct" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[38]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_RFFunct"
+
+		group "SDS_CBC_TRN-I_1L_2R_0N" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[31]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_TRN-I_1L_2R_0N"
+
+		group "SDS_CBC_WPRSW" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[40]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_WPRSW"
+
+		group "SDS_CBC_WPR_Wash" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[35]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_WPR_Wash"
+
+		group "SDS_CBC_WprWshSW" -- block-group
+		{
+		 block: "Constant"
+		}
+			-- Skipping output Out1
+			p_1_SDS_brk_cbc_v1_real_T_2[39]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Value"
+			 flags:   PARAM
+ addr:    0x000c05b4
+}
+
+
+		endgroup -- block-group "SDS_CBC_WprWshSW"
+
+  
+  
+		group "CBC_PT1" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_real_T_0[49]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "FT_FOG_RQ"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[50]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "R_FOG_RQ"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[51]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "REV_GEAR"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[52]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DR_LK_STAT"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[53]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "FOB_SrchRq"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[54]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "AHB_ACT"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[55]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "PARK_LMP_ON"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[56]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DRV_AJAR"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[57]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "PSG_AJAR"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[58]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "L_R_AJAR"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[59]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "R_R_AJAR"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[60]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "TLG_AJAR"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[61]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "IGN_OFF_TIME_LNG"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[62]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "SHIP_STAT"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[63]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "TurnInd_LT_ON"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[64]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "TurnInd_RT_ON"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[65]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "DAY_LGT_MD"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[66]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "PANEL_INTS"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[67]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "FT_WPR_NOT_PRK"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[68]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "LOBEAM_ON"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[69]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "HIBEAM_ON"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[70]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "BRK_FLUID_LO"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[71]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "WASH_FLUID_LO"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[72]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[73]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[74]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX delta time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+		endgroup -- subsystem-group "CBC_PT1"
+  
+  
+		group "CRC_is_OK1" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_boolean_T_2[0]
+			{
+			 type:    uint(8)*
+			 alias:   "y"
+			 range:   < 0 ; 1 >
+			 bitmask: 0x01
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a8
+}
+
+			p_1_SDS_brk_cbc_v1_real_T_0[0]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "const"
+			 flags:   PARAM
+ addr:    0x000c05ac
+}
+
+			group "Constant" -- block-group
+			{
+			 block: "Constant"
+			}
+				-- Skipping output Out1
+				trcref0_const
+				{
+				 refgroup: ".."
+				 refvar:   "const"
+				 alias:    "const"
+}
+				trcref0_Value
+				{
+				 refgroup: ".."
+				 refvar:   "const"
+				 alias:    "Value"
+				 flags:    DEPRECATED|HIDDEN
+}
+
+
+			endgroup -- block-group "Constant"
+
+			group "Compare" -- block-group
+			{
+			 block: "RelationalOperator"
+			}
+				p_0_SDS_brk_cbc_v1_boolean_T_2[0]
+				{
+				 type:    uint(8)*
+				 alias:   "Out1"
+				 range:   < 0 ; 1 >
+				 bitmask: 0x01
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a8
+}
+
+
+			endgroup -- block-group "Compare"
+
+
+
+		endgroup -- subsystem-group "CRC_is_OK1"
+  
+  
+		group "SDS\n_CAN_Tx_Sub\n" -- subsystem-group
+
+
+
+			group "Data Type Conversion" -- block-group
+			{
+			 block: "DataTypeConversion"
+			}
+				p_0_SDS_brk_cbc_v1_real_T_0[90]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "Out1"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+
+			endgroup -- block-group "Data Type Conversion"
+
+			group "Zero-Order\nHold" -- block-group
+			{
+			 block: "ZeroOrderHold"
+			}
+				-- Skipping output
+
+
+			endgroup -- block-group "Zero-Order\nHold"
+
+  
+  
+			group "Counter\nLimited" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_uint8_T_1[6]
+				{
+				 type:    uint(8)*
+				 alias:   "y"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+				p_1_SDS_brk_cbc_v1_uint8_T_1[1]
+				{
+				 type:    uint(8)*
+				 alias:   "uplimit"
+				 flags:   PARAM
+ addr:    0x000c05b0
+}
+
+				group "Data Type\nPropagation" -- block-group
+				{
+				 block: "S-Function"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[8]
+					{
+					 type:    uint(8)*
+					 alias:   "In1"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[8]
+					{
+					 type:    uint(8)*
+					 alias:   "In2"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[8]
+					{
+					 type:    uint(8)*
+					 alias:   "In3"
+					 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+
+
+				endgroup -- block-group "Data Type\nPropagation"
+
+				group "Output" -- block-group
+				{
+				 block: "UnitDelay"
+				}
+					p_0_SDS_brk_cbc_v1_uint8_T_1[6]
+					{
+					 type:    uint(8)*
+					 alias:   "Out1"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+					p_1_SDS_brk_cbc_v1_uint8_T_3[4]
+					{
+					 type:    uint(8)*
+					 alias:   "InitialCondition"
+					 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+				endgroup -- block-group "Output"
+
+  
+  
+				group "Increment\nReal World" -- subsystem-group
+
+					p_0_SDS_brk_cbc_v1_uint8_T_1[7]
+					{
+					 type:    uint(8)*
+					 alias:   "y"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+					group "FixPt\nConstant" -- block-group
+					{
+					 block: "Constant"
+					}
+						-- Skipping output Out1
+						p_1_SDS_brk_cbc_v1_uint8_T_3[3]
+						{
+						 type:    uint(8)*
+						 alias:   "Value"
+						 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+					endgroup -- block-group "FixPt\nConstant"
+
+					group "FixPt\nSum1" -- block-group
+					{
+					 block: "Sum"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[7]
+						{
+						 type:    uint(8)*
+						 alias:   "Out1"
+						 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+
+					endgroup -- block-group "FixPt\nSum1"
+
+					group "FixPt\nData Type\nDuplicate" -- block-group
+					{
+					 block: "DataTypeDuplicate"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[7]
+						{
+						 type:    uint(8)*
+						 alias:   "In1"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[6]
+						{
+						 type:    uint(8)*
+						 alias:   "In2"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+						-- Skipping inport In3
+
+
+
+
+					endgroup -- block-group "FixPt\nData Type\nDuplicate"
+
+
+
+				endgroup -- subsystem-group "Increment\nReal World"
+  
+  
+				group "Wrap To Zero" -- subsystem-group
+
+					p_0_SDS_brk_cbc_v1_uint8_T_1[8]
+					{
+					 type:    uint(8)*
+					 alias:   "Y"
+					 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+
+					trcref0_uplimit
+					{
+					 refgroup: ".."
+					 refvar:   "uplimit"
+					 alias:    "uplimit"
+}
+					-- Skipping parameter "uplimit"
+
+					group "Constant" -- block-group
+					{
+					 block: "Constant"
+					}
+						-- Skipping output Out1
+						p_1_SDS_brk_cbc_v1_uint8_T_3[5]
+						{
+						 type:    uint(8)*
+						 alias:   "Value"
+						 flags:   PARAM
+ addr:    0x000c05b8
+}
+
+
+					endgroup -- block-group "Constant"
+
+					group "FixPt\nSwitch" -- block-group
+					{
+					 block: "Switch"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[8]
+						{
+						 type:    uint(8)*
+						 alias:   "Out1"
+						 flags:   OUTPUT|READONLY
+ addr:    0x000c05a4
+}
+						trcref0_uplimit
+						{
+						 refgroup: "../.."
+						 refvar:   "uplimit"
+						 alias:    "uplimit"
+}
+						trcref0_Threshold
+						{
+						 refgroup: "../.."
+						 refvar:   "uplimit"
+						 alias:    "Threshold"
+						 flags:    DEPRECATED|HIDDEN
+}
+
+
+					endgroup -- block-group "FixPt\nSwitch"
+
+					group "FixPt\nData Type\nDuplicate1" -- block-group
+					{
+					 block: "DataTypeDuplicate"
+					}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[8]
+						{
+						 type:    uint(8)*
+						 alias:   "In1"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+						p_0_SDS_brk_cbc_v1_uint8_T_1[7]
+						{
+						 type:    uint(8)*
+						 alias:   "In2"
+						 flags:   READONLY
+ addr:    0x000c05a4
+}
+
+						-- Skipping inport In3
+
+
+
+
+					endgroup -- block-group "FixPt\nData Type\nDuplicate1"
+
+
+
+				endgroup -- subsystem-group "Wrap To Zero"
+
+
+			endgroup -- subsystem-group "Counter\nLimited"
+  
+  
+			group "SDS_CBC_CMD" -- subsystem-group
+
+				p_0_SDS_brk_cbc_v1_real_T_0[92]
+				{
+				 type:    flt(64,IEEE)*
+				 alias:   "TX status"
+				 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+			endgroup -- subsystem-group "SDS_CBC_CMD"
+
+
+		endgroup -- subsystem-group "SDS\n_CAN_Tx_Sub\n"
+  
+  
+		group "SDS_CBC_STAT" -- subsystem-group
+
+			p_0_SDS_brk_cbc_v1_real_T_0[75]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Command_03_SwStat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[76]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "Horn_Sw_Stat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[77]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "HDLP_SW_Stat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[78]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "HAZ_SW_Stat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[79]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "CBC_OVERLAY_MODE"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[80]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "IPDimmerPos_Stat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[81]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "U_CALL_BtnStat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[82]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "E_CALL_BtnStat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[83]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "WiperSpeed_Stat"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[84]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "MC_SDS_CBC_STAT"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[85]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "CRC_SDS_CBC_STAT"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[86]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX status"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[87]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[88]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "RX delta time"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+			p_0_SDS_brk_cbc_v1_real_T_0[89]
+			{
+			 type:    flt(64,IEEE)*
+			 alias:   "User outport"
+			 flags:   OUTPUT|READONLY
+ addr:    0x000c05a0
+}
+
+		endgroup -- subsystem-group "SDS_CBC_STAT"
+
+
+	endgroup -- subsystem-group "CBC"
+  
+  
+	group "RTI Data" -- subsystem-group
+
+
+	endgroup -- subsystem-group "RTI Data"
+
+
+
+endgroup -- "Model Root"
+-- ******** Tunable Parameters ************************************************
+
+group "Tunable Parameters"
+
+
+endgroup
+
+-- ******** State Machine Data ************************************************
+
+-- No Stateflow chart within the model.
+
+
+-- ******** Labels ************************************************************
+
+-- Generation of labels turned off with TRCGenerateLabels option.
+
+-- ******** RTT Dynamic Variables *********************************************
+
+-- Generation of RTT Dynamic Variables turned off with EnableRealTimeTesting option.
+
+-- ******** User variables from model_usr.trc *********************************
+
+-- RTI_USR_TRC_BEGIN
+
+-- No user file SDS_brk_cbc_v1_usr.trc found.
+
+-- RTI_USR_TRC_END
+
+-- ******** EESPort States Variables ******************************************
+group "XIL API"
+{ 
+  flags: COLLAPSED
+}
+
+  group "EESPort"
+  {  
+    flags: COLLAPSED
+  }
+
+    p_xilapi_eesport_activeerrorset_uint32_T
+    {
+      type:    uint(32)*
+      alias:   "Active ErrorSet"
+      desc:    "Index of active ErrorSet or 0 if no ErrorSet is active."
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 4294967295 >
+ addr:    0x000cb3e4
+}
+
+    p_xilapi_eesport_erroractivated_uint32_T
+    {
+      type:    uint(32)*
+      alias:   "Error Activated"
+      desc:    "0 - no error is activated on hardware, 1 - at least one error is activated on hardware."  
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 1 >
+ addr:    0x000cb3e8
+}
+
+    p_xilapi_eesport_errorswitching_uint32_T
+    {
+      type:    uint(32)*
+      alias:   "Error Switching"
+      desc:    "0 - no switching operation running on hardware, 1 -  switching operation running on hardware."
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 1 >
+ addr:    0x000cb3ec
+}
+
+    xilapi_eesport_flags_uint32_T
+    {
+      type:    uint(32)
+      alias:   "Flags"
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 4294967295 >
+ addr:    0x000cb3f0
+}
+
+    xilapi_eesport_trigger_uint32_T
+    {
+      type:    uint(32)
+      alias:   "Trigger"
+      flags:   OUTPUT|READONLY
+      range:   < 0 ; 4294967295 >
+ addr:    0x000cb3f4
+}
+
+    endgroup -- "EESPort"
+
+endgroup -- "XILAPI"
+
+
+
+-- ******** [EOF] *************************************************************
+
