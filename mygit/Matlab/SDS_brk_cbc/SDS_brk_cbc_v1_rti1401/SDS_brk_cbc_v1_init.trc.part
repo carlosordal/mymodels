@@ -1,7 +1,0 @@
-
-
-
--- Type definitions for arrays
-typedef SDS_brk_cbc_v1_ArrayDT10_2 int(32)[2]
-
-
