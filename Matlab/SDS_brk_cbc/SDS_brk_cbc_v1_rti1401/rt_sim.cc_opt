@@ -60,5 +60,5 @@ rt_sim.o03
 -JC:\PROGRA~1\MATLAB\R2018b\extern\include
 -JC:\PROGRA~1\MATLAB\R2018b\rtw\c\src
 -JC:\PROGRA~1\MATLAB\R2018b\rtw\c\src\ext_mode\common
--JC:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc
--JC:\Users\cordunoalbarran\Documents\MATLAB\SDS_brk_cbc\SDS_brk_cbc_v1_rti1401 
+-JC:\Users\cordunoalbarran\Documents\Repo\mymodels\Matlab\SDS_brk_cbc
+-JC:\Users\cordunoalbarran\Documents\Repo\mymodels\Matlab\SDS_brk_cbc\SDS_brk_cbc_v1_rti1401 

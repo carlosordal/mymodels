@@ -5,7 +5,7 @@
    Definition of function that initializes the global TRC pointers
 
    RTI1401 7.10 (02-May-2018)
-   Wed Oct  2 13:56:06 2019
+   Wed Oct  2 20:12:13 2019
 
    Copyright 2019, dSPACE GmbH. All rights reserved.
 

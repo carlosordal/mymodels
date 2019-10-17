@@ -3,7 +3,7 @@
 --  Trace file: SDS_brk_cbc_v1.trc
 --
 --  RTI1401 7.10 (02-May-2018)
---  Wed Oct  2 13:56:06 2019
+--  Wed Oct  2 20:12:13 2019
 --
 --  Copyright 2019, dSPACE GmbH. All rights reserved.
 --
@@ -26,7 +26,7 @@
 
 _genname     "RTI"
 _genversion  "7.10"
-_gendate     "10/02/2019 13:56:09"
+_gendate     "10/02/2019 20:12:22"
 _description ""
 _author      "RTI1401 7.10 (02-May-2018)"
 _model       "SDS_brk_cbc_v1"
