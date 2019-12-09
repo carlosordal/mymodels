@@ -1,33 +1,37 @@
+clear
+%% Path definition
+this_folder = fileparts(mfilename('fullpath'));                             
+addpath(genpath(fullfile(this_folder, 'canLogData')));                             
+%addpath(genpath(fullfile(this_folder, '..', '..', 'common')));
 
-%number of fields on Struct
-dt = unique(diff(lyftctrlSigTable.ESP_A2.Time));
-numel(fieldnames(lyftctrlSigTable));
-mean(lyftctrlSigTable.ESP_A2.Time);
-%constants.' names{i} 
+GuDbFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
+eptDbFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari');
 
-%finalData.s7.bm5.rSync
-%s7_bm5.rSync = finalData.s7.bm5.rSync
-%s7_bm5.mSync = finalData.s7.bm5.mSync
-%s8_bm5.rSync = finalData.s8.bm5.rSync
-%s8_bm5.mSync = finalData.s8.bm5.mSync%
 
-%so structure is:
-%finaldata.s(i).bm(j).rSync
-%finaldata.s(i).bm(j).mSync
-% for i = 1:numel(finaldata.s)
-%     for j = 1:numel(finaldata.s(i).bm)        
-%         rsync = finaldata.s(i).bm(j).rSync;
-%         msync = finaldata.s(i).bm(j).mSync;
-%         %... do something 
-%     end
-% end
+addpath(GuDbFolder);
+addpath(eptDbFolder);
 
+%create the time tables for each channel
+
+%[ccanSigTable, lyftctrlSigTable, eptSigTable] = fcn_CanLogImport(1,'ccan.dbc',2,'lyftctrlcan.dbc',3,'E4A_R4_CCAN3_CR11690_Mod.dbc','P003 AEB weeks 10 km_test.blf');
+
+%LyftCtrlCAN statistics
+
+fNames = fieldnames(lyftctrlSigTable);
 for i = 1:numel(fieldnames(lyftctrlSigTable)) 
-        rsync = finaldata.s(i).bm(j).rSync;
-        msync = finaldata.s(i).bm(j).mSync;
-        %... do something 
-    end
+        field = fNames{i};
+        
+        dt = unique(diff(lyftctrlSigTable.(fNames{i}).Time));
+        meanValue = mean(dt);
+        lyftCanAnalysis.(fNames{i}).Mean = meanValue;
+        StdValue = std(dt);
+        lyftCanAnalysis.(fNames{i}).Std_dev = StdValue;
+        medianValue = median(dt);
+        lyftCanAnalysis.(fNames{i}).median = median(dt);
+
 end
+
+
 
 
 
