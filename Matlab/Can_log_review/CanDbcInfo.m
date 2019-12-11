@@ -49,6 +49,14 @@ for m = 1:length(lyftcanfile)
     
 end
 
+% BA_DEF_ BO_  "GenMsgSendType" ENUM: 
+% 1 "cyclicX",2 "spontanX", 3 "cyclicIfActiveX",4 "spontanWithDelay",5 "cyclicAndSpontanX", 
+% 6 "cyclicAndSpontanWithDelay",7 "spontanWithRepitition",8 "cyclicIfActiveAndSpontanWD",
+% 9 "cyclicIfActiveFast",10 "cyclicWithRepeatOnDemand", 11 "none";
+% BA_DEF_ BO_  "GenMsgSendType" ENUM  "cyclicX","spontanX","cyclicIfActiveX","spontanWithDelay","cyclicAndSpontanX","cyclicAndSpontanWithDelay","spontanWithRepitition","cyclicIfActiveAndSpontanWD","cyclicIfActiveFast","cyclicWithRepeatOnDemand","none";
+
+%info = attributeInfo(db,'Message','GenMsgCycleTime','A1')
+%info = attributeInfo(lyftcandb,'Message','GenMsgCycleTime','DAS_A4')
 %split message list information
 % for i=2:length(messagelist)
 %     messagelist (i,1:5) = transpose(split(messagelist(i,1)));

@@ -1,23 +1,26 @@
-clear
+%this script takes all messages on a CAN log and calculates mean, median and
+% standard deviation on a struct.
+
+%clear
 %% Path definition
 this_folder = fileparts(mfilename('fullpath'));                             
 addpath(genpath(fullfile(this_folder, 'canLogData')));                             
 %addpath(genpath(fullfile(this_folder, '..', '..', 'common')));
 
-GuDbFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
-eptDbFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari');
+GuDbcFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
+eptDbcFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari');
 
 
-addpath(GuDbFolder);
-addpath(eptDbFolder);
+addpath(GuDbcFolder);
+addpath(eptDbcFolder);
 
 %create the time tables for each channel
 BlfCanLog = 'P003 AEB weeks 10 km_test.blf';
-lyftcanfile = importdata('lyftctrlcan.dbc');
+%lyftcanfile = importdata('lyftctrlcan.dbc');%needed if we are reading from candbc directly.
 
-ccandb = canDatabase('ccan.dbc');
-ccanMsgTable = blfread(BlfCanLog,1,'DataBase',ccandb);
-ccanSigTable = canSignalTimetable(ccanMsgTable);
+% ccandb = canDatabase('ccan.dbc');
+% ccanMsgTable = blfread(BlfCanLog,1,'DataBase',ccandb);
+% ccanSigTable = canSignalTimetable(ccanMsgTable);
 
 lyftctrldb = canDatabase('lyftctrlcan.dbc');
 lyftctrlMsgTable = blfread(BlfCanLog,2,'DataBase',lyftctrldb);
@@ -28,21 +31,57 @@ lyftctrlSigTable = canSignalTimetable(lyftctrlMsgTable);
 %LyftCtrlCAN statistics
 
 fNames = fieldnames(lyftctrlSigTable);
-for i = 1:numel(fieldnames(lyftctrlSigTable)) 
-        field = fNames{i};
+LyftCanAnalysis = struct('message',fNames);     %create struct with messages on can log
+for i = 1:numel(fieldnames(lyftctrlSigTable))   %Read Msg Names
+        thisMsg = fNames{i};
         
-        dt = unique(diff(lyftctrlSigTable.(fNames{i}).Time));
-        meanValue = mean(dt);
-        lyftCanAnalysis.(fNames{i}).Mean = meanValue;
+%   read Cycle Time from database
+        attinfo = attributeInfo(lyftcandb,'Message','GenMsgCycleTime',thisMsg);
+        LyftCanAnalysis(i).CycleTimeDef = (attinfo.Value);
+        attinfo = attributeInfo(lyftcandb,'Message','GenMsgSendType',thisMsg);
+        LyftCanAnalysis(i).MsgSendTypeDef = (attinfo.Value);
+ 
+ %read period times for each message
+        dt = unique(diff(lyftctrlSigTable.(fNames{i}).Time)); 
+
+        minValue = seconds(min(dt))*1000;
+        LyftCanAnalysis(i).MinValue = minValue;
+        %LyftCanAnalysis.(thisMsg)(2,2) = minValue; 
+        
+        maxValue = seconds(max(dt))*1000;
+        LyftCanAnalysis(i).MaxValue = maxValue;
+       
+        meanValue = mean(dt);                                   %calculate mean
+        LyftCanAnalysis(i).MeanValue = seconds(meanValue*1000);           %
+        
         StdValue = std(dt);
-        lyftCanAnalysis.(fNames{i}).Std_dev = StdValue;
+        LyftCanAnalysis(i).StdValue = seconds(StdValue*1000);
         medianValue = median(dt);
-        lyftCanAnalysis.(fNames{i}).median = median(dt);
+        LyftCanAnalysis(i).MedianValue = seconds(medianValue*1000);
+        
+        
 
 end
 
+ %info = attributeInfo(lyftcandb,'Message','GenMsgCycleTime','DAS_A4')
 
+% for i = 1:numel(fieldnames(lyftctrlSigTable))   %Read Msg Names
+%         field = fNames{i};
+%         
+%         dt = unique(diff(lyftctrlSigTable.(fNames{i}).Time));
+%         meanValue = mean(dt);
+%         lyftCanAnalysis.(fNames{i}).Mean = meanValue;
+%         StdValue = std(dt);
+%         lyftCanAnalysis.(fNames{i}).Std_dev = StdValue;
+%         medianValue = median(dt);
+%         lyftCanAnalysis.(fNames{i}).median = median(dt);
+% 
+% end
 
+%struct examples
 
+% field = {1; 2; 3;};
+% message = {'DAS_A3'; 'DAS_A4'; 'DAS_A5'};
+% s = struct('message',message,'valmin',field);
 
 
