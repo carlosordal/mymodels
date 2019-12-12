@@ -1,7 +1,19 @@
 %this script takes all messages on a CAN log and calculates mean, median and
 % standard deviation on a struct.
+% ccanCh = Channel number for ccan on blf file
+% lyftCh = Channel number for ccan on blf file
 
-%clear
+clear;
+%Inputs
+ccanCh      = 4;
+lyftctrlCh  = 2;
+BlfCanLog = '02 1211 AEB 40kph 10_40.blf';
+
+%Outputs
+%ccanSigTable
+%lyftctrlSigTable
+
+
 %% Path definition
 this_folder = fileparts(mfilename('fullpath'));                             
 addpath(genpath(fullfile(this_folder, 'canLogData')));                             
@@ -10,20 +22,19 @@ addpath(genpath(fullfile(this_folder, 'canLogData')));
 GuDbcFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
 eptDbcFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari');
 
-
 addpath(GuDbcFolder);
 addpath(eptDbcFolder);
 
 %create the time tables for each channel
-BlfCanLog = 'P003 AEB weeks 10 km_test.blf';
+
 %lyftcanfile = importdata('lyftctrlcan.dbc');%needed if we are reading from candbc directly.
 
-% ccandb = canDatabase('ccan.dbc');
-% ccanMsgTable = blfread(BlfCanLog,1,'DataBase',ccandb);
-% ccanSigTable = canSignalTimetable(ccanMsgTable);
+ccandb = canDatabase('ccan.dbc');
+ccanMsgTable = blfread(BlfCanLog,ccanCh,'DataBase',ccandb);
+ccanSigTable = canSignalTimetable(ccanMsgTable);
 
 lyftctrldb = canDatabase('lyftctrlcan.dbc');
-lyftctrlMsgTable = blfread(BlfCanLog,2,'DataBase',lyftctrldb);
+lyftctrlMsgTable = blfread(BlfCanLog,lyftctrlCh,'DataBase',lyftctrldb);
 lyftctrlSigTable = canSignalTimetable(lyftctrlMsgTable);
 
 %[ccanSigTable, lyftctrlSigTable, eptSigTable] = fcn_CanLogImport(1,'ccan.dbc',2,'lyftctrlcan.dbc',3,'E4A_R4_CCAN3_CR11690_Mod.dbc','P003 AEB weeks 10 km_test.blf');
@@ -36,9 +47,9 @@ for i = 1:numel(fieldnames(lyftctrlSigTable))   %Read Msg Names
         thisMsg = fNames{i};
         
 %   read Cycle Time from database
-        attinfo = attributeInfo(lyftcandb,'Message','GenMsgCycleTime',thisMsg);
+        attinfo = attributeInfo(lyftctrldb,'Message','GenMsgCycleTime',thisMsg);
         LyftCanAnalysis(i).CycleTimeDef = (attinfo.Value);
-        attinfo = attributeInfo(lyftcandb,'Message','GenMsgSendType',thisMsg);
+        attinfo = attributeInfo(lyftctrldb,'Message','GenMsgSendType',thisMsg);
         LyftCanAnalysis(i).MsgSendTypeDef = (attinfo.Value);
  
  %read period times for each message
