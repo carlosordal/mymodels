@@ -43,11 +43,11 @@ canCh      = input(prompt);                                     %can channel to 
 
 %% Path definition
 this_folder = fileparts(mfilename('fullpath'));   
-guDbcFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
-eptDbcFolder = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari');
+guDbcPath = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
+eptDbcPath = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari');
 
-addpath(guDbcFolder);
-addpath(eptDbcFolder);
+addpath(guDbcPath);
+addpath(eptDbcPath);
 addpath(blfPath);
 %% load dbcs and create time tables for logs
 %load ccan.dbc and convert CCAN canlog into struct with timetables
