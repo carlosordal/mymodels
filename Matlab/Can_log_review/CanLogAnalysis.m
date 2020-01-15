@@ -8,7 +8,7 @@
 % standard deviation on a struct.
 % ccanCh = Channel number for ccan on blf file
 % lyftCh = Channel number for ccan on blf file
-%PSM Channels:
+%Golden Unicorn CAN Channels:
 % Ch1 : CAN L5 Power
 % Ch2: CAN L5 Ctrl
 % Ch3: CAN/Ethernet
