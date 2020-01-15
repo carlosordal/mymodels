@@ -6,6 +6,7 @@
 % Ouput:
 %  1) Struct with time table data
 
+
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 % CAN statistics comparison
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,7 +17,7 @@ networkSel = questdlg('Which CAN network will be converted?', ...
         'Choose CAN Network', ...
         'cCAN', 'lyftCtrlCAN', 'ePtCAN', 'cCAN');
 
- %select .mat file
+%% select .mat file
 disp(['Select *.mat file for ',networkSel,' network that contains ccandb and can timetable'])
 [matFile,matPath] = uigetfile('*.mat',['Select *.mat file for ',networkSel,' network that contains ccandb and can timetable']);                 %Open file selection dialog box
 if isequal(matFile,0)
@@ -29,56 +30,68 @@ end
 %Add Path
 addpath(matPath);
 
-    
-fNames = fieldnames(lyftCtrlSigTable);
-lyftCanAnalysis = struct('message',fNames);     %create struct with messages on can log
-for i = 1:numel(fieldnames(lyftCtrlSigTable))   %number of messages
+%%
+%load can database
+[folder, baseFileName, extension] = fileparts(fullfile(matPath, matFile));
+dataMat = load(dbFile);
+dataMat = dataMat.(baseFileName);
+
+
+%load Signal Time Tables
+[folder, baseFileName, extension] = fileparts(fullfile(logPath, logFile));
+signalTimeTable = load(logFile);
+signalTimeTable = signalTimeTable.(baseFileName);
+
+fNames = fieldnames(signalTimeTable);
+canAnalysis = struct('message',fNames);     %create struct with messages on can log
+for i = 1:numel(fieldnames(signalTimeTable))   %number of messages
         thisMsg = fNames{i};
         
 %   read Cycle Time from database
-        attInfo = attributeInfo(lyftCtrlDb,'Message','GenMsgCycleTime',thisMsg);
-        lyftCanAnalysis(i).CycleTimeDef = (attInfo.Value);
-        attInfo = attributeInfo(lyftCtrlDb,'Message','GenMsgSendType',thisMsg);
-        lyftCanAnalysis(i).MsgSendTypeDef = (attInfo.Value);
+        attInfo = attributeInfo(dataMat,'Message','GenMsgCycleTime',thisMsg);
+        canAnalysis(i).CycleTimeDef = (attInfo.Value);
+        attInfo = attributeInfo(dataMat,'Message','GenMsgSendType',thisMsg);
+        canAnalysis(i).MsgSendTypeDef = (attInfo.Value);
  
  %read period times for each message
-        dt = diff(lyftCtrlSigTable.(fNames{i}).Time); 
+        dt = diff(signalTimeTable.(fNames{i}).Time); 
         %dt = unique(diff(lyftCtrlSigTable.(fNames{i}).Time)); 
 
         minValue = seconds(min(dt(dt>0)))*1000;
-        lyftCanAnalysis(i).MinValue = minValue;
+        canAnalysis(i).MinValue = minValue;
         %LyftCanAnalysis.(thisMsg)(2,2) = minValue; 
         
         maxValue = seconds(max(dt))*1000;
-        lyftCanAnalysis(i).MaxValue = maxValue;
+        canAnalysis(i).MaxValue = maxValue;
        
         meanValue = mean(dt);                                   %calculate mean
-        lyftCanAnalysis(i).MeanValue = seconds(meanValue*1000);           %
+        canAnalysis(i).MeanValue = seconds(meanValue*1000);           %
         
         StdValue = std(dt);
-        lyftCanAnalysis(i).StdValue = seconds(StdValue*1000);
+        canAnalysis(i).StdValue = seconds(StdValue*1000);
         medianValue = median(dt);
-        lyftCanAnalysis(i).MedianValue = seconds(medianValue*1000);
+        canAnalysis(i).MedianValue = seconds(medianValue*1000);
  
  %Compare Cycle time vs max and min. +-10 ms and place it on a field
         %msgCyclicX = attInfo.Value;
         %msgCyclicX = "cyclicX";
-        if lyftCanAnalysis(i).MsgSendTypeDef == "cyclicX"
+        if canAnalysis(i).MsgSendTypeDef == "cyclicX"
             
             cycleTmTol = 0.10;      %10% tolerance for calculus
-            cycleTmMxTol=lyftCanAnalysis(i).CycleTimeDef+((lyftCanAnalysis(i).CycleTimeDef)*cycleTmTol);
+            cycleTmMxTol=canAnalysis(i).CycleTimeDef+((canAnalysis(i).CycleTimeDef)*cycleTmTol);
             if maxValue > cycleTmMxTol
-                lyftCanAnalysis(i).CycleTMxCmp = 'error';
+                canAnalysis(i).CycleTMxCmp = 'error';
             else
-                lyftCanAnalysis(i).CycleTMxCmp = 'ok';
+                canAnalysis(i).CycleTMxCmp = 'ok';
             end
         
-            cycleTmMnTol=lyftCanAnalysis(i).CycleTimeDef-((lyftCanAnalysis(i).CycleTimeDef)*cycleTmTol);
+            cycleTmMnTol=canAnalysis(i).CycleTimeDef-((canAnalysis(i).CycleTimeDef)*cycleTmTol);
             if minValue < cycleTmMnTol
-                lyftCanAnalysis(i).CycleTMnCmp = 'error';
+                canAnalysis(i).CycleTMnCmp = 'error';
             else
-                lyftCanAnalysis(i).CycleTMnCmp = 'ok';
+                canAnalysis(i).CycleTMnCmp = 'ok';
             end            
             
         end
+
 end
