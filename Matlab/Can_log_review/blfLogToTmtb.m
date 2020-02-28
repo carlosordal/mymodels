@@ -1,3 +1,9 @@
+% Next steps: save all blfs in one folder and convert all the blfs files on
+% that folder for the same can channel.
+% fix the candb file that is empty.
+
+
+% NOTE: it needs Vehicle Network Toolbox and Matlab 2019b or newer
 %this Script ONLY takes a can log on blf format, dbcs files and convert the
 %can log into struct with time tables for each signal and can databases
 %dbcs should be stored on a specific defined location.
@@ -6,6 +12,10 @@
 % blf CAN log file, channels need to be identified
 % enter channel # for ccan and lyftctrl
 % Can Data base file onn .dbc format
+
+%Outputs
+% Time table saved as *.mat file on the same directory as the blf file 
+%using the blf file name + CAN-Channel-selected
 
 
 %Golden Unicorn CAN Channels:
@@ -58,29 +68,28 @@ candbSel = lower([networkSel,'.dbc']);
 switch networkSel
     case 'cCAN' 
         ccandb = canDatabase(candbSel);
-        ccanMsgTable = blfread(blfFile,canCh,'DataBase',ccandb);
-        ccanSigTable = canSignalTimetable(ccanMsgTable);
+        ccanMsgTable = blfread(blfFile,canCh,'DataBase',ccandb);        % convert blf to matlab data
+        ccanLogSigTable = canSignalTimetable(ccanMsgTable);             %
         % save ccan Sigal Table into a mat file
-        matFile = strcat(networkSel,'Data.mat');
-        %canSignTable = strcat(answer,'Data.mat');
-        save(fullfile(blfPath,matFile),'ccanSigTable','ccandb');     %stores ccan signal table and ccan database 
+        matFile = strcat(networkSel,'Data.mat');                        %create string net+Data
+        save(fullfile(blfPath,matFile),'ccanLogSigTable');              %stores ccan signal time table 
 
     case 'lyftCtrlCAN'
         lyftcandb = canDatabase(candbSel);
         lyftcanMsgTable = blfread(blfFile,canCh,'DataBase',lyftcandb);
-        lyftcanSigTable = canSignalTimetable(lyftcanMsgTable);
+        lyftcanLogSigTable = canSignalTimetable(lyftcanMsgTable);
         % save ccan Sigal Table into a mat file
         matFile = strcat(networkSel,'Data.mat');
         %canSignTable = strcat(answer,'Data.mat');
-        save(fullfile(blfPath,matFile),'lyftcanSigTable','lyftcandb');     %stores ccan signal table and ccan database 
+        save(fullfile(blfPath,matFile),'lyftcanLogSigTable');           %stores ccan signal time table 
     case 'ePtCAN'
         eptcandb = canDatabase('E4A_R4_CCAN3_CR11690_Mod.dbc');
         eptcanMsgTable = blfread(blfFile,canCh,'DataBase',eptcandb);
-        eptcanSigTable = canSignalTimetable(eptcanMsgTable);
+        eptcanLogSigTable = canSignalTimetable(eptcanMsgTable);
         % save ccan Sigal Table into a mat file
         matFile = strcat(networkSel,'Data.mat');
         %canSignTable = strcat(answer,'Data.mat');
-        save(fullfile(blfPath,matFile),'eptcanSigTable','eptcandb');     %stores ccan signal table and ccan database 
+        save(fullfile(blfPath,matFile),'eptcanLogSigTable');            %stores ccan signal time table  
         
     otherwise
         warning('Unexpected Network name.')
@@ -99,4 +108,4 @@ newFilename = fullfile(blfPath, newFilename);
 movefile( oldFilename, newFilename );
 
 %% Process Complete message:
-disp(['.mat files created and saved for channel: ', num2str(canCh),', using CAN dabase: ', networkSel]);
+disp(['COMPLETED!. *.mat files created and saved for channel: ', num2str(canCh),', using CAN dabase: ', networkSel]);
