@@ -1,0 +1,6 @@
+function diagnosticRequest = generateDiagnosticRequest(canData, canId, timeStamp)
+%GENERATEDIAGNOSTICREQUEST
+%This function generate vectors for diagnostics request
+
+
+diagnosticRequest = 0;
