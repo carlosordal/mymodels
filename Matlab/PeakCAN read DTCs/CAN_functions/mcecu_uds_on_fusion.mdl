@@ -6,9 +6,33 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.106"
+    ComputedModelVersion    "1.112"
     NumModelReferences	    0
-    NumTestPointedSignals   0
+    NumTestPointedSignals   3
+    TestPointedSignal {
+      SignalName	      ""
+      FullBlockPath	      "mcecu_uds_on_fusion/Function-Call Subsystem"
+      PortIndex		      3
+      LogSignal		      1
+      MaxPoints		      5000
+      Decimation	      2
+    }
+    TestPointedSignal {
+      SignalName	      "timeStamp"
+      FullBlockPath	      "mcecu_uds_on_fusion/Function-Call Subsystem"
+      PortIndex		      6
+      LogSignal		      1
+      MaxPoints		      5000
+      Decimation	      2
+    }
+    TestPointedSignal {
+      SignalName	      ""
+      FullBlockPath	      "mcecu_uds_on_fusion/Function-Call Subsystem"
+      PortIndex		      7
+      LogSignal		      1
+      MaxPoints		      5000
+      Decimation	      2
+    }
     NumProvidedFunctions    0
     NumRequiredFunctions    0
     NumResetEvents	    0
@@ -80,7 +104,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [14.0, 56.0, 1254.0, 970.0]
+      Location		      [14.0, 39.0, 1314.0, 1037.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -105,16 +129,16 @@ Model {
 	  IsActive		  [1]
 	  ViewObjType		  "SimulinkTopLevel"
 	  LoadSaveID		  "0"
-	  Extents		  [1505.0, 993.0]
-	  ZoomFactor		  [0.49999999999999994]
-	  Offset		  [-1920.0184417305788, -208.39270836432502]
+	  Extents		  [1579.0, 1077.0]
+	  ZoomFactor		  [1.0000000000000002]
+	  Offset		  [-1182.24145498061, 353.60571428571239]
 	}
 	Object {
 	  $ObjectID		  6
 	  IsActive		  [0]
 	  ViewObjType		  "SimulinkSubsys"
 	  LoadSaveID		  "9"
-	  Extents		  [2560.0, 1440.0]
+	  Extents		  [1579.0, 1077.0]
 	  ZoomFactor		  [1.2500000000000002]
 	  Offset		  [-368.46930803571513, -224.87714285714316]
 	}
@@ -138,7 +162,7 @@ Model {
       "AAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0Ac"
       "ABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQAAAAAAP////8AAAB5AP///wAAAAEAAAAAAAAAAPwCA"
       "AAAAfsAAABUAEcATABVAEUAMgA6AFAAcgBvAHAAZQByAHQAeQBJAG4AcwBwAGUAYwB0AG8AcgAvAFAAcgBvAHAAZQByAHQAeQAgAEkAbgBzAHAAZ"
-      "QBjAHQAbwByAAAAAAD/////AAAARgD///8AAAYOAAAEKgAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
+      "QBjAHQAbwByAAAAAAD/////AAAARgD///8AAAZYAAAEfgAAAAEAAAACAAAAAQAAAAL8AAAAAQAAAAIAAAAP/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/"
       "////wEAAACR/////wAAAAAAAAAA/////wEAAAEE/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAGV/////wAAAAAAAAAA/"
       "////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wAAAAAA/////wAAAAAAAAAA/////wEAAAPG/////wAAAAAAAAAA/"
@@ -152,9 +176,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "cordunoalbarran"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Apr 07 21:23:27 2020"
-  RTWModifiedTimeStamp	  508195244
-  ModelVersionFormat	  "1.%<AutoIncrement:106>"
+  LastModifiedDate	  "Fri Apr 10 09:25:17 2020"
+  RTWModifiedTimeStamp	  508201342
+  ModelVersionFormat	  "1.%<AutoIncrement:112>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -226,6 +250,85 @@ Model {
       PropName		      "logAsSpecifiedByModelsSSIDs_"
     }
   }
+  Object {
+    $PropName		    "InstrumentedSignals"
+    $ObjectID		    9
+    $ClassName		    "Simulink.HMI.InstrumentedSignals"
+    Array {
+      Type		      "Struct"
+      Dimension		      3
+      MATStruct {
+	UUID			"871c9271-e188-4007-8ff3-5dda7dcc8c77"
+	BlockPath_		"Function-Call Subsystem"
+	SID_			"9"
+	SubPath_		""
+	OutputPortIndex_	[3.0]
+	LogicalPortIndex_	[0.0]
+	SignalName_		""
+	SubSysPath_		""
+	Decimation_		[1.0]
+	MaxPoints_		[1024.0]
+	TargetBufferedStreaming_ [0.0]
+	IsFrameBased_		[0.0]
+	DomainType_		""
+	Array {
+	  Type			  "Struct"
+	  Dimension		  1
+	  MATStruct {
+	  }
+	  PropName		  "DomainParams_"
+	}
+	VisualType_		""
+      }
+      MATStruct {
+	UUID			"e0587b53-04f1-449b-aba0-d94c6652890a"
+	BlockPath_		"Function-Call Subsystem"
+	SID_			"9"
+	SubPath_		""
+	OutputPortIndex_	[6.0]
+	LogicalPortIndex_	[0.0]
+	SignalName_		"timeStamp"
+	SubSysPath_		""
+	Decimation_		[1.0]
+	MaxPoints_		[1024.0]
+	TargetBufferedStreaming_ [0.0]
+	IsFrameBased_		[0.0]
+	DomainType_		""
+	Array {
+	  Type			  "Struct"
+	  Dimension		  1
+	  MATStruct {
+	  }
+	  PropName		  "DomainParams_"
+	}
+	VisualType_		""
+      }
+      MATStruct {
+	UUID			"453ca2c7-b082-464c-940e-0fc037760657"
+	BlockPath_		"Function-Call Subsystem"
+	SID_			"9"
+	SubPath_		""
+	OutputPortIndex_	[7.0]
+	LogicalPortIndex_	[0.0]
+	SignalName_		""
+	SubSysPath_		""
+	Decimation_		[1.0]
+	MaxPoints_		[1024.0]
+	TargetBufferedStreaming_ [0.0]
+	IsFrameBased_		[0.0]
+	DomainType_		""
+	Array {
+	  Type			  "Struct"
+	  Dimension		  1
+	  MATStruct {
+	  }
+	  PropName		  "DomainParams_"
+	}
+	VisualType_		""
+      }
+      PropName		      "Persistence"
+    }
+  }
   ExtModeBatchMode	  off
   ExtModeEnableFloating	  on
   ExtModeTrigType	  "manual"
@@ -254,7 +357,7 @@ Model {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      9
+      $ObjectID		      10
       Version		      "1.18.1"
       DisabledProps	      []
       Description	      ""
@@ -262,7 +365,7 @@ Model {
 	Type			"Handle"
 	Dimension		9
 	Simulink.SolverCC {
-	  $ObjectID		  10
+	  $ObjectID		  11
 	  Version		  "1.18.1"
 	  DisabledProps		  []
 	  Description		  ""
@@ -303,7 +406,7 @@ Model {
 	  MinimalZcImpactIntegration off
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  11
+	  $ObjectID		  12
 	  Version		  "1.18.1"
 	  DisabledProps		  []
 	  Description		  ""
@@ -344,7 +447,7 @@ Model {
 	  LoggingIntervals	  "[-inf, inf]"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  12
+	  $ObjectID		  13
 	  Version		  "1.18.1"
 	  Array {
 	    Type		    "Cell"
@@ -411,7 +514,7 @@ Model {
 	  LabelGuidedReuse	  off
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  13
+	  $ObjectID		  14
 	  Version		  "1.18.1"
 	  Array {
 	    Type		    "Cell"
@@ -530,7 +633,7 @@ Model {
 	  UnderSpecifiedDimensionMsg "none"
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  14
+	  $ObjectID		  15
 	  Version		  "1.18.1"
 	  DisabledProps		  []
 	  Description		  ""
@@ -578,7 +681,7 @@ Model {
 	  UseSimulinkCoderFeatures on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  15
+	  $ObjectID		  16
 	  Version		  "1.18.1"
 	  DisabledProps		  []
 	  Description		  ""
@@ -597,7 +700,7 @@ Model {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  16
+	  $ObjectID		  17
 	  Version		  "1.18.1"
 	  DisabledProps		  []
 	  Description		  ""
@@ -630,7 +733,7 @@ Model {
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  17
+	  $ObjectID		  18
 	  Version		  "1.18.1"
 	  Array {
 	    Type		    "Cell"
@@ -717,7 +820,7 @@ Model {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      18
+	      $ObjectID		      19
 	      Version		      "1.18.1"
 	      Array {
 		Type			"Cell"
@@ -805,7 +908,7 @@ Model {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      19
+	      $ObjectID		      20
 	      Version		      "1.18.1"
 	      Array {
 		Type			"Cell"
@@ -911,7 +1014,7 @@ Model {
 	  }
 	}
 	SlCovCC.ConfigComp {
-	  $ObjectID		  20
+	  $ObjectID		  21
 	  Version		  "1.18.1"
 	  DisabledProps		  []
 	  Description		  "Simulink Coverage Configuration Component"
@@ -961,11 +1064,11 @@ Model {
   }
   Simulink.ConfigSet {
     $PropName		    "ActiveConfigurationSet"
-    $ObjectID		    9
+    $ObjectID		    10
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    21
+    $ObjectID		    22
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -1046,9 +1149,6 @@ Model {
       SampleTime	      "-1"
     }
     Block {
-      BlockType		      Ground
-    }
-    Block {
       BlockType		      Inport
       Port		      "1"
       OutputFunctionCall      off
@@ -1101,6 +1201,10 @@ Model {
       SFunctionModules	      "''"
       PortCounts	      "[]"
       MultiThreadCoSim	      "auto"
+    }
+    Block {
+      BlockType		      Scope
+      DefaultConfigurationName "Simulink.scopes.TimeScopeBlockCfg"
     }
     Block {
       BlockType		      SubSystem
@@ -1170,7 +1274,7 @@ Model {
   }
   System {
     Name		    "mcecu_uds_on_fusion"
-    Location		    [14, 56, 1268, 1026]
+    Location		    [14, 39, 1328, 1076]
     Open		    on
     PortBlocksUseCompactNotation off
     SetExecutionDomain	    off
@@ -1185,9 +1289,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "50"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "92"
+    SIDHighWatermark	    "94"
     Block {
       BlockType		      Reference
       Name		      "CAN Configuration1"
@@ -1266,7 +1370,7 @@ Model {
       StandardIDs	      "0"
       EnableExtendedIDsFilter off
       ExtendedIDs	      "0"
-      SampleTime	      "0.01"
+      SampleTime	      "0.001"
       MsgsPerTimestep	      "all"
       StdIDsCombo	      "Allow all"
       ExtIDsCombo	      "Allow all"
@@ -1380,12 +1484,15 @@ Model {
       BlockType		      SubSystem
       Name		      "Function-Call\nSubsystem"
       SID		      "9"
-      Ports		      [2, 6, 0, 1]
-      Position		      [-615, 596, -420, 879]
+      Ports		      [2, 7, 0, 1]
+      Position		      [-615, 598, -420, 882]
       ZOrder		      2127
       TreatAsAtomicUnit	      on
       RequestExecContextInheritance off
       ContentPreviewEnabled   on
+      Port {
+	PortNumber		3
+      }
       Port {
 	PortNumber		4
 	Name			"canData"
@@ -1398,9 +1505,12 @@ Model {
 	PortNumber		6
 	Name			"timeStamp"
       }
+      Port {
+	PortNumber		7
+      }
       System {
 	Name			"Function-Call\nSubsystem"
-	Location		[-7, -7, 2055, 1119]
+	Location		[14, 39, 1328, 1076]
 	Open			on
 	PortBlocksUseCompactNotation off
 	SetExecutionDomain	off
@@ -1488,7 +1598,7 @@ Model {
 	  BlockType		  Reference
 	  Name			  "CAN Unpack1"
 	  SID			  "43"
-	  Ports			  [1, 3]
+	  Ports			  [1, 4]
 	  Position		  [-70, 254, 360, 326]
 	  ZOrder		  182
 	  LibraryVersion	  "1.8"
@@ -1511,7 +1621,7 @@ Model {
 	  ErrorPort		  off
 	  RemotePort		  off
 	  LengthPort		  off
-	  StatusPort		  off
+	  StatusPort		  on
 	  StartBits		  "str2num('[int32(56)]')"
 	  SignalSizes		  "str2num('[int32(64)]')"
 	  ByteOrders		  "str2num('[int32(2)]')"
@@ -1580,6 +1690,15 @@ Model {
 	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "status"
+	  SID			  "93"
+	  Position		  [515, 358, 545, 372]
+	  ZOrder		  187
+	  Port			  "7"
+	  IconDisplay		  "Port number"
+	}
 	Line {
 	  ZOrder		  1
 	  SrcBlock		  "CAN Msg"
@@ -1608,7 +1727,7 @@ Model {
 	  ZOrder		  4
 	  SrcBlock		  "CAN Unpack1"
 	  SrcPort		  1
-	  Points		  [53, 0; 0, -55]
+	  Points		  [53, 0; 0, -50]
 	  DstBlock		  "Data2"
 	  DstPort		  1
 	}
@@ -1624,7 +1743,7 @@ Model {
 	  ZOrder		  6
 	  SrcBlock		  "CAN Unpack1"
 	  SrcPort		  2
-	  Points		  [77, 0; 0, -30]
+	  Points		  [77, 0; 0, -20]
 	  DstBlock		  "can_id2"
 	  DstPort		  1
 	}
@@ -1632,7 +1751,6 @@ Model {
 	  ZOrder		  7
 	  SrcBlock		  "CAN Unpack1"
 	  SrcPort		  3
-	  Points		  [0, -15]
 	  DstBlock		  "Timestamp2"
 	  DstPort		  1
 	}
@@ -1644,13 +1762,21 @@ Model {
 	  DstBlock		  "timeStamp1"
 	  DstPort		  1
 	}
+	Line {
+	  ZOrder		  10
+	  SrcBlock		  "CAN Unpack1"
+	  SrcPort		  4
+	  Points		  [43, 0; 0, 38; 59, 0; 0, 7]
+	  DstBlock		  "status"
+	  DstPort		  1
+	}
       }
     }
     Block {
       BlockType		      SubSystem
       Name		      "MATLAB Function"
       SID		      "78"
-      Ports		      [0, 1]
+      Ports		      [1, 1]
       Position		      [-1095, -123, -795, 83]
       ZOrder		      2172
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -1677,7 +1803,15 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"26"
+	SIDHighWatermark	"27"
+	Block {
+	  BlockType		  Inport
+	  Name			  "timeStamp"
+	  SID			  "78::27"
+	  Position		  [20, 101, 40, 119]
+	  ZOrder		  18
+	  IconDisplay		  "Port number"
+	}
 	Block {
 	  BlockType		  Demux
 	  Name			  " Demux "
@@ -1686,13 +1820,6 @@ Model {
 	  Position		  [270, 230, 320, 270]
 	  ZOrder		  11
 	  Outputs		  "1"
-	}
-	Block {
-	  BlockType		  Ground
-	  Name			  " Ground "
-	  SID			  "78::26"
-	  Position		  [20, 121, 40, 139]
-	  ZOrder		  17
 	}
 	Block {
 	  BlockType		  S-Function
@@ -1728,8 +1855,15 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
+	  ZOrder		  41
+	  SrcBlock		  "timeStamp"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+	Line {
 	  Name			  "diagnosticRequest"
-	  ZOrder		  37
+	  ZOrder		  42
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
@@ -1737,21 +1871,14 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  38
-	  SrcBlock		  " Ground "
-	  SrcPort		  1
-	  DstBlock		  " SFunction "
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  39
+	  ZOrder		  43
 	  SrcBlock		  " Demux "
 	  SrcPort		  1
 	  DstBlock		  " Terminator "
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  40
+	  ZOrder		  44
 	  SrcBlock		  " SFunction "
 	  SrcPort		  1
 	  DstBlock		  " Demux "
@@ -1763,12 +1890,26 @@ Model {
       BlockType		      RotarySwitchBlock
       Name		      "Rotary Switch"
       SID		      "5"
-      Position		      [-1360, 141, -1050, 406]
+      Position		      [-1490, 1026, -1180, 1291]
       ZOrder		      2121
       ShowName		      off
       Commented		      "on"
       WebBlockId	      "5"
       Values		      "DataTag0"
+    }
+    Block {
+      BlockType		      Scope
+      Name		      "Scope"
+      SID		      "94"
+      Ports		      [1]
+      Position		      [-260, 894, -230, 926]
+      ZOrder		      2173
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true),extmgr.Configuration('Visuals','Time Domain',true),extmgr.Configuration('Tools','P"
+      "lot Navigation',true),extmgr.Configuration('Tools','Measurements',true)),'Version','2018b')"
+      NumInputPorts	      "1"
+      Floating		      off
     }
     Block {
       BlockType		      SubSystem
@@ -2122,6 +2263,7 @@ Model {
       ZOrder		      7
       SrcBlock		      "Function-Call\nSubsystem"
       SrcPort		      1
+      Points		      [0, 5]
       DstBlock		      "print_values_on_console1"
       DstPort		      1
     }
@@ -2129,40 +2271,54 @@ Model {
       ZOrder		      44
       SrcBlock		      "Function-Call\nSubsystem"
       SrcPort		      2
+      Points		      [0, 10]
       DstBlock		      "print_values_on_console1"
       DstPort		      2
     }
     Line {
       Name		      "canData"
       ZOrder		      61
-      Labels		      [1, 0]
+      Labels		      [2, 0]
       SrcBlock		      "Function-Call\nSubsystem"
       SrcPort		      4
+      Points		      [0, 20]
       DstBlock		      "print_values_on_console"
       DstPort		      1
     }
     Line {
       Name		      "CanId"
       ZOrder		      57
-      Labels		      [1, 0]
+      Labels		      [2, 0]
       SrcBlock		      "Function-Call\nSubsystem"
       SrcPort		      5
+      Points		      [0, 25]
       DstBlock		      "print_values_on_console"
       DstPort		      2
     }
     Line {
       Name		      "timeStamp"
       ZOrder		      139
-      Labels		      [1, 1]
       SrcBlock		      "Function-Call\nSubsystem"
       SrcPort		      6
-      DstBlock		      "print_values_on_console"
-      DstPort		      3
+      Points		      [0, 30; 52, 0]
+      Branch {
+	ZOrder			235
+	Labels			[1, 1]
+	DstBlock		"print_values_on_console"
+	DstPort			3
+      }
+      Branch {
+	ZOrder			234
+	Points			[0, 49; -870, 0; 0, -919]
+	DstBlock		"MATLAB Function"
+	DstPort			1
+      }
     }
     Line {
       ZOrder		      147
       SrcBlock		      "Function-Call\nSubsystem"
       SrcPort		      3
+      Points		      [0, 15]
       DstBlock		      "print_values_on_console1"
       DstPort		      3
     }
@@ -2171,6 +2327,14 @@ Model {
       SrcBlock		      "CAN Pack"
       SrcPort		      1
       DstBlock		      "CAN Transmit"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      229
+      SrcBlock		      "Function-Call\nSubsystem"
+      SrcPort		      7
+      Points		      [109, 0; 0, 50]
+      DstBlock		      "Scope"
       DstPort		      1
     }
     Annotation {
@@ -2209,7 +2373,7 @@ Model {
       "le=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
       "\"><span style=\" font-size:14px;\">- </span></p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-b"
       "ottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"
-      Position		      [-1516, -162, -1134, 187]
+      Position		      [-1671, -156, -1289, 193]
       InternalMargins	      [0, 0, 0, 0]
       FixedHeight	      on
       FixedWidth	      on
@@ -2241,7 +2405,7 @@ Stateflow {
     created		    "07-Apr-2020 10:37:54"
     isLibrary		    0
     sfVersion		    80000014
-    firstTarget		    24
+    firstTarget		    25
   }
   chart {
     id			    2
@@ -2562,7 +2726,7 @@ Stateflow {
     visible		    1
     subviewS {
     }
-    ssIdHighWaterMark	    7
+    ssIdHighWaterMark	    8
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
     chartFileNumber	    3
@@ -2571,8 +2735,8 @@ Stateflow {
       name		      "createDiagnosticVectors"
     }
     firstData		    20
-    firstTransition	    22
-    firstJunction	    21
+    firstTransition	    23
+    firstJunction	    22
   }
   state {
     id			    19
@@ -2588,8 +2752,8 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function diagnosticRequest = createDiagnosticVectors()\n\ndiagnosticRequest= mcecu_uds_on_fusion."
-      "createDiagnosticVectors(); %this one compile and send a vector"
+      script		      "function diagnosticRequest = createDiagnosticVectors(timeStamp)\n\ndiagnosticRequest= mcecu_uds_o"
+      "n_fusion.createDiagnosticVectors(timeStamp); %this one compile and send a vector"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -2613,10 +2777,35 @@ Stateflow {
       }
     }
     dataType		    "uint8"
-    linkNode		    [18 0 0]
+    linkNode		    [18 0 21]
+  }
+  data {
+    id			    21
+    ssIdNumber		    8
+    name		    "timeStamp"
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+      unit {
+	name			"inherit"
+      }
+    }
+    dataType		    "Inherit: Same as Simulink"
+    linkNode		    [18 20 0]
   }
   junction {
-    id			    21
+    id			    22
     position		    [23.5747 49.5747 7]
     chart		    18
     subviewer		    18
@@ -2625,7 +2814,7 @@ Stateflow {
     linkNode		    [18 0 0]
   }
   transition {
-    id			    22
+    id			    23
     labelString		    "{eML_blk_kernel();}"
     labelPosition	    [28.125 13.875 102.544 14.964]
     fontSize		    12
@@ -2633,7 +2822,7 @@ Stateflow {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
     }
     dst {
-      id		      21
+      id		      22
       intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
     }
     midPoint		    [23.5747 24.9468]
@@ -2649,13 +2838,13 @@ Stateflow {
     linkNode		    [18 0 0]
   }
   instance {
-    id			    23
+    id			    24
     machine		    1
     name		    "MATLAB Function"
     chart		    18
   }
   target {
-    id			    24
+    id			    25
     machine		    1
     name		    "sfun"
     description		    "Default Simulink S-Function Target."

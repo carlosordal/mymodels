@@ -1,10 +1,10 @@
-#this script can read Climate control module on Ford Fusion 2017
+#this script can read Climate control module on Ford Fusion 2017. HS2. HS2+
 # it requires python-uds
 # user can select one of the options
 # CC reqId = 0x7A7, resId = 0x7AF
 
 #notes (open items):
-# - when clearing DTCs the response recorded only grabs the first answer but there is acually a delay,
+# - when clearing DTCs the response recorded only grabs the first answer but sometimes there is a delay on the response,
 # ecu DTC clear:  ['0x7f', '0x14', '0x78'], this is telling us the response will be delayed.
 # the actual dtc clear confirmation came after that. 01 54 00 00 00 00 00 00 how to capture it?
 # how to capture the DTCs?? this is the actual response? what to do when there is 
