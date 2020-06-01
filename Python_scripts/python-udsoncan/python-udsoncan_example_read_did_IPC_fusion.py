@@ -1,6 +1,6 @@
-# This code Read DID SW PN, Serial number of BCM (726) on ford fusion 2017
+# This code Read DID SW PN, Serial number of IPC (720) on ford fusion 2017
 # HW peak CAN USD
-# OBDII HS1?
+# OBDII HS2
 # tested on 5/31/2020
 
 
@@ -71,7 +71,7 @@ bus = can.Bus(interface = 'pcan',
                 state = can.bus.BusState.ACTIVE,
                 bitrate = 500000)
 
-tp_addr = isotp.Address(isotp.AddressingMode.Normal_11bits, txid=0x726, rxid=0x72E) # Network layer addressing scheme
+tp_addr = isotp.Address(isotp.AddressingMode.Normal_11bits, txid=0x720, rxid=0x728) # Network layer addressing scheme
 stack = isotp.CanStack(bus=bus, address=tp_addr, params=isotp_params)               # Network/Transport layer (IsoTP protocol)
 conn = PythonIsoTpConnection(stack)
 
@@ -79,12 +79,12 @@ conn = PythonIsoTpConnection(stack)
 with Client(conn,  request_timeout=2, config=config) as client:
    response = client.read_data_by_identifier(0xF188)
    print(response.service_data.values[0xF188]) # This is a dict of DID:Value
-   #this print ascii: GU5T-14C184-AAJ
-   # raw: Received 27 bytes : [b'62f188475535542d3134433138342d41414a000000000000000000']
+   #this print ascii: HS7T-14C026-HF
+   # raw: Received 27 bytes : [b'62f188485337542d3134433032362d484600000000000000000000']
    #pdb.set_trace()
    response = client.read_data_by_identifier(0xF18C)
-   print(response.service_data.values[0xF18C]) # this print ascii 16326193719
-   # raw: [b'62f18c31363332363139333731390000000000']
+   print(response.service_data.values[0xF18C]) # this print ascii 63342001
+   # raw: [b'62f18c36333334323030310000000000000000']
    #pdb.set_trace()
    # Or, if a single DID is expected, a shortcut to read the value of the first DID
 

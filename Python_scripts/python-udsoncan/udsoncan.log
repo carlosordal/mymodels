@@ -425,3 +425,39 @@
 2020-05-31 21:49:39 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
 2020-05-31 21:49:39 [DEBUG] Connection: Received 19 bytes : [b'62f18c36333334323030310000000000000000']
 2020-05-31 21:49:39 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:22:24 [INFO] Connection: Connection opened
+2020-05-31 22:22:24 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-05-31 22:22:24 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-05-31 22:22:24 [DEBUG] Connection: Received 27 bytes : [b'62f188475535542d3134433138342d41414a000000000000000000']
+2020-05-31 22:22:24 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:22:24 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-05-31 22:22:24 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-05-31 22:22:24 [DEBUG] Connection: Received 19 bytes : [b'62f18c31363332363139333731390000000000']
+2020-05-31 22:22:25 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:22:25 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-05-31 22:22:25 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-05-31 22:22:25 [DEBUG] Connection: Received 27 bytes : [b'62f188475535542d3134433138342d41414a000000000000000000']
+2020-05-31 22:22:25 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:22:25 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-05-31 22:22:25 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-05-31 22:22:25 [DEBUG] Connection: Received 19 bytes : [b'62f18c31363332363139333731390000000000']
+2020-05-31 22:22:25 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:22:25 [INFO] Connection: Connection closed
+2020-05-31 22:23:26 [INFO] Connection: Connection opened
+2020-05-31 22:23:26 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-05-31 22:23:26 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-05-31 22:23:26 [DEBUG] Connection: Received 27 bytes : [b'62f188475535542d3134433138342d41414a000000000000000000']
+2020-05-31 22:23:26 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:23:26 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-05-31 22:23:26 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-05-31 22:23:26 [DEBUG] Connection: Received 19 bytes : [b'62f18c31363332363139333731390000000000']
+2020-05-31 22:23:26 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:23:26 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-05-31 22:23:26 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-05-31 22:23:27 [DEBUG] Connection: Received 27 bytes : [b'62f188475535542d3134433138342d41414a000000000000000000']
+2020-05-31 22:23:27 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:23:27 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-05-31 22:23:27 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-05-31 22:23:27 [DEBUG] Connection: Received 19 bytes : [b'62f18c31363332363139333731390000000000']
+2020-05-31 22:23:27 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-05-31 22:23:27 [INFO] Connection: Connection closed
