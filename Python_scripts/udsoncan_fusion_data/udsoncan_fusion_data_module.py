@@ -4,29 +4,27 @@
 # python can for hardware connection
 # https://python-can.readthedocs.io/en/master/
 # https://github.com/hardbyte/python-can/tree/master
-# tested on fusion 6/1/2020, bus connection with functions. next add functions to request.
+# tested on fusion 6/2/2020, functions added to read DTCs and DIDs
 
 # result on fusion SCCM conn removed and cabin temp sensor disconnected
-##[<DTC ID=0xc21200, Status=0x0a, Severity=0x00 at 0x209e055ba88>]
-##IPC DTC 1  : C21200
-##IPC  SW PN (0xF188): HS7T-14C026-HF
-##IPC  Serial # (0xF18C): 63342001
-##[<DTC ID=0x905a14, Status=0x0a, Severity=0x00 at 0x209e054e188>, <DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x209e054e148>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x209e0540ec8>]
-##EFP DTC 1  : 905A14
-##EFP DTC 2  : 9A6115
-##EFP DTC 3  : 9A6915
-##EFP  SW PN (0xF188): HS7T-14G121-DB
-##EFP  Serial # (0xF18C): 0246-3406
+## ----------------- IPC section -------------------
+##IPC DTC 1 : C21200
+##IPC 0xf188 HS7T-14C026-HF
+##IPC 0xf18c 63342001
+## ----------------- EFP section -------------------
+##EFP DTC 1 : 9A6115
+##EFP DTC 2 : 9A6915
+##EFP 0xf188 HS7T-14G121-DB
+##EFP 0xf18c 0246-3406
 
 ##result when there are no DTCs:
-##[]
 ##no IPC dtcs
-##IPC SW PN (0xF188): HS7T-14C026-HF
-##IPC Serial # (0xF18C): 63342001
-##[]
+##IPC 0xf188 HS7T-14C026-HF
+##IPC 0xf18c 63342001
+## ----------------- EFP section -------------------
 ##no EFP dtcs
-##EFP SW PN (0xF188): HS7T-14G121-DB
-##EFP Serial # (0xF18C): 0246-3406
+##EFP 0xf188 HS7T-14G121-DB
+##EFP 0xf18c 0246-3406
 
 import udsoncan
 import isotp
@@ -60,8 +58,7 @@ def canToolDefinition(canHw):
 
 
 
-def ecuConnection(txId, rxId):
-    
+def ecuConnection(txId, rxId):  
     # CAN connetion Tx and Rx IDs.
     # Refer to isotp documentation for full details about parameters
     isotp_params = {
@@ -79,44 +76,50 @@ def ecuConnection(txId, rxId):
     conn = PythonIsoTpConnection(stack)                                                 # interface between Application and Transport layer
     return conn
 
+def getData(conn, moduleName, config):
+    with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
+        didList = config['data_identifiers']
+        response = client.get_dtc_by_status_mask(dtc_status_mask)
+        #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
+        if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
+            print("no", moduleName,  "dtcs")
+        else: 
+            index = 0
+            for dtc in response.service_data.dtcs:
+                index = index + 1
+                print(moduleName, "DTC", index,": %06X" % dtc.id )         # Print the DTC number
+        # read DIDs list
+        for k, v in didList.items():
+            #print(hex(k))
+            response = client.read_data_by_identifier(k)
+            print(moduleName, hex(k), response.service_data.values[k])
+
+
 
 #udsoncan.setup_logging()
-
-
 modules_ids = [['IPC', 0x720, 0x728],
               ['EFP', 0x7A7, 0x7AF]]
 
-bus = canToolDefinition('PeakCan')
-conn = ecuConnection(modules_ids[0][1], modules_ids[0][2])
-
 config = dict(udsoncan.configs.default_client_config)
-config['data_identifiers'] = {
-   0xF188 : udsoncan.AsciiCodec(15),
-   0xF18C : udsoncan.AsciiCodec(15)
-   }
+didList = {0xF188 : udsoncan.AsciiCodec(15),
+           0xF18C : udsoncan.AsciiCodec(15)}
+
+config['data_identifiers'] = didList 
 
 dtc_status_mask = 0x0D         #0x2F
+bus = canToolDefinition('PeakCan')
 
-with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
+#pdb.set_trace()
 
-    response = client.get_dtc_by_status_mask(dtc_status_mask)
-    #pdb.set_trace()
-    print(response.service_data.dtcs)        # Will print an array of object
-    #pdb.set_trace()
-    # if response.serice_data.dtcs is empty print no DTCs
-    if len(response.service_data.dtcs) == 0: 
-        print("no", modules_ids[0][0],  "dtcs")
-    #pdb.set_trace()
-    else: # len(response.service_data.dtcs) == 1:
-        index = 0
-        for dtc in response.service_data.dtcs:
-            #pdb.set_trace()
-            index = index + 1
-            print(modules_ids[0][0], "DTC", index,": %06X" % dtc.id )         # Print the DTC number
-    # read DIDs
-    response = client.read_data_by_identifier(0xF188)
-    print(modules_ids[0][0], "SW PN (0xF188):", response.service_data.values[0xF188])
-    response = client.read_data_by_identifier(0xF18C)
-    print(modules_ids[0][0], "Serial # (0xF18C):", response.service_data.values[0xF18C])
+for i in range(len(modules_ids)):
+    moduleName = modules_ids [i][0]
+    txId = modules_ids [i][1]
+    rxId = modules_ids [i][2]
+    print (' -----------------', moduleName, 'section -------------------')
+##    print ('Tx Id:', hex(txId))
+##    print ('Rx Id:', hex(rxId))
+    conn = ecuConnection(txId, rxId)
+    getData(conn, moduleName, config)
+
 
 
