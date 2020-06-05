@@ -15,15 +15,15 @@
 # done
 # tested 6/4/2020 working.
 
-import  diagnostic_lib
-import  isotp
-import  can
-import  udsoncan
-import  udsoncan.configs
-from udsoncan.connections import PythonIsoTpConnection
-from udsoncan.client import Client
-import pdb
-import struct
+import   diagnostic_lib
+import   isotp
+import   can
+import   udsoncan
+import   udsoncan.configs
+from     udsoncan.connections import PythonIsoTpConnection
+from     udsoncan.client      import Client
+import   pdb
+import   struct
 
 #from can.interfaces.pcan import PcanBus
 #from udsoncan.Response import Response
