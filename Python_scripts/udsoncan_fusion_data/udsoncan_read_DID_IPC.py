@@ -13,7 +13,7 @@
 # IPC 0xde00 0xc321064601c2f10
 # IPC 0xde01 0x39c434559e1a00f8
 # done
-# Pending to find a way to print 16 bytes of DE00
+# tested 6/4/2020 working.
 
 import  diagnostic_lib
 import  isotp

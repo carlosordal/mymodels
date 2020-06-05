@@ -14,6 +14,7 @@
 # SCCM 0xde00 0x6
 # SCCM 0xde01 0xca207889
 # done
+# tested on 6/4/2020
 
 import  diagnostic_lib
 import  isotp
