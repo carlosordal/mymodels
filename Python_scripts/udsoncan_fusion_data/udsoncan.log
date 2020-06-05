@@ -255,3 +255,304 @@
 2020-06-04 18:00:48 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
 2020-06-04 18:00:48 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x0000 that was not requested and no Codec was defined for it. Parsing must be stopped. 
 2020-06-04 18:00:48 [INFO] Connection: Connection closed
+2020-06-04 20:08:34 [INFO] Connection: Connection opened
+2020-06-04 20:08:34 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:08:34 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:08:35 [DEBUG] Connection: No data received: [TimeoutException] - Did not receive frame IsoTP Transport layer in time (timeout=1 sec) 
+2020-06-04 20:08:35 [ERROR] UdsClient: [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+2020-06-04 20:08:35 [INFO] Connection: Connection closed
+2020-06-04 20:09:17 [INFO] Connection: Connection opened
+2020-06-04 20:09:17 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:09:17 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:09:17 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 20:09:17 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:09:17 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:09:18 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:09:18 [DEBUG] Connection: Received 11 bytes : [b'62de000c321064601c2f10']
+2020-06-04 20:09:18 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:09:22 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde01 (VehicleManufacturerSpecific)
+2020-06-04 20:09:22 [DEBUG] Connection: Sending 3 bytes : [b'22de01']
+2020-06-04 20:09:22 [DEBUG] Connection: Received 11 bytes : [b'62de0139c434559e1a00f8']
+2020-06-04 20:09:22 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:09:22 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x9e1a that was not requested and no Codec was defined for it. Parsing must be stopped. 
+2020-06-04 20:09:22 [INFO] Connection: Connection closed
+2020-06-04 20:10:37 [INFO] Connection: Connection opened
+2020-06-04 20:10:37 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:10:37 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:10:37 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 20:10:37 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:10:37 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:10:37 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:10:37 [DEBUG] Connection: Received 11 bytes : [b'62de000c321064601c2f10']
+2020-06-04 20:10:37 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:10:37 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde01 (VehicleManufacturerSpecific)
+2020-06-04 20:10:37 [DEBUG] Connection: Sending 3 bytes : [b'22de01']
+2020-06-04 20:10:37 [DEBUG] Connection: Received 11 bytes : [b'62de0139c434559e1a00f8']
+2020-06-04 20:10:37 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:10:37 [INFO] Connection: Connection closed
+2020-06-04 20:11:20 [INFO] Connection: Connection opened
+2020-06-04 20:11:20 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:11:20 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:11:20 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 20:11:20 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:11:20 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:11:20 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:11:20 [DEBUG] Connection: Received 11 bytes : [b'62de000c321064601c2f10']
+2020-06-04 20:11:20 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:18:36 [INFO] Connection: Connection opened
+2020-06-04 20:18:36 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:18:36 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:18:36 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 20:18:36 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:18:36 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:18:36 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:18:36 [DEBUG] Connection: Received 11 bytes : [b'62de000c321064601c2f10']
+2020-06-04 20:18:36 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:18:36 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde01 (VehicleManufacturerSpecific)
+2020-06-04 20:18:36 [DEBUG] Connection: Sending 3 bytes : [b'22de01']
+2020-06-04 20:18:36 [DEBUG] Connection: Received 11 bytes : [b'62de0139c434559e1a00f8']
+2020-06-04 20:18:36 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:18:36 [INFO] Connection: Connection closed
+2020-06-04 20:19:49 [INFO] Connection: Connection opened
+2020-06-04 20:19:49 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:19:49 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:19:49 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 20:19:49 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:19:53 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:19:53 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:19:53 [DEBUG] Connection: Received 11 bytes : [b'62de000c321064601c2f10']
+2020-06-04 20:19:53 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:20:13 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde01 (VehicleManufacturerSpecific)
+2020-06-04 20:20:13 [DEBUG] Connection: Sending 3 bytes : [b'22de01']
+2020-06-04 20:20:13 [DEBUG] Connection: Received 11 bytes : [b'62de0139c434559e1a00f8']
+2020-06-04 20:20:13 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:20:16 [INFO] Connection: Connection closed
+2020-06-04 20:21:59 [INFO] Connection: Connection opened
+2020-06-04 20:21:59 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:21:59 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:21:59 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 20:21:59 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:21:59 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 20:21:59 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 20:21:59 [DEBUG] Connection: Received 27 bytes : [b'62f188485337542d3134433032362d484600000000000000000000']
+2020-06-04 20:21:59 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:21:59 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 20:21:59 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 20:22:00 [DEBUG] Connection: Received 19 bytes : [b'62f18c36333334323030310000000000000000']
+2020-06-04 20:22:00 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:22:00 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:22:00 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:22:00 [DEBUG] Connection: Received 11 bytes : [b'62de000c321064601c2f10']
+2020-06-04 20:22:00 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:22:00 [INFO] Connection: Connection closed
+2020-06-04 20:22:00 [INFO] Connection: Connection opened
+2020-06-04 20:22:00 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:22:00 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:22:00 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:22:00 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:22:00 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 20:22:00 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 20:22:00 [DEBUG] Connection: Received 27 bytes : [b'62f188485337542d3134473132312d444200000000000000000000']
+2020-06-04 20:22:00 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:22:00 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 20:22:00 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 20:22:00 [DEBUG] Connection: Received 19 bytes : [b'62f18c303234362d3334303600000000000000']
+2020-06-04 20:22:00 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:22:00 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:22:00 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:22:01 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:22:01 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:22:01 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x0000 that was not requested and no Codec was defined for it. Parsing must be stopped. 
+2020-06-04 20:22:01 [INFO] Connection: Connection closed
+2020-06-04 20:29:50 [INFO] Connection: Connection opened
+2020-06-04 20:29:50 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:29:50 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:29:50 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:29:50 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:29:50 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:29:50 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:29:50 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:29:50 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:29:50 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x0000 that was not requested and no Codec was defined for it. Parsing must be stopped. 
+2020-06-04 20:29:50 [INFO] Connection: Connection closed
+2020-06-04 20:31:08 [INFO] Connection: Connection opened
+2020-06-04 20:31:08 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:31:08 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:31:08 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:31:08 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:31:08 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:31:08 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:31:08 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:31:08 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:31:08 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x0000 that was not requested and no Codec was defined for it. Parsing must be stopped. 
+2020-06-04 20:31:08 [INFO] Connection: Connection closed
+2020-06-04 20:31:29 [INFO] Connection: Connection opened
+2020-06-04 20:31:29 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:31:29 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:31:29 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:31:29 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:31:29 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:31:29 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:31:29 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:31:29 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:31:29 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x0000 that was not requested and no Codec was defined for it. Parsing must be stopped. 
+2020-06-04 20:31:29 [INFO] Connection: Connection closed
+2020-06-04 20:33:15 [INFO] Connection: Connection opened
+2020-06-04 20:33:15 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:33:15 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:33:16 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:33:16 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:33:16 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:33:16 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:33:16 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:33:16 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:33:16 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Server returned values for data identifier 0x0000 that was not requested and no Codec was defined for it. Parsing must be stopped. 
+2020-06-04 20:33:16 [INFO] Connection: Connection closed
+2020-06-04 20:34:27 [INFO] Connection: Connection opened
+2020-06-04 20:34:27 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:34:27 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:34:27 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:34:27 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:34:27 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:34:27 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:34:28 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:34:28 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:35:26 [INFO] Connection: Connection opened
+2020-06-04 20:35:26 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:35:26 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:35:26 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:35:26 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:35:26 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:35:26 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:35:26 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:35:26 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:35:29 [INFO] Connection: Connection closed
+2020-06-04 20:37:57 [INFO] Connection: Connection opened
+2020-06-04 20:37:57 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:37:57 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:37:58 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:37:58 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:37:58 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:37:58 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:37:58 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:37:58 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:38:00 [ERROR] UdsClient: [error] : unpack requires a buffer of 2 bytes
+2020-06-04 20:38:00 [INFO] Connection: Connection closed
+2020-06-04 20:38:43 [INFO] Connection: Connection opened
+2020-06-04 20:38:43 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:38:43 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:38:43 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:38:43 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:38:43 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:38:43 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:38:43 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:38:43 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:42:21 [INFO] Connection: Connection opened
+2020-06-04 20:42:21 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:42:21 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:42:21 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:42:21 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:42:21 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:42:21 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:42:21 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:42:21 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 20:45:12 [INFO] Connection: Connection opened
+2020-06-04 20:45:12 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 20:45:12 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 20:45:12 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 20:45:12 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 20:45:12 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 20:45:12 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 20:45:12 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 20:45:12 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:06 [INFO] Connection: Connection opened
+2020-06-04 21:02:06 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:02:06 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:02:06 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 21:02:06 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:02:06 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 21:02:06 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 21:02:07 [DEBUG] Connection: Received 27 bytes : [b'62f188485337542d3134433032362d484600000000000000000000']
+2020-06-04 21:02:07 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:07 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 21:02:07 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 21:02:07 [DEBUG] Connection: Received 19 bytes : [b'62f18c36333334323030310000000000000000']
+2020-06-04 21:02:07 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:07 [INFO] Connection: Connection closed
+2020-06-04 21:02:07 [INFO] Connection: Connection opened
+2020-06-04 21:02:07 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:02:07 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:02:07 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 21:02:07 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:02:07 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 21:02:07 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 21:02:07 [DEBUG] Connection: Received 27 bytes : [b'62f188485337542d3134473132312d444200000000000000000000']
+2020-06-04 21:02:07 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:07 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 21:02:07 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 21:02:08 [DEBUG] Connection: Received 19 bytes : [b'62f18c303234362d3334303600000000000000']
+2020-06-04 21:02:08 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:08 [INFO] Connection: Connection closed
+2020-06-04 21:02:48 [INFO] Connection: Connection opened
+2020-06-04 21:02:48 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:02:48 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:02:48 [DEBUG] Connection: Received 7 bytes : [b'5902cac2120008']
+2020-06-04 21:02:48 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:02:48 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 21:02:48 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 21:02:48 [DEBUG] Connection: Received 27 bytes : [b'62f188485337542d3134433032362d484600000000000000000000']
+2020-06-04 21:02:48 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:48 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 21:02:48 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 21:02:48 [DEBUG] Connection: Received 19 bytes : [b'62f18c36333334323030310000000000000000']
+2020-06-04 21:02:48 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:49 [INFO] Connection: Connection closed
+2020-06-04 21:02:49 [INFO] Connection: Connection opened
+2020-06-04 21:02:49 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:02:49 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:02:49 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 21:02:49 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:02:49 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 21:02:49 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 21:02:49 [DEBUG] Connection: Received 27 bytes : [b'62f188485337542d3134473132312d444200000000000000000000']
+2020-06-04 21:02:49 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:49 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 21:02:49 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 21:02:49 [DEBUG] Connection: Received 19 bytes : [b'62f18c303234362d3334303600000000000000']
+2020-06-04 21:02:49 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:49 [INFO] Connection: Connection closed
+2020-06-04 21:02:49 [INFO] Connection: Connection opened
+2020-06-04 21:02:49 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:02:49 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:02:49 [DEBUG] Connection: Received 3 bytes : [b'5902ca']
+2020-06-04 21:02:49 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:02:49 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf188 (VehicleManufacturerECUSoftwareNumberDataIdentifier)
+2020-06-04 21:02:49 [DEBUG] Connection: Sending 3 bytes : [b'22f188']
+2020-06-04 21:02:50 [DEBUG] Connection: Received 27 bytes : [b'62f188473347542d3134433537392d414200000000000000000000']
+2020-06-04 21:02:50 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:50 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf18c (ECUSerialNumberDataIdentifier)
+2020-06-04 21:02:50 [DEBUG] Connection: Sending 3 bytes : [b'22f18c']
+2020-06-04 21:02:50 [DEBUG] Connection: Received 19 bytes : [b'62f18c30313233343536373839414243444546']
+2020-06-04 21:02:50 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:02:50 [ERROR] UdsClient: [InvalidResponseException] : ReadDataByIdentifier service execution returned an invalid response. Response given by server is incomplete.
+2020-06-04 21:02:50 [INFO] Connection: Connection closed
+2020-06-04 21:09:09 [INFO] Connection: Connection opened
+2020-06-04 21:09:09 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:09:09 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:09:10 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 21:09:10 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:09:10 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 21:09:10 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 21:09:10 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 21:09:10 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:09:10 [INFO] Connection: Connection closed
+2020-06-04 21:09:20 [INFO] Connection: Connection opened
+2020-06-04 21:09:20 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-04 21:09:20 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-04 21:09:20 [DEBUG] Connection: Received 11 bytes : [b'5902ca9a6115089a691508']
+2020-06-04 21:09:20 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+2020-06-04 21:09:20 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xde00 (VehicleManufacturerSpecific)
+2020-06-04 21:09:20 [DEBUG] Connection: Sending 3 bytes : [b'22de00']
+2020-06-04 21:09:20 [DEBUG] Connection: Received 19 bytes : [b'62de0040408000005a0020000000006e5b460a']
+2020-06-04 21:09:20 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+2020-06-04 21:09:29 [INFO] Connection: Connection closed

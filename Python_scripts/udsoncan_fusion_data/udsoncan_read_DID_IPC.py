@@ -8,9 +8,12 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # SCCM DE001 Read results:
-# SCCM 0xde00 0x200600
-# SCCM 0xde01 0xca207889
+#  ----------------- IPC section -------------------
+# IPC DTC 1 : C21200
+# IPC 0xde00 0xc321064601c2f10
+# IPC 0xde01 0x39c434559e1a00f8
 # done
+# Pending to find a way to print 16 bytes of DE00
 
 import  diagnostic_lib
 import  isotp
@@ -39,9 +42,21 @@ class CodecEightBytes(udsoncan.DidCodec):
    def __len__(self):
       return 8    # encoded paylaod is 4 byte long.
 
+class CodecFourBytes(udsoncan.DidCodec):
+   def encode(self, val):
+      val = val & 0xFFFFFFFF # Do some stuff
+      return struct.pack('>L', val) # Little endian, 32 bit value
 
-udsoncan.setup_logging()
-modules_ids = ['IPC', 0x720, 0x728]
+   def decode(self, payload):
+      val = struct.unpack('>L', payload)[0]  # decode the 32 bits value
+      return val                        # Do some stuff (reversed)
+
+   def __len__(self):
+      return 4    # encoded paylaod is 4 byte long.
+
+
+#udsoncan.setup_logging()
+modules_ids = [['IPC', 0x720, 0x728]]
 
 #HS2
 # ['IPC', 0x720, 0x728],
@@ -54,7 +69,7 @@ modules_ids = ['IPC', 0x720, 0x728]
 
 config = dict(udsoncan.configs.default_client_config)
 didList = {0xDE00 : CodecEightBytes,
-            0xDE01 : CodecFourBytes}
+            0xDE01 : CodecEightBytes}
 # 0xDE00 : udsoncan.DidCodec('<B') = error 0x2006 
 # 0xDE00 : udsoncan.DidCodec('<H') = error 0x0600
 # 0xDE00 : udsoncan.DidCodec('<I') = SCCM 0xde00 (401408,)

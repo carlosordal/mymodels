@@ -62,5 +62,8 @@ def getData(conn, moduleName, config, dtc_status_mask):
         for k, v in didList.items():
             #print(hex(k))
             response = client.read_data_by_identifier(k)
-            print(moduleName, hex(k), response.service_data.values[k])
+            if (k >> 8) == 0xde:
+                print(moduleName, hex(k), hex(response.service_data.values[k]))
+            else:
+                print(moduleName, hex(k), response.service_data.values[k])
 
