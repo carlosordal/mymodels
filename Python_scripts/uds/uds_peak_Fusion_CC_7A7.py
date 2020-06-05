@@ -1,22 +1,31 @@
-#this script can read Climate control module on Ford Fusion 2017
+#this script can read Climate control module on Ford Fusion 2017. HS2. HS2+
 # it requires python-uds
 # user can select one of the options
 # CC reqId = 0x7A7, resId = 0x7AF
 
 #notes (open items):
-# - when clearing DTCs the response recorded only grabs the first answer but there is acually a delay,
+# - when clearing DTCs the response recorded only grabs the first answer but sometimes there is a delay on the response,
 # ecu DTC clear:  ['0x7f', '0x14', '0x78'], this is telling us the response will be delayed.
 # the actual dtc clear confirmation came after that. 01 54 00 00 00 00 00 00 how to capture it?
 # how to capture the DTCs?? this is the actual response? what to do when there is 
 # -------> Ecu Read DTC Cmd ['0x19', '0x2', '0xd']
 #-------> ecuResetResponse:  ['0x59', '0x2', '0xca', '0x90', '0x5a', '0x14', '0xa', '0x9a', '0x61', '0x15', '0xa', '0x9a', '0x69', '0x15', '0xa']
 
-
+# Next steps:
+# convert request services and responses to a more readable code.
 
 # import the library
 from uds import Uds
 import pdb
 import time
+# this is the one being used on this example:
+# https://python-uds.readthedocs.io/en/latest/interface.html
+# https://github.com/richClubb/python-uds/blob/master/docs/interface.rst
+
+
+
+#https://github.com/pylessard/python-udsoncan
+#https://udsoncan.readthedocs.io/en/latest/
 
 
 cc = Uds(reqId=0x7A7, resId=0x7AF, transportProtocol="CAN", interface="peak", device="PCAN_USBBUS1")
@@ -25,13 +34,13 @@ cc = Uds(reqId=0x7A7, resId=0x7AF, transportProtocol="CAN", interface="peak", de
 #pdb.set_trace()
 while True:
     userChoice = input("Please select the service: \n\
-                        s = Read SW PN (0xF188) \n\
+                        sw = Read SW PN (0xF188) \n\
                         sn = Read Seria number (0xF18C \n\
                         d = DTC read \n\
                         c = DTC clear \n\
                         r = ecu reset\n\
                         x = exit the program \n\
-your input: ")
+                        your input: ")
 
     if userChoice == 'sn':
         #pdb.set_trace()
@@ -48,7 +57,7 @@ your input: ")
         except:
             print("-------> ECU serial Number Send did not complete/Response not received it")
 
-    elif userChoice == 's':
+    elif userChoice == 'sw':
         #pdb.set_trace()
         ######################################################################
         # ecu SW PN
