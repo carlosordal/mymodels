@@ -1,17 +1,17 @@
 # diagnostic_lib
 
 
-import  isotp
-import  can
-import  udsoncan
-import  udsoncan.configs
-from    udsoncan.connections import PythonIsoTpConnection
-from    udsoncan.client import Client
-import  pdb
+import isotp
+import can
+import udsoncan
+import udsoncan.configs
+from udsoncan.connections import PythonIsoTpConnection
+from udsoncan.client import Client
+import pdb
 
 
 #from can.interfaces.pcan import PcanBus
-#from udsoncan.Response import Response
+#from udsoncan.Response import Response`
 #from udsoncan.exceptions import *
 #from udsoncan.services import *
 #from udsoncan import Dtc, DidCodec
@@ -40,7 +40,7 @@ def ecuConnection(txId, rxId, bus):
         'rx_flowcontrol_timeout' : 1000,        # Triggers a timeout if a flow control is awaited for more than 1000 milliseconds
         'rx_consecutive_frame_timeout' : 1000, # Triggers a timeout if a consecutive frame is awaited for more than 1000 milliseconds
         'squash_stmin_requirement' : False     # When sending, respect the stmin requirement of the receiver. If set to True, go as fast as possible.
-        }
+    }
     tp_addr = isotp.Address(isotp.AddressingMode.Normal_11bits, txId, rxId) # Network layer addressing scheme
     stack = isotp.CanStack(bus=bus, address=tp_addr, params=isotp_params)               # Network/Transport layer (IsoTP protocol)
     conn = PythonIsoTpConnection(stack)                                                 # interface between Application and Transport layer
@@ -49,18 +49,17 @@ def ecuConnection(txId, rxId, bus):
 def getData(conn, moduleName, config, dtc_status_mask):
     with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
         didList = config['data_identifiers']
-        response = client.get_dtc_by_status_mask(dtc_status_mask)
-        #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
-        if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
-            print("no", moduleName,  "dtcs")
-        else: 
-            index = 0
-            for dtc in response.service_data.dtcs:
-                index = index + 1
-                print(moduleName, "DTC", index,": %06X" % dtc.id )         # Print the DTC number
-        # read DIDs list
+##        response = client.get_dtc_by_status_mask(dtc_status_mask)
+##        #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
+##        if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
+##            print("no", moduleName,  "dtcs")
+##        else: 
+##            index = 0
+##            for dtc in response.service_data.dtcs:
+##                index = index + 1
+##                print(moduleName, "DTC", index,": %06X" % dtc.id )         # Print the DTC number
+##        # read DIDs list
         for k, v in didList.items():
             #print(hex(k))
             response = client.read_data_by_identifier(k)
-            print(moduleName, hex(k), response.service_data.values[k])
-
+            print(moduleName, hex(k), hex(response.service_data.values[k]))
