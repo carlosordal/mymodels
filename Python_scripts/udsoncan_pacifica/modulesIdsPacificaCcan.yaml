@@ -1,6 +1,44 @@
-ID	Idh	Name	Network	on can log
-620	620h	D_RQ_CBC	ccan	HS CAN
-504	504h	D_RS_CBC	ccan	HS CAN
+CBC:
+  request: 0x620
+  response: 0x504
+  network: [ccan]
+  description: Central Body Controller
+  requestedData: 
+    DIDs:
+      0xF132:
+        description: ECU Part Number
+        responseByteSyze: 10                             # plus 3 of response and DID repeat
+        byteBitRequested:
+          0.0:
+            description: ECU Part Number
+            byteBitSize: 10.0
+            type: Identical
+            conversion: ASCII (10Byte)
+      0x0138:
+        description: ECU Configuration 6 (Steering)
+        responseByteSyze: 2                               # plus 3 of response and DID repeat
+        byteBitRequested:
+          0.0:
+            description: Suspension ecu configurationA
+            byteBitSize: 1.0
+            type: Identical
+            conversion: HEX
+          1.0:
+            description: Suspension ecu configurationB
+            byteBitSize: 1.0
+            type: Identical
+            conversion: HEX
+    DTCs
+
+# Byte      Qualifier Default   Conversion    
+# [Bit] Byte / Bit Description  Alternate Byte / Bit Description  ID  Value Size  Type  Name  ID
+
+# 0 [0] Read Data By Identifier Response      $62 1 [0] - - -
+# 1 [0] ECU Configuration 6 (Steering)      $0138 2 [0] - - -
+# 3 [0] Suspension ecu configurationA Suspension ECU Configuration A      1 [0] Identical HEX 101
+# 4 [0] Suspension ecu configurationB Suspension ECU Configuration B      1 [0] Identical HEX 101
+
+
 753	753h	D_RQ_DASM	ccan	HS CAN
 4D3	4D3h	D_RS_DASM	ccan	HS CAN
 7E3	7E3h	D_RQ_EBCM	ccan	HS CAN

@@ -1,18 +1,47 @@
-CBC:
+IPC:
   request: 0x720
   response: 0x728
-  network: [HS2]
+  network: [ccan]
   description: Instrument Panel Cluster
-  reported_data: [DTC]
+  requestedData:
+    DTCs
 EFP:
   request: 0x7A7
   response: 0x7AF
-  network: [HS2]
-  description: Electronic Front Panel 
-  reported_data: [Software, DTC]
+  network: [ccan]
+  description: Electronic Front Panel (CC)
+  requestedData:
+    DTCs
 SCCM:
   request: 0x724
   response: 0x72C
-  network: [HS2]
+  network: [ccan]
   description: Steering Column Control Module
-  reported_data: [Software, DTC, FlashCount]
+  requestedData: 
+    DIDs:
+      0xF188:
+        description: ECU SW Part Number
+        responseByteSyze: 10                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSWPN:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 10
+            bitSize: 0
+            type: Identical
+            conversion: ASCII (10Byte)
+      0xDE00:
+        description: Turn Indicators Leaver
+        responseByteSyze: 4                               # plus 3 of response and DID repeat
+        decodedData:
+          turnIndicatorsFlashCount:
+            startByte: 2
+            startbit: 0
+            description: Turn Indicators Flash Count
+            byteSize: 0
+            bitSize: 4
+            type: Identical
+            conversion: HEX
+    DTCs:
+      statusMask: 0x0D

@@ -80,50 +80,49 @@ def dtcConversionJ2012(dtcIdNumber):
     dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
     return dtcJ2012Code
 
-    
-
-
-def getData(conn, moduleName, config, dtc_status_mask):
-    with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
-        didList = config['data_identifiers']
-
-        class CodecTurnIndFlashCount(udsoncan.DidCodec):
-            def encode(self, val):
-                pdb.set_trace()   
-                val = val # Do some stuff
-                return struct.pack('>BBBB', val) # Little endian, 32 bit value
-
-            def decode(self, payload):
-                val = struct.unpack('>BBBB', payload)  # decode the 32 bits value
-                return val[2]                        # Extract byte [2] Turn indictators count Flash on SCCM Fusion
-
-            def __len__(self):
-                return 4    # encoded paylaod is 4 byte long.
-
-
-        
-        
-        txId = conn.isotp_layer.address.tx_arbitration_id_physical
-        moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
-        if txId == moduleWithExtraDid: 
-            didList.update ({0xDE00 : CodecTurnIndFlashCount})
-
-        response = client.get_dtc_by_status_mask(dtc_status_mask)
+def getDTCs(client, dtc_status_mask, moduleName):
+    response = client.get_dtc_by_status_mask(dtc_status_mask)
         #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
-        if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
-            print("no", moduleName,  "dtcs")
-        else: 
-            index = 0
-            for dtc in response.service_data.dtcs:
-                index = index + 1
-                dtcJ2012Code = dtcConversionJ2012 (dtc.id)
-                print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
-        # read DIDs list
-        for k, v in didList.items():
-            #print(hex(k))
-            response = client.read_data_by_identifier(k)
-            if (k >> 8) == 0xde:
-                print(moduleName, hex(k), hex(response.service_data.values[k]))
-            else:
-                print(moduleName, hex(k), response.service_data.values[k])
+    if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
+        print("no", moduleName,  "dtcs")
+    else: 
+        index = 0
+        for dtc in response.service_data.dtcs:
+            index = index + 1
+            dtcJ2012Code = dtcConversionJ2012 (dtc.id)
+            print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
+
+def getDIDs(client, conn, config, moduleName):
+    didList = config['data_identifiers']
+
+    class CodecTurnIndFlashCount(udsoncan.DidCodec):
+        def encode(self, val): 
+            val = val # Do some stuff
+            return struct.pack('>BBBB', val) # Little endian, 32 bit value
+
+        def decode(self, payload):
+            val = struct.unpack('>BBBB', payload)  # decode the 32 bits value
+            return val[2]                        # Extract byte [2] Turn indictators count Flash on SCCM Fusion
+
+        def __len__(self):
+            return 4    # encoded paylaod is 4 byte long.
+
+    txId = conn.isotp_layer.address.tx_arbitration_id_physical
+    moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
+    if txId == moduleWithExtraDid: 
+        didList.update ({0xDE00 : CodecTurnIndFlashCount})
+
+    
+    # read DIDs list
+    for k, v in didList.items():
+        #print(hex(k))
+        response = client.read_data_by_identifier(k)
+        if (k >> 8) == 0xde:
+            print(moduleName, hex(k), hex(response.service_data.values[k]))
+        else:
+            print(moduleName, hex(k), response.service_data.values[k])
+
+
+
+        
 

@@ -72,14 +72,17 @@ bus = diagnostic_lib.canToolDefinition('PeakCan')
 with open('modulesIdsFusion.yaml') as file:
    documents = yaml.full_load(file)
    for item, content in documents.items():
-
       moduleName = item
+      moduleDescription = content.get('description')
       txId = content.get('request')
       rxId = content.get('response')
-
-      print (' -----------------', moduleName, 'section -------------------')
+      print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
       conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
-      diagnostic_lib.getData(conn, moduleName, config, dtc_status_mask)
+
+      with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
+        
+         diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
+         diagnostic_lib.getDIDs(client, conn, config, moduleName)
 
 print("********************************************************* completed  ********************************************")
 
