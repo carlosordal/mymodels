@@ -46,6 +46,43 @@ def ecuConnection(txId, rxId, bus):
     conn = PythonIsoTpConnection(stack)                                                 # interface between Application and Transport layer
     return conn
 
+def dtcConversionJ2012(dtcIdNumber):
+    dtcBinary = format(dtcIdNumber, '024b')
+    #'1001 1010 0110 0001 0001 0101'
+    firstCharacter  = dtcBinary[0:2]
+    if firstCharacter == '00':
+        char1 = "P"
+    elif firstCharacter == '01':    
+        char1 = "C"
+    elif firstCharacter == '10':
+        char1 = "B"
+    elif firstCharacter == '11':
+        char1 = "U"
+    
+    secondCharacter = dtcBinary[2:4]
+    char2 = str(int(secondCharacter,2))
+    
+    thirdCharacter  = dtcBinary[4:8]
+    char3 = format(int(thirdCharacter,2),'X')
+    
+    fourthCharacter = dtcBinary[8:12]
+    char4 = format(int(fourthCharacter,2),'X')
+    
+    fifthCharacter  = dtcBinary[12:16]
+    char5 = format(int(fifthCharacter,2),'X')
+    
+    sixthCharacter  = dtcBinary[16:20]
+    char6 = format(int(sixthCharacter,2),'X')
+    
+    seventhCharacter  = dtcBinary[20:24]
+    char7 = format(int(seventhCharacter,2),'X')
+    
+    dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
+    return dtcJ2012Code
+
+    
+
+
 def getData(conn, moduleName, config, dtc_status_mask):
     with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
         didList = config['data_identifiers']
@@ -67,7 +104,6 @@ def getData(conn, moduleName, config, dtc_status_mask):
         txId = conn.isotp_layer.address.tx_arbitration_id_physical
         moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
         if txId == moduleWithExtraDid: 
-            print("id is correct for SCCM 0x724, now read DE00")
             didList.update ({0xDE00 : CodecTurnIndFlashCount})
 
         response = client.get_dtc_by_status_mask(dtc_status_mask)
@@ -78,7 +114,8 @@ def getData(conn, moduleName, config, dtc_status_mask):
             index = 0
             for dtc in response.service_data.dtcs:
                 index = index + 1
-                print(moduleName, "DTC", index,": %06X" % dtc.id )         # Print the DTC number
+                dtcJ2012Code = dtcConversionJ2012 (dtc.id)
+                print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
         # read DIDs list
         for k, v in didList.items():
             #print(hex(k))

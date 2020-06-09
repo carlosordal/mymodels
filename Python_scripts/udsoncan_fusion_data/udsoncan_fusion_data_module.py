@@ -7,36 +7,38 @@
 # tested on fusion 6/2/2020, functions added to read DTCs and DIDs
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
+# Next steps:
+# convert it to app simulation and Peak CAN.
+# Decode DTC
+# Print DTC description from a different file List.
+# Select network for report. if HS1 print out VIN#
+# Create a file with Report. txt
+# 
 
-# result on fusion SCCM conn removed and cabin temp sensor disconnected
+# result on fusion DTCs induced. 
 #  ----------------- IPC section -------------------
-# IPC DTC 1 : C21200
+# IPC DTC 1 U0212-00
 # IPC 0xf188 HS7T-14C026-HF
 #  ----------------- EFP section -------------------
-# EFP DTC 1 : 9A6115
-# EFP DTC 2 : 9A6915
+# EFP DTC 1 B1A61-15
+# EFP DTC 2 B1A69-15
 # EFP 0xf188 HS7T-14G121-DB
 #  ----------------- SCCM section -------------------
 # no SCCM dtcs
 # SCCM 0xf188 G3GT-14C579-AB
+# SCCM 0xde00 0x6
 # ********************************************************* completed  ********************************************
 
-import  diagnostic_lib
-import  isotp
-import  can
-import  udsoncan
-import  udsoncan.configs
-from    udsoncan.connections 	import PythonIsoTpConnection
-from    udsoncan.client 		import Client
-import struct
-import  pdb
+import   diagnostic_lib
+import   isotp
+import   can
+import   udsoncan
+import   udsoncan.configs
+from     udsoncan.connections import PythonIsoTpConnection
+from     udsoncan.client      import Client
+import   struct
+import   pdb
 
-
-#from can.interfaces.pcan import PcanBus
-#from udsoncan.Response import Response
-#from udsoncan.exceptions import *
-#from udsoncan.services import *
-#from udsoncan import Dtc, DidCodec
 
 #udsoncan.setup_logging()
 
