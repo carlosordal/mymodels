@@ -1,0 +1,19 @@
+HaLF:
+  request: 0x764
+  response: 0x4E4
+  network: [HS2]
+  description: Haptic Lane Following (Front Camera)
+  reported_data: [DTC]
+DASM:
+  request: 0x753
+  response: 0x4D3
+  network: [lyftctrl]
+  description: Driver Assistant System Module (ACC)  
+  reported_data: [DTC]
+EPS_B:
+  request: 0x75A
+  response: 0x4DA
+  network: [lyftctrl]
+  description: Electronic Power Steering B
+  reported_data: [Software, DTC, FlashCount]
+  

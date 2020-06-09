@@ -101,6 +101,8 @@ def getData(conn, moduleName, config, dtc_status_mask):
                 return 4    # encoded paylaod is 4 byte long.
 
 
+        
+        
         txId = conn.isotp_layer.address.tx_arbitration_id_physical
         moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
         if txId == moduleWithExtraDid: 

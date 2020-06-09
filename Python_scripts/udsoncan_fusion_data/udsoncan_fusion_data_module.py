@@ -37,15 +37,12 @@ import   udsoncan.configs
 from     udsoncan.connections import PythonIsoTpConnection
 from     udsoncan.client      import Client
 import   struct
+import   yaml  
 import   pdb
 
 
 #udsoncan.setup_logging()
 
-modules_ids = [   ['IPC', 0x720, 0x728],
-                  ['EFP', 0x7A7, 0x7AF],
-                  ['SCCM', 0x724, 0x72C]
-               ]
 
 class CodecEightBytes(udsoncan.DidCodec):
    def encode(self, val):
@@ -71,13 +68,18 @@ bus = diagnostic_lib.canToolDefinition('PeakCan')
 
 #pdb.set_trace()
 
-for i in range(len(modules_ids)):
-    moduleName = modules_ids [i][0]
-    txId = modules_ids [i][1]
-    rxId = modules_ids [i][2]
-    print (' -----------------', moduleName, 'section -------------------')
-    conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
-    diagnostic_lib.getData(conn, moduleName, config, dtc_status_mask)
+#for i in range(len(modules_ids)):
+with open('modulesIdsFusion.yaml') as file:
+   documents = yaml.full_load(file)
+   for item, content in documents.items():
+
+      moduleName = item
+      txId = content.get('request')
+      rxId = content.get('response')
+
+      print (' -----------------', moduleName, 'section -------------------')
+      conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
+      diagnostic_lib.getData(conn, moduleName, config, dtc_status_mask)
 
 print("********************************************************* completed  ********************************************")
 

@@ -1,0 +1,18 @@
+CBC:
+  request: 0x720
+  response: 0x728
+  network: [HS2]
+  description: Instrument Panel Cluster
+  reported_data: [DTC]
+EFP:
+  request: 0x7A7
+  response: 0x7AF
+  network: [HS2]
+  description: Electronic Front Panel 
+  reported_data: [Software, DTC]
+SCCM:
+  request: 0x724
+  response: 0x72C
+  network: [HS2]
+  description: Steering Column Control Module
+  reported_data: [Software, DTC, FlashCount]
