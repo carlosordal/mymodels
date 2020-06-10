@@ -9,6 +9,7 @@
 
 # Next steps:
 # add Decode capabilites, Ford SCCM, or Pacifica Steering6 data
+# avoid repeating SW PN DID definition
 # read and decode DIDs from yaml file
 # convert it to app simulation and Peak CAN.
 # Print DTC description from a different file List.
@@ -50,9 +51,10 @@ import   pdb
 
 
 dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('PeakCan')
-
-with open('modulesIdsFusion.yaml') as file:
+bus = diagnostic_lib.canToolDefinition('Virtual')
+# modulesIdsPacificaCcan
+# 'modulesIdsPacificaLyftCtrl.yaml'
+with open('modulesIdsPacificaCcan.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module
