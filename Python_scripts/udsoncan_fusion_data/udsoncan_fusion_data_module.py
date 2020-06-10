@@ -17,17 +17,16 @@
 # 
 
 # result on fusion DTCs induced. 
-#  ----------------- IPC section -------------------
+#  ----------------- Section: IPC - Instrument Panel Cluster -------------------
 # IPC DTC 1 U0212-00
-# IPC 0xf188 HS7T-14C026-HF
-#  ----------------- EFP section -------------------
+#  ----------------- Section: EFP - Electronic Front Panel (CC) -------------------
+# EFP 0xf188 HS7T-14G121-DB
 # EFP DTC 1 B1A61-15
 # EFP DTC 2 B1A69-15
-# EFP 0xf188 HS7T-14G121-DB
-#  ----------------- SCCM section -------------------
-# no SCCM dtcs
+#  ----------------- Section: SCCM - Steering Column Control Module -------------------
 # SCCM 0xf188 G3GT-14C579-AB
-# SCCM 0xde00 0x6
+# SCCM 0xde00 0x200600
+# no SCCM dtcs
 # ********************************************************* completed  ********************************************
 
 import   diagnostic_lib
@@ -45,24 +44,6 @@ import   pdb
 #udsoncan.setup_logging()
 
 
-class CodecEightBytes(udsoncan.DidCodec):
-   def encode(self, val):
-      val = val & 0xFFFFFFFF # Do some stuff
-      return struct.pack('>Q', val) # Little endian, 32 bit value
-
-   def decode(self, payload):
-      val = struct.unpack('>Q', payload)[0]  # decode the 32 bits value
-      return val                        # Do some stuff (reversed)
-
-   def __len__(self):
-      return 8    # encoded paylaod is 4 byte long.
-
-config = dict(udsoncan.configs.default_client_config)
-didList = {0xF188 : udsoncan.AsciiCodec(15)
-            }
-
-config['data_identifiers'] = didList 
-
 dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan')
 
@@ -77,15 +58,13 @@ with open('modulesIdsFusion.yaml') as file:
       print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
       conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
 
-      with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
+      with Client(conn, request_timeout=10) as client:                                     # Application layer (UDS protocol)
             for dataTypes, dataTypeContent in requestedData.items():
                if dataTypes == 'DTCs':
                   diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
                elif dataTypes == 'DIDs':
                   for didNumber, didNumberContent in dataTypeContent.items():
-                     print('----------reading', dataTypes, hex(didNumber), didNumberContent.get('description'))
-                     didDescription = didNumberContent.get('description')
-                     diagnostic_lib.getDID(client, conn, config, moduleName, didNumberContent)
+                     diagnostic_lib.getDID(client, conn, moduleName, didNumber, didNumberContent)
 
 print("********************************************************* completed  ********************************************")
 

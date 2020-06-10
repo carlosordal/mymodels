@@ -41,7 +41,7 @@ def ecuConnection(txId, rxId, bus):
     conn = PythonIsoTpConnection(stack)                                                 # interface between Application and Transport layer
     return conn
 
-def dtcConversionJ2012(dtcIdNumber):
+def dtcHexToJ2012Conversion(dtcIdNumber):
     dtcBinary = format(dtcIdNumber, '024b')
     #'1001 1010 0110 0001 0001 0101'
     firstCharacter  = dtcBinary[0:2]
@@ -86,31 +86,37 @@ def getDTCs(client, dtc_status_mask, moduleName):
         index = 0
         for dtc in response.service_data.dtcs:
             index = index + 1
-            dtcJ2012Code = dtcConversionJ2012 (dtc.id)
+            dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
             print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
 
 
-
-def getDID(client, conn, config, moduleName, didNumberContent):
-    didList = config['data_identifiers']
-
-    class CodecTurnIndFlashCount(udsoncan.DidCodec):
+def getDID(client, conn, moduleName, didNumber, didNumberContent):
+    class CodecFourBytes(udsoncan.DidCodec):
         def encode(self, val): 
             val = val # Do some stuff
-            return struct.pack('>L', val) # Little endian, 32 bit value
+            return struct.pack('>L', val) # 4 Bytes, 32 bits
 
         def decode(self, payload):
             val = struct.unpack('>L', payload)[0]  # decode the 32 bits value
-            return val                        # Extract byte [2] Turn indictators count Flash on SCCM Fusion
+            return val                        
 
         def __len__(self):
             return 4    # encoded paylaod is 4 byte long.
+    
+    
+    config = dict(udsoncan.configs.default_client_config)
+    size = didNumberContent.get('responseByteSize')
+    if didNumber == 0xF188:
+        didList = {0xF188 : udsoncan.AsciiCodec(size)}
+        config['data_identifiers'] = didList 
+    if didNumber == 0xDE00:
+        if size == 4:
+            didList = {0xDE00 : CodecFourBytes}
+            config['data_identifiers'] = didList
 
-    txId = conn.isotp_layer.address.tx_arbitration_id_physical
-    moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
-    if txId == moduleWithExtraDid: 
-        didList.update ({0xDE00 : CodecTurnIndFlashCount})
-  
+    client.config = config
+    didList = config['data_identifiers']
+
     # read DIDs list
     for k, v in didList.items():
         #print(hex(k))
