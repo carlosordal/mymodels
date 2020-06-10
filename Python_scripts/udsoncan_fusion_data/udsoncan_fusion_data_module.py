@@ -8,8 +8,9 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # Next steps:
+# include not response for a module that is not on the network
+# read and decode DIDs from yaml file
 # convert it to app simulation and Peak CAN.
-# Decode DTC
 # Print DTC description from a different file List.
 # Select network for report. if HS1 print out VIN#
 # Create a file with Report. txt
@@ -60,29 +61,31 @@ config = dict(udsoncan.configs.default_client_config)
 didList = {0xF188 : udsoncan.AsciiCodec(15)
             }
 
-#            0xF18C : udsoncan.AsciiCodec(15) removeed since SCCM respond with different format.
 config['data_identifiers'] = didList 
 
 dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan')
 
-#pdb.set_trace()
-
-#for i in range(len(modules_ids)):
 with open('modulesIdsFusion.yaml') as file:
    documents = yaml.full_load(file)
-   for item, content in documents.items():
-      moduleName = item
-      moduleDescription = content.get('description')
-      txId = content.get('request')
-      rxId = content.get('response')
+   for module, moduleContent in documents.items():
+      moduleName = module
+      moduleDescription = moduleContent.get('description')
+      requestedData = moduleContent.get('requestedData')
+      txId = moduleContent.get('request')
+      rxId = moduleContent.get('response')
       print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
       conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
 
       with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
-        
-         diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
-         diagnostic_lib.getDIDs(client, conn, config, moduleName)
+            for dataTypes, dataTypeContent in requestedData.items():
+               if dataTypes == 'DTCs':
+                  diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
+               elif dataTypes == 'DIDs':
+                  for didNumber, didNumberContent in dataTypeContent.items():
+                     print('----------reading', dataTypes, hex(didNumber), didNumberContent.get('description'))
+                     didDescription = didNumberContent.get('description')
+                     diagnostic_lib.getDID(client, conn, config, moduleName, didNumberContent)
 
 print("********************************************************* completed  ********************************************")
 

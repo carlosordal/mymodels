@@ -10,11 +10,6 @@ from    udsoncan.client import Client
 import  pdb
 import  struct
 
-#from can.interfaces.pcan import PcanBus
-#from udsoncan.Response import Response
-#from udsoncan.exceptions import *
-#from udsoncan.services import *
-#from udsoncan import Dtc, DidCodec
 
 def canToolDefinition(canHw):
     if canHw == 'PeakCan':
@@ -80,6 +75,8 @@ def dtcConversionJ2012(dtcIdNumber):
     dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
     return dtcJ2012Code
 
+
+
 def getDTCs(client, dtc_status_mask, moduleName):
     response = client.get_dtc_by_status_mask(dtc_status_mask)
         #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
@@ -92,17 +89,19 @@ def getDTCs(client, dtc_status_mask, moduleName):
             dtcJ2012Code = dtcConversionJ2012 (dtc.id)
             print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
 
-def getDIDs(client, conn, config, moduleName):
+
+
+def getDID(client, conn, config, moduleName, didNumberContent):
     didList = config['data_identifiers']
 
     class CodecTurnIndFlashCount(udsoncan.DidCodec):
         def encode(self, val): 
             val = val # Do some stuff
-            return struct.pack('>BBBB', val) # Little endian, 32 bit value
+            return struct.pack('>L', val) # Little endian, 32 bit value
 
         def decode(self, payload):
-            val = struct.unpack('>BBBB', payload)  # decode the 32 bits value
-            return val[2]                        # Extract byte [2] Turn indictators count Flash on SCCM Fusion
+            val = struct.unpack('>L', payload)[0]  # decode the 32 bits value
+            return val                        # Extract byte [2] Turn indictators count Flash on SCCM Fusion
 
         def __len__(self):
             return 4    # encoded paylaod is 4 byte long.
@@ -111,8 +110,7 @@ def getDIDs(client, conn, config, moduleName):
     moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
     if txId == moduleWithExtraDid: 
         didList.update ({0xDE00 : CodecTurnIndFlashCount})
-
-    
+  
     # read DIDs list
     for k, v in didList.items():
         #print(hex(k))
