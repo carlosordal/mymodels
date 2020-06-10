@@ -1,3 +1,24 @@
+PCM:
+  request: 0x7E0
+  response: 0x7E8
+  network: [ccan]
+  description: Powertrain Control Module
+  requestedData:
+    DTCs:
+    DIDs:
+      0xF188:
+        description: ECU SW Part Number
+        responseByteSize: 15                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSWPN:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 15
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+
 IPC:
   request: 0x720
   response: 0x728
@@ -18,7 +39,7 @@ IPC:
             type: Identical
             conversion: ASCII
     DTCs:
-#      statusMask: 0x0D
+
 EFP:
   request: 0x7A7
   response: 0x7AF
@@ -59,4 +80,3 @@ SCCM:
             type: Identical
             conversion: HEX
     DTCs:
-#      statusMask: 0x0D
