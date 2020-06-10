@@ -10,11 +10,6 @@ from    udsoncan.client import Client
 import  pdb
 import  struct
 
-#from can.interfaces.pcan import PcanBus
-#from udsoncan.Response import Response
-#from udsoncan.exceptions import *
-#from udsoncan.services import *
-#from udsoncan import Dtc, DidCodec
 
 def canToolDefinition(canHw):
     if canHw == 'PeakCan':
@@ -46,45 +41,111 @@ def ecuConnection(txId, rxId, bus):
     conn = PythonIsoTpConnection(stack)                                                 # interface between Application and Transport layer
     return conn
 
-def getData(conn, moduleName, config, dtc_status_mask):
-    with Client(conn, request_timeout=10, config=config) as client:                                     # Application layer (UDS protocol)
-        didList = config['data_identifiers']
+def dtcHexToJ2012Conversion(dtcIdNumber):
+    dtcBinary = format(dtcIdNumber, '024b')
+    #'1001 1010 0110 0001 0001 0101'
+    firstCharacter  = dtcBinary[0:2]
+    if firstCharacter == '00':
+        char1 = "P"
+    elif firstCharacter == '01':    
+        char1 = "C"
+    elif firstCharacter == '10':
+        char1 = "B"
+    elif firstCharacter == '11':
+        char1 = "U"
+    
+    secondCharacter = dtcBinary[2:4]
+    char2 = str(int(secondCharacter,2))
+    
+    thirdCharacter  = dtcBinary[4:8]
+    char3 = format(int(thirdCharacter,2),'X')
+    
+    fourthCharacter = dtcBinary[8:12]
+    char4 = format(int(fourthCharacter,2),'X')
+    
+    fifthCharacter  = dtcBinary[12:16]
+    char5 = format(int(fifthCharacter,2),'X')
+    
+    sixthCharacter  = dtcBinary[16:20]
+    char6 = format(int(sixthCharacter,2),'X')
+    
+    seventhCharacter  = dtcBinary[20:24]
+    char7 = format(int(seventhCharacter,2),'X')
+    
+    dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
+    return dtcJ2012Code
 
-        class CodecTurnIndFlashCount(udsoncan.DidCodec):
-            def encode(self, val):
-                pdb.set_trace()   
-                val = val # Do some stuff
-                return struct.pack('>BBBB', val) # Little endian, 32 bit value
-
-            def decode(self, payload):
-                val = struct.unpack('>BBBB', payload)  # decode the 32 bits value
-                return val[2]                        # Extract byte [2] Turn indictators count Flash on SCCM Fusion
-
-            def __len__(self):
-                return 4    # encoded paylaod is 4 byte long.
 
 
-        txId = conn.isotp_layer.address.tx_arbitration_id_physical
-        moduleWithExtraDid = 0x724   # SCCM 0x724 will read an extra DID.
-        if txId == moduleWithExtraDid: 
-            print("id is correct for SCCM 0x724, now read DE00")
-            didList.update ({0xDE00 : CodecTurnIndFlashCount})
-
+def getDTCs(client, dtc_status_mask, moduleName):
+    try:
         response = client.get_dtc_by_status_mask(dtc_status_mask)
-        #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
+            #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
         if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
             print("no", moduleName,  "dtcs")
         else: 
             index = 0
             for dtc in response.service_data.dtcs:
                 index = index + 1
-                print(moduleName, "DTC", index,": %06X" % dtc.id )         # Print the DTC number
+                dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
+                print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
+    except:
+        print(moduleName, 'Not found')
+    
+
+
+def getDID(client, conn, moduleName, didNumber, didNumberContent):
+    try:
+        class CodecFourBytes(udsoncan.DidCodec):
+            def encode(self, val): 
+                val = val # Do some stuff
+                return struct.pack('>L', val) # 4 Bytes, 32 bits
+
+            def decode(self, payload):
+                val = struct.unpack('>L', payload)[0]  # decode the 32 bits value
+                return val                        
+
+            def __len__(self):
+                return 4    # encoded paylaod is 4 byte long.
+        
+    
+        config = dict(udsoncan.configs.default_client_config)
+        size = didNumberContent.get('responseByteSize')
+        decodedDataDict = didNumberContent['decodedData']
+        
+        for decodedItem, decodedItemContent in decodedDataDict.items():
+            conversion = decodedItemContent['conversion']
+
+            if conversion == 'ASCII':
+                didList = {didNumber : udsoncan.AsciiCodec(size)}
+                config['data_identifiers'] = didList 
+
+            elif conversion == 'HEX':
+                if size == 4:
+                    didList = {didNumber : CodecFourBytes}
+                    config['data_identifiers'] = didList
+
+            client.config = config
+            didList = config['data_identifiers']
+
         # read DIDs list
-        for k, v in didList.items():
-            #print(hex(k))
-            response = client.read_data_by_identifier(k)
-            if (k >> 8) == 0xde:
-                print(moduleName, hex(k), hex(response.service_data.values[k]))
-            else:
-                print(moduleName, hex(k), response.service_data.values[k])
+            for didItem, v in didList.items():
+                #print(hex(k))
+                response = client.read_data_by_identifier(didItem)
+                if conversion == 'HEX':
+                #if (k >> 8) == 0xde:
+                    print(moduleName, hex(didItem), hex(response.service_data.values[didItem]))
+                if conversion == 'ASCII':
+                #else:
+                    print(moduleName, hex(didItem), response.service_data.values[didItem])
+    #     client.ecu_reset(reset_type=1, data=b'\x77\x88\x99')
+    #     print('Success!')
+    except:
+        print(moduleName, 'Not found')
+
+
+
+
+
+        
 

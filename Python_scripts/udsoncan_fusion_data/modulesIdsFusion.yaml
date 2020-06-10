@@ -1,0 +1,82 @@
+PCM:
+  request: 0x7E0
+  response: 0x7E8
+  network: [ccan]
+  description: Powertrain Control Module
+  requestedData:
+    DTCs:
+    DIDs:
+      0xF188:
+        description: ECU SW Part Number
+        responseByteSize: 15                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSWPN:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 15
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+
+IPC:
+  request: 0x720
+  response: 0x728
+  network: [ccan]
+  description: Instrument Panel Cluster
+  requestedData:
+    DIDs:
+      0xF188:
+        description: ECU SW Part Number
+        responseByteSize: 15                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSWPN:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 15
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+    DTCs:
+
+EFP:
+  request: 0x7A7
+  response: 0x7AF
+  network: [ccan]
+  description: Electronic Front Panel (CC)
+  requestedData:
+    DTCs:
+
+SCCM:
+  request: 0x724
+  response: 0x72C
+  network: [ccan]
+  description: Steering Column Control Module
+  requestedData: 
+    DIDs:
+      0xF188:
+        description: ECU SW Part Number
+        responseByteSize: 15                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSWPN:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 15
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+      0xDE00:
+        description: Turn Indicators Leaver
+        responseByteSize: 4                               # plus 3 of response and DID repeat
+        decodedData:
+          turnIndicatorsFlashCount:
+            startByte: 2
+            startbit: 0
+            description: Turn Indicators Flash Count
+            byteSize: 0
+            bitSize: 4
+            type: Identical
+            conversion: HEX
+    DTCs:

@@ -7,75 +7,69 @@
 # tested on fusion 6/2/2020, functions added to read DTCs and DIDs
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
+# Next steps:
+# include not response for a module that is not on the network
+# read and decode DIDs from yaml file
+# convert it to app simulation and Peak CAN.
+# Print DTC description from a different file List.
+# Select network for report. if HS1 print out VIN#
+# Create a file with Report. txt
+# 
 
-# result on fusion SCCM conn removed and cabin temp sensor disconnected
-#  ----------------- IPC section -------------------
-# IPC DTC 1 : C21200
+# result on fusion DTCs induced. 
+#  ----------------- Section: PCM - Powertrain Control Module -------------------
+# [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+# PCM Not found
+# [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+# PCM Not found
+#  ----------------- Section: IPC - Instrument Panel Cluster -------------------
 # IPC 0xf188 HS7T-14C026-HF
-#  ----------------- EFP section -------------------
-# EFP DTC 1 : 9A6115
-# EFP DTC 2 : 9A6915
-# EFP 0xf188 HS7T-14G121-DB
-#  ----------------- SCCM section -------------------
-# no SCCM dtcs
+# IPC DTC 1 U0212-00
+#  ----------------- Section: EFP - Electronic Front Panel (CC) -------------------
+# EFP DTC 1 B1A61-15
+# EFP DTC 2 B1A69-15
+#  ----------------- Section: SCCM - Steering Column Control Module -------------------
 # SCCM 0xf188 G3GT-14C579-AB
+# SCCM 0xde00 0x200600
+# no SCCM dtcs
 # ********************************************************* completed  ********************************************
 
-import  diagnostic_lib
-import  isotp
-import  can
-import  udsoncan
-import  udsoncan.configs
-from    udsoncan.connections 	import PythonIsoTpConnection
-from    udsoncan.client 		import Client
-import struct
-import  pdb
+import   diagnostic_lib
+import   isotp
+import   can
+import   udsoncan
+import   udsoncan.configs
+from     udsoncan.connections import PythonIsoTpConnection
+from     udsoncan.client      import Client
+import   struct
+import   yaml  
+import   pdb
 
-
-#from can.interfaces.pcan import PcanBus
-#from udsoncan.Response import Response
-#from udsoncan.exceptions import *
-#from udsoncan.services import *
-#from udsoncan import Dtc, DidCodec
 
 #udsoncan.setup_logging()
 
-modules_ids = [   ['IPC', 0x720, 0x728],
-                  ['EFP', 0x7A7, 0x7AF],
-                  ['SCCM', 0x724, 0x72C]
-               ]
-
-class CodecEightBytes(udsoncan.DidCodec):
-   def encode(self, val):
-      val = val & 0xFFFFFFFF # Do some stuff
-      return struct.pack('>Q', val) # Little endian, 32 bit value
-
-   def decode(self, payload):
-      val = struct.unpack('>Q', payload)[0]  # decode the 32 bits value
-      return val                        # Do some stuff (reversed)
-
-   def __len__(self):
-      return 8    # encoded paylaod is 4 byte long.
-
-config = dict(udsoncan.configs.default_client_config)
-didList = {0xF188 : udsoncan.AsciiCodec(15)
-            }
-
-#            0xF18C : udsoncan.AsciiCodec(15) removeed since SCCM respond with different format.
-config['data_identifiers'] = didList 
 
 dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan')
 
-#pdb.set_trace()
+with open('modulesIdsFusion.yaml') as file:
+   documents = yaml.full_load(file)
+   for module, moduleContent in documents.items():
+      moduleName = module
+      moduleDescription = moduleContent.get('description')
+      requestedData = moduleContent.get('requestedData')
+      txId = moduleContent.get('request')
+      rxId = moduleContent.get('response')
+      print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
+      conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
 
-for i in range(len(modules_ids)):
-    moduleName = modules_ids [i][0]
-    txId = modules_ids [i][1]
-    rxId = modules_ids [i][2]
-    print (' -----------------', moduleName, 'section -------------------')
-    conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
-    diagnostic_lib.getData(conn, moduleName, config, dtc_status_mask)
+      with Client(conn, request_timeout=10) as client:                                     # Application layer (UDS protocol)
+            for dataTypes, dataTypeContent in requestedData.items():
+               if dataTypes == 'DTCs':
+                  diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
+               elif dataTypes == 'DIDs':
+                  for didNumber, didNumberContent in dataTypeContent.items():
+                     diagnostic_lib.getDID(client, conn, moduleName, didNumber, didNumberContent)
 
 print("********************************************************* completed  ********************************************")
 
