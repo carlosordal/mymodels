@@ -107,6 +107,18 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
 
             def __len__(self):
                 return 4    # encoded paylaod is 4 byte long.
+            
+        class CodecTenBytes(udsoncan.DidCodec):
+            def encode(self, val): 
+                val = val # Do some stuff
+                return struct.pack('>QH', val) # 10 Bytes (8,2)
+
+            def decode(self, payload):
+                val = struct.unpack('>QH', payload)[0]  
+                return val                        
+
+            def __len__(self):
+                return 10    # encoded paylaod is 10 byte long.
         
     
         config = dict(udsoncan.configs.default_client_config)
@@ -123,6 +135,9 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
             elif conversion == 'HEX':
                 if size == 4:
                     didList = {didNumber : CodecFourBytes}
+                    config['data_identifiers'] = didList
+                if size == 10:
+                    didList = {didNumber : CodecTenBytes}
                     config['data_identifiers'] = didList
 
             client.config = config

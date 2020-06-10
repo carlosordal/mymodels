@@ -92,7 +92,7 @@ EPS_A:
             byteSize: 10
             bitSize: 0
             type: Identical
-            conversion: ASCII
+            conversion: HEX
     DTCs:
 
 ECM:

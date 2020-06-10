@@ -51,10 +51,10 @@ import   pdb
 
 
 dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('Virtual')
+bus = diagnostic_lib.canToolDefinition('PeakCan')
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
-with open('modulesIdsPacificaCcan.yaml') as file:
+with open('modulesIdsPacificaLyftCtrl.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module

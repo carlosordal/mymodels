@@ -1,37 +1,3 @@
-CBC:
-  request: 0x620
-  response: 0x504
-  network: [ccan]
-  description: Central Body Controller
-  requestedData:
-    DIDs:
-      0xF132:
-        description: ECU SW Part Number
-        responseByteSize: 10                             # plus 3 of response and DID repeat
-        decodedData:
-          ecuSoftwarePartNumber:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 10
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
-      0x0138:
-        description: ECU Configuration 6 (Steering)
-        responseByteSize: 2                               # plus 3 of response and DID repeat
-        decodedData:
-          ecuConfiguration6Steering:
-            startByte: 0
-            startbit: 0
-            description: Suspension ecu configurationA&B
-            byteSize: 2
-            bitSize: 0
-            type: Identical
-            conversion: HEX
-    DTCs:
-
-
 HaLF:
   request: 0x764
   response: 0x4E4
@@ -65,6 +31,6 @@ EPS_B:
             byteSize: 10
             bitSize: 0
             type: Identical
-            conversion: ASCII
+            conversion: HEX
     DTCs:
   
