@@ -4,14 +4,6 @@ IPC:
   network: [ccan]
   description: Instrument Panel Cluster
   requestedData:
-    DTCs:
-#      statusMask: 0x0D
-EFP:
-  request: 0x7A7
-  response: 0x7AF
-  network: [ccan]
-  description: Electronic Front Panel (CC)
-  requestedData:
     DIDs:
       0xF188:
         description: ECU SW Part Number
@@ -24,9 +16,17 @@ EFP:
             byteSize: 15
             bitSize: 0
             type: Identical
-            conversion: ASCII (15Byte)
+            conversion: ASCII
     DTCs:
 #      statusMask: 0x0D
+EFP:
+  request: 0x7A7
+  response: 0x7AF
+  network: [ccan]
+  description: Electronic Front Panel (CC)
+  requestedData:
+    DTCs:
+
 SCCM:
   request: 0x724
   response: 0x72C
@@ -45,10 +45,10 @@ SCCM:
             byteSize: 15
             bitSize: 0
             type: Identical
-            conversion: ASCII (10Byte)
+            conversion: ASCII
       0xDE00:
         description: Turn Indicators Leaver
-        responseByteSyze: 4                               # plus 3 of response and DID repeat
+        responseByteSize: 4                               # plus 3 of response and DID repeat
         decodedData:
           turnIndicatorsFlashCount:
             startByte: 2
