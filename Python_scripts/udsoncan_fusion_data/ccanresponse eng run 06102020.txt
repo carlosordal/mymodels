@@ -1,6 +1,7 @@
  ----------------- Section: CBC - Central Body Controller -------------------
 CBC 0xf132 ECU SW Part Number : 68351545AA
 CBC 0x138 Suspension ecu configurationA&B : 0x4100
+CBC 0xf190 VIN Number : 2C4RC1N72JR358993
 CBC DTC 1 : U0011-00
 CBC DTC 2 : U1144-00
 CBC DTC 3 : U0164-00
