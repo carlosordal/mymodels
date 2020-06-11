@@ -15,25 +15,9 @@
 # Print DTC description from a different file List.
 # Select network for report. if HS1 print out VIN#
 # Create a file with Report. txt
-# 
+# error handler for no tool connected.
+# error handler for bus speed not correct.
 
-# result on fusion DTCs induced. 
-#  ----------------- Section: PCM - Powertrain Control Module -------------------
-# [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
-# PCM Not found
-# [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
-# PCM Not found
-#  ----------------- Section: IPC - Instrument Panel Cluster -------------------
-# IPC 0xf188 HS7T-14C026-HF
-# IPC DTC 1 U0212-00
-#  ----------------- Section: EFP - Electronic Front Panel (CC) -------------------
-# EFP DTC 1 B1A61-15
-# EFP DTC 2 B1A69-15
-#  ----------------- Section: SCCM - Steering Column Control Module -------------------
-# SCCM 0xf188 G3GT-14C579-AB
-# SCCM 0xde00 0x200600
-# no SCCM dtcs
-# ********************************************************* completed  ********************************************
 
 import   diagnostic_lib
 import   isotp
@@ -54,7 +38,8 @@ dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan')
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
-with open('modulesIdsPacificaLyftCtrl.yaml') as file:
+# 'modulesIdsPacificaIHS.ymal'
+with open('modulesIdsPacificaCcan.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module

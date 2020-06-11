@@ -1,0 +1,16 @@
+#AMP_PN	7BE	53E
+#DDM_PN	784	504
+AMP:
+  request: 0x7BE
+  response: 0x53E
+  network: [lyftctrl]
+  description: Audio Amplifier
+  requestedData:
+    DTCs:
+DDM:
+  request: 0x784
+  response: 0x504
+  network: [lyftctrl]
+  description: Driver Door Module  
+  requestedData:
+    DTCs:
