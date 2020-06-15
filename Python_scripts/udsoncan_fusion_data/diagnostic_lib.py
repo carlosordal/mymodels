@@ -16,7 +16,7 @@ def canToolDefinition(canHw):
         bus = can.Bus(interface = 'pcan',
                 channel = 'PCAN_USBBUS1',
                 state = can.bus.BusState.ACTIVE,
-                bitrate = 500000)
+                bitrate = 125000)
     elif canHw == 'Virtual':
         bus = can.interface.Bus('test', bustype='virtual')
     return bus
@@ -119,6 +119,18 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
 
             def __len__(self):
                 return 4    # encoded paylaod is 4 byte long.
+        
+        class CodecEightBytes(udsoncan.DidCodec):
+            def encode(self, val): 
+                val = val # Do some stuff
+                return struct.pack('>Q', val) # 4 Bytes, 32 bits
+
+            def decode(self, payload):
+                val = struct.unpack('>Q', payload)[0]  # decode the 32 bits value
+                return val                        
+
+            def __len__(self):
+                return 8    # encoded paylaod is 4 byte long.
             
         class CodecTenBytes(udsoncan.DidCodec):
             def encode(self, val): 
@@ -151,6 +163,9 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
                     config['data_identifiers'] = didList
                 if size == 4:
                     didList = {didNumber : CodecFourBytes}
+                    config['data_identifiers'] = didList
+                if size == 8:
+                    didList = {didNumber : CodecEightBytes}
                     config['data_identifiers'] = didList
                 if size == 10:
                     didList = {didNumber : CodecTenBytes}

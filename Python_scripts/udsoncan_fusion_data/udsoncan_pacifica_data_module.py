@@ -39,7 +39,8 @@ bus = diagnostic_lib.canToolDefinition('PeakCan')
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
-with open('modulesIdsPacificaCcan.yaml') as file:
+# 'modulesIdsFusion.yaml'
+with open('modulesIdsMSEscape.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module

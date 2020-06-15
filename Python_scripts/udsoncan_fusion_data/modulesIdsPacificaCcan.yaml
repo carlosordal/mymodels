@@ -1,3 +1,7 @@
+# F011 10 bytes HEX
+#  5 [0] DASM
+# 6 [7] HaLF
+
 CBC:
   request: 0x620
   response: 0x504
@@ -29,6 +33,27 @@ CBC:
             bitSize: 0
             type: Identical
             conversion: HEX
+      0xF011:
+        description: Programmed ECUS - P/T Chassis Network
+        responseByteSize: 10                               # plus 3 of response and DID repeat
+        decodedData:
+          dasm_half:
+            startByte: 5
+            startbit: 0
+            description: DASM_HALF
+            byteSize: 0
+            bitSize: 1
+            type: Identical
+            conversion: HEX
+          # half:
+          #   startByte: 6
+          #   startbit: 7
+          #   description: HALF
+          #   byteSize: 0
+          #   bitSize: 1
+          #   type: Identical
+          #   conversion: HEX
+
       0xF190:
         description: VIN Number
         responseByteSize: 17                             # plus 3 of response and DID repeat
