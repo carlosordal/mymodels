@@ -75,6 +75,8 @@ def dtcHexToJ2012Conversion(dtcIdNumber):
     dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
     return dtcJ2012Code
 
+#def extractDIDInformation(data):
+
 
 
 def getDTCs(client, dtc_status_mask, moduleName):
@@ -147,50 +149,36 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
     
         config = dict(udsoncan.configs.default_client_config)
         size = didNumberContent.get('responseByteSize')
-        decodedDataDict = didNumberContent['decodedData']
-        
-        for decodedItem, decodedItemContent in decodedDataDict.items():
-            conversion = decodedItemContent['conversion']
-            description = decodedItemContent['description']
+        didConversionType = didNumberContent.get('didConversionType')
+        description = didNumberContent.get('didDescription')
 
-            if conversion == 'ASCII':
-                didList = {didNumber : udsoncan.AsciiCodec(size)}
-                config['data_identifiers'] = didList 
-
-            elif conversion == 'HEX':
-                if size == 2:
-                    didList = {didNumber : CodecTwoBytes}
-                    config['data_identifiers'] = didList
-                if size == 4:
-                    didList = {didNumber : CodecFourBytes}
-                    config['data_identifiers'] = didList
-                if size == 8:
-                    didList = {didNumber : CodecEightBytes}
-                    config['data_identifiers'] = didList
-                if size == 10:
-                    didList = {didNumber : CodecTenBytes}
-                    config['data_identifiers'] = didList
-
-            client.config = config
-            didList = config['data_identifiers']
+        if didConversionType == 'ASCII':
+            didList = {didNumber : udsoncan.AsciiCodec(size)}
+            config['data_identifiers'] = didList 
+        elif didConversionType == 'HEX':
+            if size == 2:
+                didList = {didNumber : CodecTwoBytes}
+                config['data_identifiers'] = didList
+            if size == 4:
+                didList = {didNumber : CodecFourBytes}
+                config['data_identifiers'] = didList
+            if size == 8:
+                didList = {didNumber : CodecEightBytes}
+                config['data_identifiers'] = didList
+            if size == 10:
+                didList = {didNumber : CodecTenBytes}
+                config['data_identifiers'] = didList
+        client.config = config
+        didList = config['data_identifiers']
 
         # read DIDs list
-            for didItem, v in didList.items():
+        for didItem, v in didList.items():
 
-                response = client.read_data_by_identifier(didItem)
-                if conversion == 'HEX':
-                    print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
-                if conversion == 'ASCII':
-                #else:
-                    print(moduleName, hex(didItem), description, ':', response.service_data.values[didItem])
-    #     client.ecu_reset(reset_type=1, data=b'\x77\x88\x99')
-    #     print('Success!')
+            response = client.read_data_by_identifier(didItem)
+            if didConversionType == 'HEX':
+                print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+            if didConversionType == 'ASCII':
+                print(moduleName, hex(didItem), description, ':', response.service_data.values[didItem])
+
     except:
         print(moduleName, 'Not found')
-
-
-
-
-
-        
-

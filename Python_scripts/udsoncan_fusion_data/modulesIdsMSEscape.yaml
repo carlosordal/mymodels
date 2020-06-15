@@ -6,8 +6,9 @@ SYNC1:
   requestedData:
     DIDs:
       0xF188:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
+        didConversionType: ASCII
         decodedData:
           ecuSWPN:
             startByte: 0
@@ -18,7 +19,7 @@ SYNC1:
             type: Identical
             conversion: ASCII
       0xDE00:
-        description: SYNC Configuration
+        diddescription: SYNC Configuration
         responseByteSize: 8                               # plus 3 of response and DID repeat
         decodedData:
           turnIndicatorsFlashCount:
@@ -48,6 +49,7 @@ EFP:
       0xF188:
         description: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
+        didConversionType: ASCII
         decodedData:
           ecuSWPN:
             startByte: 0
@@ -84,6 +86,7 @@ IPC:
       0xF188:
         description: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
+        didConversionType: ASCII
         decodedData:
           ecuSWPN:
             startByte: 0
