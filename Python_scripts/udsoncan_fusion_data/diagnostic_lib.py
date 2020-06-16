@@ -75,22 +75,40 @@ def dtcHexToJ2012Conversion(dtcIdNumber):
     dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
     return dtcJ2012Code
 
-#def extractDIDInformation(data):
+
+
+def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
+
+    dataBitSize = size * 8
+
+    binFormat = '0' + str(dataBitSize) + 'b'
+    binaryData = format(data, binFormat)
+    #binaryData = binaryData[2:]
+    #decodedbits = 
+    byteLength = 8      # 8 bits total per byte
+
+    bitEndPosition = dataBitSize  - ((startByte * byteLength) + startBit)
+    bitStartPosition =  (byteSize *8) + bitSize
+    bitStartPosition = bitEndPosition - bitStartPosition
+
+    extractInfo = binaryData[bitStartPosition: bitEndPosition]
+    return extractInfo
 
 
 
 def getDTCs(client, dtc_status_mask, moduleName):
     try:
         response = client.get_dtc_by_status_mask(dtc_status_mask)
+        print("DTCs: ")
             #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
         if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
-            print("no", moduleName,  "dtcs")
+            print("     no", moduleName,  "dtcs")
         else: 
             index = 0
             for dtc in response.service_data.dtcs:
                 index = index + 1
                 dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
-                print(moduleName, "DTC", index, ':', dtcJ2012Code)         # Print the HEX DTC number
+                print('     ', moduleName, "DTC", index, ':', dtcJ2012Code)         # Print the HEX DTC number
     except:
         print(moduleName, 'Not found')
     
@@ -132,7 +150,7 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
                 return val                        
 
             def __len__(self):
-                return 8    # encoded paylaod is 4 byte long.
+                return 8    # encoded paylaod is 8 byte long.
             
         class CodecTenBytes(udsoncan.DidCodec):
             def encode(self, val): 
@@ -171,14 +189,27 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
         client.config = config
         didList = config['data_identifiers']
 
-        # read DIDs list
+        # read DIDs number
+
         for didItem, v in didList.items():
 
             response = client.read_data_by_identifier(didItem)
             if didConversionType == 'HEX':
                 print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+                decodeDIDs = didNumberContent.get('decodedData')
+                for decodeDIDsItem, decodeDIDsContent in decodeDIDs.items():
+                    data = response.service_data.values[didItem]
+                    startByte   = decodeDIDsContent.get('startByte')
+                    startBit    = decodeDIDsContent.get('startBit')
+                    byteSize    = decodeDIDsContent.get('byteSize')
+                    bitSize     = decodeDIDsContent.get('bitSize')
+                    information = extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize)
+                    print('     ', decodeDIDsContent['description'],'=', hex(int(information, base = 2)))
+
+                    
             if didConversionType == 'ASCII':
                 print(moduleName, hex(didItem), description, ':', response.service_data.values[didItem])
 
-    except:
+    except Exception as e:
         print(moduleName, 'Not found')
+        print('error: '+ str(e))

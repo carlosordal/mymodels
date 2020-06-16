@@ -19,17 +19,32 @@ SYNC1:
             type: Identical
             conversion: ASCII
       0xDE00:
-        diddescription: SYNC Configuration
+        didDescription: SYNC Configuration
         responseByteSize: 8                               # plus 3 of response and DID repeat
+        didConversionType: HEX
+        # SYNC1 0xde00 None : 0x 10 af 98 40 02 40 60 00
+        #                        xx 6 5 4 3 2 1 0
+        #SYNC1 0xde00 None : 0x10af984002406000
+        #SYNC1 0xde00 None : 0x10 af 98 40 02 40 60 00
+        # bit FCA 7 6 5 4 3 2 1 0
         decodedData:
-          turnIndicatorsFlashCount:
-            startByte: 2
-            startbit: 0
+          syncEnable:
+            startByte: 7      #FCA's Bytes xx 6 5 4 3 2 1 0
+            startBit: 4       #(FCA distribution) 7 6 5 4 3 2 1 0
             description: SYNC Configuration
-            byteSize: 0
-            bitSize: 4
+            byteSize: 0       # how many bytes? 0 = less than a byte/
+            bitSize: 1        # how many bits?
             type: Identical
             conversion: HEX
+          displaySize:
+            startByte: 4
+            startBit: 0
+            description: Display Size
+            byteSize: 1
+            bitSize: 0
+            type: Identical
+            conversion: HEX
+
     DTCs:
 MFD:
   request: 0x7A5
@@ -47,7 +62,7 @@ EFP:
   requestedData: 
     DIDs:
       0xF188:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
         didConversionType: ASCII
         decodedData:
@@ -84,7 +99,7 @@ IPC:
   requestedData:
     DIDs:
       0xF188:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
         didConversionType: ASCII
         decodedData:

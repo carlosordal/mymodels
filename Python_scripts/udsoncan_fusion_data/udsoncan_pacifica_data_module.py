@@ -1,4 +1,4 @@
-# Read SW PN, Serial number of IPC and EFP on Ford fusion 2017 HS2 using Peak CAN tool.
+# Read information requested on yaml file, depending on vehicle and DID decoder.
 # documentation: https://udsoncan.readthedocs.io/en/latest/
 
 # python can for hardware connection
@@ -8,9 +8,7 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # Next steps:
-# add Decode capabilites, Ford SCCM, or Pacifica Steering6 data
 # avoid repeating SW PN DID definition
-# read and decode DIDs from yaml file
 # convert it to app simulation and Peak CAN.
 # Print DTC description from a different file List.
 # Select network for report. if HS1 print out VIN#
