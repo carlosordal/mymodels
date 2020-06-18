@@ -16,7 +16,7 @@ def canToolDefinition(canHw):
         bus = can.Bus(interface = 'pcan',
                 channel = 'PCAN_USBBUS1',
                 state = can.bus.BusState.ACTIVE,
-                bitrate = 500000)
+                bitrate = 125000)
     elif canHw == 'Virtual':
         bus = can.interface.Bus('test', bustype='virtual')
     return bus
@@ -77,18 +77,38 @@ def dtcHexToJ2012Conversion(dtcIdNumber):
 
 
 
+def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
+
+    dataBitSize = size * 8
+
+    binFormat = '0' + str(dataBitSize) + 'b'
+    binaryData = format(data, binFormat)
+    #binaryData = binaryData[2:]
+    #decodedbits = 
+    byteLength = 8      # 8 bits total per byte
+
+    bitEndPosition = dataBitSize  - ((startByte * byteLength) + startBit)
+    bitStartPosition =  (byteSize *8) + bitSize
+    bitStartPosition = bitEndPosition - bitStartPosition
+
+    extractInfo = binaryData[bitStartPosition: bitEndPosition]
+    return extractInfo
+
+
+
 def getDTCs(client, dtc_status_mask, moduleName):
     try:
         response = client.get_dtc_by_status_mask(dtc_status_mask)
+        print("DTCs: ")
             #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
         if len(response.service_data.dtcs) == 0:        # if response.serice_data.dtcs is empty print no DTCs
-            print("no", moduleName,  "dtcs")
+            print("     no", moduleName,  "dtcs")
         else: 
             index = 0
             for dtc in response.service_data.dtcs:
                 index = index + 1
                 dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
-                print(moduleName, "DTC", index, dtcJ2012Code)         # Print the HEX DTC number
+                print('     ', moduleName, "DTC", index, ':', dtcJ2012Code)         # Print the HEX DTC number
     except:
         print(moduleName, 'Not found')
     
@@ -96,6 +116,18 @@ def getDTCs(client, dtc_status_mask, moduleName):
 
 def getDID(client, conn, moduleName, didNumber, didNumberContent):
     try:
+        class CodecTwoBytes(udsoncan.DidCodec):
+            def encode(self, val): 
+                val = val # Do some stuff
+                return struct.pack('>H', val) # 2 Bytes
+
+            def decode(self, payload):
+                val = struct.unpack('H', payload)[0]  # decode the 32 bits value
+                return val                        
+
+            def __len__(self):
+                return 2    # encoded paylaod is 2 byte long.
+
         class CodecFourBytes(udsoncan.DidCodec):
             def encode(self, val): 
                 val = val # Do some stuff
@@ -108,44 +140,76 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
             def __len__(self):
                 return 4    # encoded paylaod is 4 byte long.
         
+        class CodecEightBytes(udsoncan.DidCodec):
+            def encode(self, val): 
+                val = val # Do some stuff
+                return struct.pack('>Q', val) # 4 Bytes, 32 bits
+
+            def decode(self, payload):
+                val = struct.unpack('>Q', payload)[0]  # decode the 32 bits value
+                return val                        
+
+            def __len__(self):
+                return 8    # encoded paylaod is 8 byte long.
+            
+        class CodecTenBytes(udsoncan.DidCodec):
+            def encode(self, val): 
+                val = val # Do some stuff
+                return struct.pack('>QH', val) # 10 Bytes (8,2)
+
+            def decode(self, payload):
+                val = struct.unpack('>QH', payload)[0]  
+                return val                        
+
+            def __len__(self):
+                return 10    # encoded paylaod is 10 byte long.
+        
     
         config = dict(udsoncan.configs.default_client_config)
         size = didNumberContent.get('responseByteSize')
-        decodedDataDict = didNumberContent['decodedData']
-        
-        for decodedItem, decodedItemContent in decodedDataDict.items():
-            conversion = decodedItemContent['conversion']
+        didConversionType = didNumberContent.get('didConversionType')
+        description = didNumberContent.get('didDescription')
 
-            if conversion == 'ASCII':
-                didList = {didNumber : udsoncan.AsciiCodec(size)}
-                config['data_identifiers'] = didList 
+        if didConversionType == 'ASCII':
+            didList = {didNumber : udsoncan.AsciiCodec(size)}
+            config['data_identifiers'] = didList 
+        elif didConversionType == 'HEX':
+            if size == 2:
+                didList = {didNumber : CodecTwoBytes}
+                config['data_identifiers'] = didList
+            if size == 4:
+                didList = {didNumber : CodecFourBytes}
+                config['data_identifiers'] = didList
+            if size == 8:
+                didList = {didNumber : CodecEightBytes}
+                config['data_identifiers'] = didList
+            if size == 10:
+                didList = {didNumber : CodecTenBytes}
+                config['data_identifiers'] = didList
+        client.config = config
+        didList = config['data_identifiers']
 
-            elif conversion == 'HEX':
-                if size == 4:
-                    didList = {didNumber : CodecFourBytes}
-                    config['data_identifiers'] = didList
+        # read DIDs number
 
-            client.config = config
-            didList = config['data_identifiers']
+        for didItem, v in didList.items():
 
-        # read DIDs list
-            for didItem, v in didList.items():
-                #print(hex(k))
-                response = client.read_data_by_identifier(didItem)
-                if conversion == 'HEX':
-                #if (k >> 8) == 0xde:
-                    print(moduleName, hex(didItem), hex(response.service_data.values[didItem]))
-                if conversion == 'ASCII':
-                #else:
-                    print(moduleName, hex(didItem), response.service_data.values[didItem])
-    #     client.ecu_reset(reset_type=1, data=b'\x77\x88\x99')
-    #     print('Success!')
-    except:
+            response = client.read_data_by_identifier(didItem)
+            if didConversionType == 'HEX':
+                print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+                decodeDIDs = didNumberContent.get('decodedData')
+                for decodeDIDsItem, decodeDIDsContent in decodeDIDs.items():
+                    data = response.service_data.values[didItem]
+                    startByte   = decodeDIDsContent.get('startByte')
+                    startBit    = decodeDIDsContent.get('startBit')
+                    byteSize    = decodeDIDsContent.get('byteSize')
+                    bitSize     = decodeDIDsContent.get('bitSize')
+                    information = extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize)
+                    print('     ', decodeDIDsContent['description'],'=', hex(int(information, base = 2)))
+
+                    
+            if didConversionType == 'ASCII':
+                print(moduleName, hex(didItem), description, ':', response.service_data.values[didItem])
+
+    except Exception as e:
         print(moduleName, 'Not found')
-
-
-
-
-
-        
-
+        print('error: '+ str(e))

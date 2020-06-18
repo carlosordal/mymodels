@@ -1,4 +1,4 @@
-# Read SW PN, Serial number of IPC and EFP on Ford fusion 2017 HS2 using Peak CAN tool.
+# Read information requested on yaml file, depending on vehicle and DID decoder.
 # documentation: https://udsoncan.readthedocs.io/en/latest/
 
 # python can for hardware connection
@@ -8,31 +8,14 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # Next steps:
-# add Decode capabilites, Ford SCCM, or Pacifica Steering6 data
-# read and decode DIDs from yaml file
+# avoid repeating SW PN DID definition
 # convert it to app simulation and Peak CAN.
 # Print DTC description from a different file List.
 # Select network for report. if HS1 print out VIN#
 # Create a file with Report. txt
-# 
+# error handler for no tool connected.
+# error handler for bus speed not correct.
 
-# result on fusion DTCs induced. 
-#  ----------------- Section: PCM - Powertrain Control Module -------------------
-# [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
-# PCM Not found
-# [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
-# PCM Not found
-#  ----------------- Section: IPC - Instrument Panel Cluster -------------------
-# IPC 0xf188 HS7T-14C026-HF
-# IPC DTC 1 U0212-00
-#  ----------------- Section: EFP - Electronic Front Panel (CC) -------------------
-# EFP DTC 1 B1A61-15
-# EFP DTC 2 B1A69-15
-#  ----------------- Section: SCCM - Steering Column Control Module -------------------
-# SCCM 0xf188 G3GT-14C579-AB
-# SCCM 0xde00 0x200600
-# no SCCM dtcs
-# ********************************************************* completed  ********************************************
 
 import   diagnostic_lib
 import   isotp
@@ -51,8 +34,11 @@ import   pdb
 
 dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan')
-
-with open('modulesIdsFusion.yaml') as file:
+# modulesIdsPacificaCcan
+# 'modulesIdsPacificaLyftCtrl.yaml'
+# 'modulesIdsPacificaIHS.ymal'
+# 'modulesIdsFusion.yaml'
+with open('modulesIdsMSEscape.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module

@@ -1,0 +1,253 @@
+# F011 10 bytes HEX
+#  5 [0] DASM
+# 6 [7] HaLF
+
+CBC:
+  request: 0x620
+  response: 0x504
+  network: [ccan]
+  description: Central Body Controller
+  requestedData:
+    DIDs:
+      0xF132:
+        description: ECU SW Part Number
+        responseByteSize: 10                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSoftwarePartNumber:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 10
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+      0x0138:
+        description: ECU Configuration 6 (Steering)
+        responseByteSize: 2                               # plus 3 of response and DID repeat
+        decodedData:
+          ecuConfiguration6Steering:
+            startByte: 0
+            startbit: 0
+            description: Suspension ecu configurationA&B
+            byteSize: 2
+            bitSize: 0
+            type: Identical
+            conversion: HEX
+      0xF011:
+        description: Programmed ECUS - P/T Chassis Network
+        responseByteSize: 10                               # plus 3 of response and DID repeat
+        decodedData:
+          dasm_half:
+            startByte: 5
+            startbit: 0
+            description: DASM_HALF
+            byteSize: 0
+            bitSize: 1
+            type: Identical
+            conversion: HEX
+          # half:
+          #   startByte: 6
+          #   startbit: 7
+          #   description: HALF
+          #   byteSize: 0
+          #   bitSize: 1
+          #   type: Identical
+          #   conversion: HEX
+
+      0xF190:
+        description: VIN Number
+        responseByteSize: 17                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSoftwarePartNumber:
+            startByte: 0
+            startbit: 0
+            description: VIN Number
+            byteSize: 17
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+    DTCs:
+
+EBCM:
+  request: 0x7E3
+  response: 0x7EB
+  network: [ccan]
+  description: Electric Booster Control Module
+  requestedData:
+    DIDs:
+      0xF132:
+        description: ECU SW Part Number
+        responseByteSize: 10                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSoftwarePartNumber:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 10
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+    DTCs:
+
+
+BSMO-ABS:
+  request: 0x7E4
+  response: 0x7EC
+  network: [ccan]
+  description: Brake System Module 
+  requestedData:
+    DIDs:
+      0xF132:
+        description: ECU SW Part Number
+        responseByteSize: 10                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSoftwarePartNumber:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 10
+            bitSize: 0
+            type: Identical
+            conversion: ASCII
+    DTCs:
+
+EPS_A:
+  request: 0x75A
+  response: 0x4DA
+  network: [ccan]
+  description: Electronic Power Steering A
+  requestedData:
+    DIDs:
+      0xF132:
+        description: ECU SW Part Number
+        responseByteSize: 10                             # plus 3 of response and DID repeat
+        decodedData:
+          ecuSoftwarePartNumber:
+            startByte: 0
+            startbit: 0
+            description: ECU SW Part Number
+            byteSize: 10
+            bitSize: 0
+            type: Identical
+            conversion: HEX
+    DTCs:
+
+ECM:
+  request: 0x7E2
+  response: 0x7E8
+  network: [ccan]
+  description: Engine Control Module
+  requestedData:
+    DTCs:
+
+IC:
+  request: 0x742
+  response: 0x4C2
+  network: [ccan]
+  description: Instrument Cluster
+  requestedData:
+    DTCs:
+
+OCM:
+  request: 0x75E
+  response: 0x4DE
+  network: [ccan]
+  description: Occupant Classification Module
+  requestedData:
+    DTCs:
+
+ORC:
+  request: 0x744
+  response: 0x4C4
+  network: [ccan]
+  description: Occupant Restraint Controller
+  requestedData:
+    DTCs:
+
+PTS:
+  request: 0x762
+  response: 0x4E2
+  network: [ccan]
+  description: Parktronic System (AutoPark)
+  requestedData:
+    DTCs:
+
+RF_HUB:
+  request: 0x740
+  response: 0x4C0
+  network: [ccan]
+  description: Radio Frequency Hub
+  requestedData:
+    DTCs:
+
+SCCM:
+  request: 0x763
+  response: 0x4E3
+  network: [ccan]
+  description: Steering Column Control Module
+  requestedData:
+    DTCs:
+
+ESM:
+  request: 0x749
+  response: 0x4C9
+  network: [ccan]
+  description: Electronic Shifter Module
+  requestedData:
+    DTCs:
+
+APM:
+  request: 0x76A
+  response: 0x4EA
+  network: [ccan]
+  description: Auxiliary Power Module (DC-DC)
+  requestedData:
+    DTCs:
+
+EAC:
+  request: 0x76B
+  response: 0x4EB
+  network: [ccan]
+  description: Electronic Air Conditioner Compressor
+  requestedData:
+    DTCs:
+
+AHCP:
+  request: 0x76C
+  response: 0x4EC
+  network: [ccan]
+  description: Auxiliary Hybrid Control Processor
+  requestedData:
+    DTCs:
+
+OBCM:
+  request: 0x76E
+  response: 0x4EE
+  network: [ccan]
+  description: On-Board Charging Module
+  requestedData:
+    DTCs:
+
+BPCM:
+  request: 0x7E7
+  response: 0x7EF
+  network: [ccan]
+  description: Battery Pack Control Module
+  requestedData:
+    DTCs:
+
+HCP:
+  request: 0x7E2
+  response: 0x7EA
+  network: [ccan]
+  description: Hybrid Control Processor
+  requestedData:
+    DTCs:
+
+AHCP:
+  request: 0x76C
+  response: 0x4EC
+  network: [ccan]
+  description: Auxiliary Hybrid Control Processor
+  requestedData:
+    DTCs:
