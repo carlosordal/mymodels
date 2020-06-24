@@ -20,7 +20,7 @@
 import   diagnostic_lib
 import   isotp
 import   can
-import ics
+import   ics
 import   udsoncan
 import   udsoncan.configs
 from     udsoncan.connections import PythonIsoTpConnection
@@ -30,33 +30,34 @@ import   yaml
 import   pdb
 
 
-#udsoncan.setup_logging()
+udsoncan.setup_logging()
 
 
 dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('PeakCan',500000)    #'neovi' 'PeakCan' 'Virtual'
+bus = diagnostic_lib.canToolDefinition('PeakCan')    #'neovi' 'PeakCan' 'Virtual'
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
 # 'modulesIdsFusion.yaml'
-with open('modulesIdsPacificaCcan.yaml') as file:
-   documents = yaml.full_load(file)
-   for module, moduleContent in documents.items():
-      moduleName = module
-      moduleDescription = moduleContent.get('description')
-      requestedData = moduleContent.get('requestedData')
-      txId = moduleContent.get('request')
-      rxId = moduleContent.get('response')
-      print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
-      conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
+with open('modulesIdsMSEscape.yaml') as file:
+    documents = yaml.full_load(file)
+    for module, moduleContent in documents.items():
+        moduleName = module
+        moduleDescription = moduleContent.get('description')
+        requestedData = moduleContent.get('requestedData')
+        txId = moduleContent.get('request')
+        rxId = moduleContent.get('response')
+        print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
+        conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
+    
+        with Client(conn, request_timeout=10) as client:
+            try:    
+                response = client.clear_dtc(group=0xFFFFFF)
+                print('Clear DTCs response', response.code_name)
+            except:
+                print(moduleName, 'Not found')    
+                #print(response.service_data.dtcs)              # Will print an array of object: [<DTC ID=0x9a6115, Status=0x0a, Severity=0x00 at 0x1d608854388>, <DTC ID=0x9a6915, Status=0x0a, Severity=0x00 at 0x1d6088541c8>]  
 
-      with Client(conn, request_timeout=10) as client:                                     # Application layer (UDS protocol)
-            for dataTypes, dataTypeContent in requestedData.items():
-               if dataTypes == 'DTCs':
-                  diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
-               elif dataTypes == 'DIDs':
-                  for didNumber, didNumberContent in dataTypeContent.items():
-                     diagnostic_lib.getDID(client, conn, moduleName, didNumber, didNumberContent)
 
 print("********************************************************* completed  ********************************************")
 

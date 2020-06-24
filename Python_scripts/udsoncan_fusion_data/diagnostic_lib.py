@@ -12,12 +12,12 @@ import  pdb
 import  struct
 
 
-def canToolDefinition(canHw):
+def canToolDefinition(canHw, busSpeed):
     if canHw == 'PeakCan':
         bus = can.Bus(interface = 'pcan',
                 channel = 'PCAN_USBBUS1',
                 state = can.bus.BusState.ACTIVE,
-                bitrate = 125000)
+                bitrate = busSpeed)
     elif canHw == 'neovi':
         bus = can.interface.Bus(bustype='neovi', channel= 2, bitrate=125000)
         #bus = can.Bus(interface ='neovi', channel=2, bitrate=125000, state = can.bus.BusState.ACTIVE)              #it works

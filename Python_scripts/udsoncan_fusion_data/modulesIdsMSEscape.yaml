@@ -45,7 +45,7 @@ SYNC1:
             type: Identical
             conversion: HEX
 
-    DTCs:
+# #     DTCs:
 MFD:
   request: 0x7A5
   response: 0x7AD

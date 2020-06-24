@@ -1,3 +1,6 @@
+# all CCAN respond on CCAN channel from OBD2
+# ePT: OBCM respond on CCAN from OBD2.
+# IHS response from MS modules at 125 kbits.
 # F011 10 bytes HEX
 #  5 [0] DASM
 # 6 [7] HaLF
