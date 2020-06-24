@@ -54,11 +54,11 @@ MFD:
   requestedData:
     DTCs:
 
-EFP:
+ClimateControl:
   request: 0x733
   response: 0x73B
   network: [ccan]
-  description: Electronic Front Panel
+  description: Climate Control
   requestedData: 
     DIDs:
       0xF188:

@@ -3,6 +3,7 @@
 
 import  isotp
 import  can
+import ics
 import  udsoncan
 import  udsoncan.configs
 from    udsoncan.connections import PythonIsoTpConnection
@@ -17,6 +18,9 @@ def canToolDefinition(canHw):
                 channel = 'PCAN_USBBUS1',
                 state = can.bus.BusState.ACTIVE,
                 bitrate = 125000)
+    elif canHw == 'neovi':
+        bus = can.interface.Bus(bustype='neovi', channel= 2, bitrate=125000)
+        #bus = can.Bus(interface ='neovi', channel=2, bitrate=125000, state = can.bus.BusState.ACTIVE)              #it works
     elif canHw == 'Virtual':
         bus = can.interface.Bus('test', bustype='virtual')
     return bus

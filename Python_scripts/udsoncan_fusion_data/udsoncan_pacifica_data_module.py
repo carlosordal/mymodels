@@ -20,6 +20,7 @@
 import   diagnostic_lib
 import   isotp
 import   can
+import ics
 import   udsoncan
 import   udsoncan.configs
 from     udsoncan.connections import PythonIsoTpConnection
@@ -33,7 +34,7 @@ import   pdb
 
 
 dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('PeakCan')
+bus = diagnostic_lib.canToolDefinition('neovi')
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
