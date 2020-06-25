@@ -16,7 +16,7 @@ CBC:
     DIDs:
       0xF132:
         didDescription: ECU SW Part Number
-        responseByteSize: 10                             # plus 3 of response and DID repeat
+        responseByteSize: 10                              # Size from ENG file
         didConversionType: ASCII                          # ASCII: it doesn't require decoded data
 
       0x0138:
@@ -24,7 +24,7 @@ CBC:
         # eng file 4[0] B = 41
         # eng file 3[0] A = 0
         didDescription: ECU Configuration 6 (Steering)
-        responseByteSize: 2                               # plus 3 of response and DID repeat
+        responseByteSize: 2                               # ENG byte size - 2
         didConversionType: HEX
         decodedData:
           suspensionEcuConfigurationA:
@@ -48,7 +48,7 @@ CBC:
         #                Byte #    7  6  5  4  3  2  1  0
         #                 Bit #    7654 3210
         didDescription: Programmed ECUS - P/T Chassis Network
-        responseByteSize: 8                               # plus 3 of response and DID repeat
+        responseByteSize: 8                               # ENG byte size - 2
         didConversionType: HEX
         decodedData:
           halfNetworkConfiguration:
@@ -70,7 +70,7 @@ CBC:
 
       0xF190:
         didDescription: VIN Number
-        responseByteSize: 17                             # plus 3 of response and DID repeat
+        responseByteSize: 17                            # Size from ENG file
         didConversionType: ASCII
     DTCs:
 
@@ -83,7 +83,7 @@ EBCM:
     DIDs:
       0xF132:
         didDescription: ECU SW Part Number
-        responseByteSize: 10                             # plus 3 of response and DID repeat
+        responseByteSize: 10                              # Size from ENG file
         didConversionType: ASCII                          # ASCII: it doesn't require decoded data
     DTCs:
 
@@ -97,7 +97,7 @@ BSMO-ABS:
     DIDs:
       0xF132:
         didDescription: ECU SW Part Number
-        responseByteSize: 10                             # plus 3 of response and DID repeat
+        responseByteSize: 10                              # Size from ENG file
         didConversionType: ASCII                          # ASCII: it doesn't require decoded data
     DTCs:
 
@@ -110,8 +110,8 @@ EPS_A:
     DIDs:
       0xF132:                                           # Single Rack SW version
         didDescription: ECU SW Part Number
-        responseByteSize: 10                             # plus 3 of response and DID repeat
-        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
+        responseByteSize: 10                            # Size from ENG file
+        didConversionType: ASCII                        # ASCII: it doesn't require decoded data
     DTCs:
 
 ECM:
@@ -123,7 +123,7 @@ ECM:
     DIDs:
       0xF190:
         didDescription: VIN Number
-        responseByteSize: 17                             # plus 3 of response and DID repeat
+        responseByteSize: 17                            # Size from ENG file
         didConversionType: ASCII
     DTCs:
 
@@ -190,23 +190,6 @@ APM:
   description: Auxiliary Power Module (DC-DC)
   requestedData:
     DTCs:
-
-# EAC:
-#   request: 0x76B
-#   response: 0x4EB
-#   network: [ccan]
-#   description: Electronic Air Conditioner Compressor
-#   requestedData:
-#     DTCs:
-
-# AHCP:
-#   request: 0x76C
-#   response: 0x4EC
-#   network: [ccan]
-#   description: Auxiliary Hybrid Control Processor
-#   requestedData:
-#     DTCs:
-
 OBCM:
   request: 0x76E
   response: 0x4EE

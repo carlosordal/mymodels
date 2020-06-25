@@ -8,6 +8,7 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # Next steps:
+# dtc description for non existing DTCs B1A7D-01 BATTERY VOLTAGE
 # # it needs to include Module Network on DTC report.
 # avoid repeating SW PN DID definition
 # convert it to app simulation and Peak CAN.

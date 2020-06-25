@@ -10,6 +10,7 @@ from    udsoncan.connections import PythonIsoTpConnection
 from    udsoncan.client import Client
 import  pdb
 import  struct
+import  csv
 
 
 def canToolDefinition(canHw, busSpeed):
@@ -97,6 +98,7 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
     extractInfo = binaryData[bitStartPosition: bitEndPosition]
     return extractInfo
 
+#def extractDtcDescription():
 
 
 def getDTCs(client, dtc_status_mask, moduleName):
@@ -111,7 +113,28 @@ def getDTCs(client, dtc_status_mask, moduleName):
             for dtc in response.service_data.dtcs:
                 index = index + 1
                 dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
-                print('     ', moduleName, "DTC", index, ':', dtcJ2012Code)         # Print the HEX DTC number
+                dtcId = dtcJ2012Code[0:5]
+                #get dtc description
+                open_file = open('pacifica_dtc_list.csv')
+                csv_file = csv.reader(open_file)
+                dtcDescription = ''
+                for row in csv_file:
+                    if row[0] == dtcId:
+                        dtcDescription = row[1]
+                
+                #get subtype description
+                subtypeDescription =''
+                subtypeId = dtcJ2012Code[6:8]
+
+                open_file = open('pacifica_dtc_list.csv')
+                csv_file = csv.reader(open_file)
+                for row_type in csv_file:
+                    if row_type[0] == subtypeId:
+                        subtypeDescription = row_type[1]
+
+
+
+                print('     ', moduleName, "DTC", index, ':', dtcJ2012Code, dtcDescription,'-',subtypeDescription)         # Print the HEX DTC number
     except:
         print(moduleName, 'Not found')
     
