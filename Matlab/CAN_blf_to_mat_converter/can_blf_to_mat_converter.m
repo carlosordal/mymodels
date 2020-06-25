@@ -12,7 +12,7 @@
 %Inputs:    1) network_a    - Network Name (ccan_rr, ccan_nrr, lyftctrlcan, eptcan)
 %           2) channel_a    - Channel number on the blf file
 %           3) dbcDirectory - Directory of the dbcs. Same names as avcampari. ('C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs')    
-%Ouputs:    1) Matfiles stored on the blf folder.
+%Outputs:    1) Matfiles stored on the blf folder.
 
 
 %Reference for BU CAN data logger:
