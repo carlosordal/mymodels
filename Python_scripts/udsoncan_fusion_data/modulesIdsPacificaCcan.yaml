@@ -1,5 +1,6 @@
 # all CCAN respond on CCAN channel from OBD2
 # ePT: OBCM respond on CCAN from OBD2.
+# it needs to confirm ECM response. 7E0.
 # IHS response from MS modules at 125 kbits.
 # F011 10 bytes HEX
 #  5 [0] DASM
@@ -13,8 +14,9 @@ CBC:
   requestedData:
     DIDs:
       0xF132:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
+        didConversionType: ASCII
         decodedData:
           ecuSoftwarePartNumber:
             startByte: 0
@@ -25,41 +27,58 @@ CBC:
             type: Identical
             conversion: ASCII
       0x0138:
-        description: ECU Configuration 6 (Steering)
+        # response 0x 41 00: B A
+        # eng file 4[0] B = 41
+        # eng file 3[0] A = 0
+        didDescription: ECU Configuration 6 (Steering)
         responseByteSize: 2                               # plus 3 of response and DID repeat
+        didConversionType: HEX
         decodedData:
-          ecuConfiguration6Steering:
+          suspensionEcuConfigurationA:
             startByte: 0
-            startbit: 0
-            description: Suspension ecu configurationA&B
-            byteSize: 2
+            startBit: 0
+            description: Suspension ECU configuration A
+            byteSize: 1
+            bitSize: 0
+            type: Identical
+            conversion: HEX
+          suspensionEcuConfigurationB:
+            startByte: 1
+            startBit: 0
+            description: Suspension ECU configuration B
+            byteSize: 1
             bitSize: 0
             type: Identical
             conversion: HEX
       0xF011:
-        description: Programmed ECUS - P/T Chassis Network
-        responseByteSize: 10                               # plus 3 of response and DID repeat
+        #response HALF not set: 0x80 ce 89 40 54 10 00 00 
+        #                Byte #    7  6  5  4  3  2  1  0
+        #                 Bit #    7654 3210
+        didDescription: Programmed ECUS - P/T Chassis Network
+        responseByteSize: 8                               # plus 3 of response and DID repeat
+        didConversionType: HEX
         decodedData:
-          dasm_half:
-            startByte: 5
-            startbit: 0
-            description: DASM_HALF
+          halfNetworkConfiguration:
+            startByte: 4
+            startBit: 7
+            description: HALF Network Configuration
             byteSize: 0
             bitSize: 1
             type: Identical
             conversion: HEX
-          # half:
-          #   startByte: 6
-          #   startbit: 7
-          #   description: HALF
-          #   byteSize: 0
-          #   bitSize: 1
-          #   type: Identical
-          #   conversion: HEX
+          dasmNetworkConfiguration:
+            startByte: 5
+            startBit: 0
+            description: DASM Network Configuration
+            byteSize: 0
+            bitSize: 1
+            type: Identical
+            conversion: HEX
 
       0xF190:
-        description: VIN Number
+        didDescription: VIN Number
         responseByteSize: 17                             # plus 3 of response and DID repeat
+        didConversionType: ASCII
         decodedData:
           ecuSoftwarePartNumber:
             startByte: 0
@@ -136,7 +155,7 @@ EPS_A:
     DTCs:
 
 ECM:
-  request: 0x7E2
+  request: 0x7E0
   response: 0x7E8
   network: [ccan]
   description: Engine Control Module
@@ -207,21 +226,21 @@ APM:
   requestedData:
     DTCs:
 
-EAC:
-  request: 0x76B
-  response: 0x4EB
-  network: [ccan]
-  description: Electronic Air Conditioner Compressor
-  requestedData:
-    DTCs:
+# EAC:
+#   request: 0x76B
+#   response: 0x4EB
+#   network: [ccan]
+#   description: Electronic Air Conditioner Compressor
+#   requestedData:
+#     DTCs:
 
-AHCP:
-  request: 0x76C
-  response: 0x4EC
-  network: [ccan]
-  description: Auxiliary Hybrid Control Processor
-  requestedData:
-    DTCs:
+# AHCP:
+#   request: 0x76C
+#   response: 0x4EC
+#   network: [ccan]
+#   description: Auxiliary Hybrid Control Processor
+#   requestedData:
+#     DTCs:
 
 OBCM:
   request: 0x76E
@@ -244,13 +263,5 @@ HCP:
   response: 0x7EA
   network: [ccan]
   description: Hybrid Control Processor
-  requestedData:
-    DTCs:
-
-AHCP:
-  request: 0x76C
-  response: 0x4EC
-  network: [ccan]
-  description: Auxiliary Hybrid Control Processor
   requestedData:
     DTCs:

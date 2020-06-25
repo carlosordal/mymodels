@@ -87,8 +87,7 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
 
     binFormat = '0' + str(dataBitSize) + 'b'
     binaryData = format(data, binFormat)
-    #binaryData = binaryData[2:]
-    #decodedbits = 
+
     byteLength = 8      # 8 bits total per byte
 
     bitEndPosition = dataBitSize  - ((startByte * byteLength) + startBit)

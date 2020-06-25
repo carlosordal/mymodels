@@ -34,12 +34,12 @@ udsoncan.setup_logging()
 
 
 dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('PeakCan')    #'neovi' 'PeakCan' 'Virtual'
+bus = diagnostic_lib.canToolDefinition('PeakCan',500000)    #'neovi' 'PeakCan' 'Virtual'
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
 # 'modulesIdsFusion.yaml'
-with open('modulesIdsMSEscape.yaml') as file:
+with open('modulesIdsPacificaCcan.yaml') as file:
     documents = yaml.full_load(file)
     for module, moduleContent in documents.items():
         moduleName = module
