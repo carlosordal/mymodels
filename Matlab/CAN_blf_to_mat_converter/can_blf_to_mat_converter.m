@@ -9,13 +9,9 @@
 % time
 % select DBC per channel.
 
-%Inputs:    1) first_network
-%           2) first_can_channel
-%           3) second_network
-%           4) second_can_channel
-%           5) third_network
-%           6) third_can_channel
-
+%Inputs:    1) network_a    - Network Name (ccan_rr, ccan_nrr, lyftctrlcan, eptcan)
+%           2) channel_a    - Channel number on the blf file
+%           3) dbcDirectory - Directory of the dbcs. Same names as avcampari. ('C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs')    
 %Ouputs:    1) Matfiles stored on the blf folder.
 
 
@@ -30,14 +26,12 @@
 % Ch7: CAN ePT - isolated
 
 
-function can_blf_to_mat_converter(network_a, channel_a)
+function can_blf_to_mat_converter(network_a, channel_a, dbcDirectory)
     networkSel = network_a;
     canCh = channel_a;
     %% DBCs Path definition (avcampari dir)
     this_folder = fileparts(mfilename('fullpath'));   
-    %guDbcPath = fullfile('C:\Users\cordunoalbarran\Documents\Repo\avcampari\GUv0 DBCs');
-    guDbcPath = fullfile('C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs');
-    addpath(guDbcPath);
+    addpath(dbcDirectory);
 
     
     % Script to select folder and print blf files
@@ -62,7 +56,7 @@ function can_blf_to_mat_converter(network_a, channel_a)
             % folder
 
             oldFilename = fullfile(this_folder, matFile);
-            [folder, baseFileName, extension] = fileparts(fullfile(thisFile.folder, thisFile.name));
+            [~, baseFileName, ~] = fileparts(fullfile(thisFile.folder, thisFile.name));
             noSpaceName =  regexprep(baseFileName, ' ', '_');
             newFilename = strcat(noSpaceName,'_',matFile);
             newFilename = fullfile(thisFile.folder,'\', newFilename);
