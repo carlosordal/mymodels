@@ -1,5 +1,3 @@
-#AMP_PN	7BE	53E
-#DDM_PN	784	504
 AMP:
   request: 0x7BE
   response: 0x53E
@@ -12,5 +10,12 @@ DDM:
   response: 0x504
   network: [lyftctrl]
   description: Driver Door Module  
+  requestedData:
+    DTCs:
+PDM:
+  request: 0x785
+  response: 0x505
+  network: [lyftctrl]
+  description: Passenger Door Module  
   requestedData:
     DTCs:

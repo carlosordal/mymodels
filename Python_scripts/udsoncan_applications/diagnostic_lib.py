@@ -3,6 +3,7 @@
 
 import  isotp
 import  can
+import ics
 import  udsoncan
 import  udsoncan.configs
 from    udsoncan.connections import PythonIsoTpConnection
@@ -11,12 +12,15 @@ import  pdb
 import  struct
 
 
-def canToolDefinition(canHw):
+def canToolDefinition(canHw, busSpeed):
     if canHw == 'PeakCan':
         bus = can.Bus(interface = 'pcan',
                 channel = 'PCAN_USBBUS1',
                 state = can.bus.BusState.ACTIVE,
-                bitrate = 125000)
+                bitrate = busSpeed)
+    elif canHw == 'neovi':
+        bus = can.interface.Bus(bustype='neovi', channel= 2, bitrate=125000)
+        #bus = can.Bus(interface ='neovi', channel=2, bitrate=125000, state = can.bus.BusState.ACTIVE)              #it works
     elif canHw == 'Virtual':
         bus = can.interface.Bus('test', bustype='virtual')
     return bus
@@ -83,8 +87,7 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
 
     binFormat = '0' + str(dataBitSize) + 'b'
     binaryData = format(data, binFormat)
-    #binaryData = binaryData[2:]
-    #decodedbits = 
+
     byteLength = 8      # 8 bits total per byte
 
     bitEndPosition = dataBitSize  - ((startByte * byteLength) + startBit)

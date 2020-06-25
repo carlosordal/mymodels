@@ -8,6 +8,7 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # Next steps:
+# # it needs to include Module Network on DTC report.
 # avoid repeating SW PN DID definition
 # convert it to app simulation and Peak CAN.
 # Print DTC description from a different file List.
@@ -20,6 +21,7 @@
 import   diagnostic_lib
 import   isotp
 import   can
+import ics
 import   udsoncan
 import   udsoncan.configs
 from     udsoncan.connections import PythonIsoTpConnection
@@ -33,12 +35,12 @@ import   pdb
 
 
 dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('PeakCan')
+bus = diagnostic_lib.canToolDefinition('PeakCan',500000)    #'neovi' 'PeakCan' 'Virtual'
 # modulesIdsPacificaCcan
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
 # 'modulesIdsFusion.yaml'
-with open('modulesIdsMSEscape.yaml') as file:
+with open('modulesIdsPacificaCcan.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module

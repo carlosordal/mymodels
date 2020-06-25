@@ -1,3 +1,5 @@
+# send a message
+# Fusion 2017, FCIM ecu reset on HS2.
 # import the library
 import can
 
@@ -10,7 +12,7 @@ bus = can.Bus(interface = 'pcan',
                 bitrate = 500000)
 
 # send a message
-
+# Fusion 2017, FCIM ecu reset on HS2.
 message = can.Message(arbitration_id=0x7A7, is_extended_id=False, is_fd_=False,
                       data=[0x02,0x11, 0x01, 0x0, 0x0, 0x0, 0x0, 0x0])
 bus.send(message)
