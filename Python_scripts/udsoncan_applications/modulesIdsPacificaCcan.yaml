@@ -17,16 +17,8 @@ CBC:
       0xF132:
         didDescription: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
-        didConversionType: ASCII
-        decodedData:
-          ecuSoftwarePartNumber:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 10
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
+        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
+
       0x0138:
         # response 0x 41 00: B A
         # eng file 4[0] B = 41
@@ -80,15 +72,6 @@ CBC:
         didDescription: VIN Number
         responseByteSize: 17                             # plus 3 of response and DID repeat
         didConversionType: ASCII
-        decodedData:
-          ecuSoftwarePartNumber:
-            startByte: 0
-            startbit: 0
-            description: VIN Number
-            byteSize: 17
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
     DTCs:
 
 EBCM:
@@ -99,17 +82,9 @@ EBCM:
   requestedData:
     DIDs:
       0xF132:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
-        decodedData:
-          ecuSoftwarePartNumber:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 10
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
+        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
     DTCs:
 
 
@@ -121,17 +96,9 @@ BSMO-ABS:
   requestedData:
     DIDs:
       0xF132:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
-        decodedData:
-          ecuSoftwarePartNumber:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 10
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
+        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
     DTCs:
 
 EPS_A:
@@ -141,18 +108,10 @@ EPS_A:
   description: Electronic Power Steering A
   requestedData:
     DIDs:
-      0xF132:
-        description: ECU SW Part Number
+      0xF132:                                           # Single Rack SW version
+        didDescription: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
-        decodedData:
-          ecuSoftwarePartNumber:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 10
-            bitSize: 0
-            type: Identical
-            conversion: HEX
+        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
     DTCs:
 
 ECM:
@@ -161,6 +120,11 @@ ECM:
   network: [ccan]
   description: Engine Control Module
   requestedData:
+    DIDs:
+      0xF190:
+        didDescription: VIN Number
+        responseByteSize: 17                             # plus 3 of response and DID repeat
+        didConversionType: ASCII
     DTCs:
 
 IC:
