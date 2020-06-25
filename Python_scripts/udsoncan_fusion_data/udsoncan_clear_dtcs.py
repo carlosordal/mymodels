@@ -8,13 +8,7 @@
 # ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
 
 # Next steps:
-# avoid repeating SW PN DID definition
-# convert it to app simulation and Peak CAN.
-# Print DTC description from a different file List.
-# Select network for report. if HS1 print out VIN#
-# Create a file with Report. txt
-# error handler for no tool connected.
-# error handler for bus speed not correct.
+
 
 
 import   diagnostic_lib
@@ -30,8 +24,9 @@ import   yaml
 import   pdb
 
 
-udsoncan.setup_logging()
-
+#udsoncan.setup_logging()
+# pacifica: when eng on EBCM, ABS, BPCM, HCP negative response.
+# Pacifica: In order to clear DTCs, it should be Ign on, eng off.
 
 dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan',500000)    #'neovi' 'PeakCan' 'Virtual'

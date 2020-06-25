@@ -3013,3 +3013,103 @@
 2020-06-24 17:10:55 [DEBUG] Connection: Received 3 bytes : [b'7f1422']
 2020-06-24 17:10:55 [WARNING] UdsClient: [NegativeResponseException] : ClearDiagnosticInformation service execution returned a negative response ConditionsNotCorrect (0x22)
 2020-06-24 17:10:55 [INFO] Connection: Connection closed
+2020-06-24 17:15:33 [INFO] Connection: Connection opened
+2020-06-24 17:15:33 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:33 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:33 [DEBUG] Connection: Received 11 bytes : [b'62f01180ce89c054100000']
+2020-06-24 17:15:33 [ERROR] UdsClient: [UnexpectedResponseException] : ReadDataByIdentifier service execution returned a valid response but unexpected. Details : Response gotten from server has a service ID different than the request service ID. Received=0x62, Expected=0x54 
+2020-06-24 17:15:33 [INFO] Connection: Connection closed
+2020-06-24 17:15:33 [INFO] Connection: Connection opened
+2020-06-24 17:15:33 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:33 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:34 [DEBUG] Connection: Received 3 bytes : [b'7f1422']
+2020-06-24 17:15:34 [WARNING] UdsClient: [NegativeResponseException] : ClearDiagnosticInformation service execution returned a negative response ConditionsNotCorrect (0x22)
+2020-06-24 17:15:34 [INFO] Connection: Connection closed
+2020-06-24 17:15:34 [INFO] Connection: Connection opened
+2020-06-24 17:15:34 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:34 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:34 [DEBUG] Connection: Received 3 bytes : [b'7f1422']
+2020-06-24 17:15:34 [WARNING] UdsClient: [NegativeResponseException] : ClearDiagnosticInformation service execution returned a negative response ConditionsNotCorrect (0x22)
+2020-06-24 17:15:34 [INFO] Connection: Connection closed
+2020-06-24 17:15:34 [INFO] Connection: Connection opened
+2020-06-24 17:15:34 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:34 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:34 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:34 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:34 [INFO] Connection: Connection closed
+2020-06-24 17:15:34 [INFO] Connection: Connection opened
+2020-06-24 17:15:34 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:34 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:34 [DEBUG] Connection: Received 3 bytes : [b'7f1412']
+2020-06-24 17:15:34 [WARNING] UdsClient: Given response code "SubFunctionNotSupported" (0x12) is not a supported negative response code according to UDS standard.
+2020-06-24 17:15:34 [WARNING] UdsClient: [NegativeResponseException] : ClearDiagnosticInformation service execution returned a negative response SubFunctionNotSupported (0x12)
+2020-06-24 17:15:34 [INFO] Connection: Connection closed
+2020-06-24 17:15:34 [INFO] Connection: Connection opened
+2020-06-24 17:15:34 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:34 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:35 [DEBUG] Connection: Received 3 bytes : [b'7f1478']
+2020-06-24 17:15:35 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:35 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:35 [INFO] Connection: Connection closed
+2020-06-24 17:15:35 [INFO] Connection: Connection opened
+2020-06-24 17:15:35 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:35 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:35 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:35 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:35 [INFO] Connection: Connection closed
+2020-06-24 17:15:35 [INFO] Connection: Connection opened
+2020-06-24 17:15:35 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:35 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:35 [DEBUG] Connection: Received 3 bytes : [b'7f1478']
+2020-06-24 17:15:36 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:36 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:36 [INFO] Connection: Connection closed
+2020-06-24 17:15:36 [INFO] Connection: Connection opened
+2020-06-24 17:15:36 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:36 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:36 [DEBUG] Connection: Received 3 bytes : [b'7f1478']
+2020-06-24 17:15:36 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:36 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:36 [INFO] Connection: Connection closed
+2020-06-24 17:15:36 [INFO] Connection: Connection opened
+2020-06-24 17:15:36 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:36 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:36 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:36 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:36 [INFO] Connection: Connection closed
+2020-06-24 17:15:36 [INFO] Connection: Connection opened
+2020-06-24 17:15:36 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:36 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:37 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:37 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:37 [INFO] Connection: Connection closed
+2020-06-24 17:15:37 [INFO] Connection: Connection opened
+2020-06-24 17:15:37 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:37 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:37 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:37 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:37 [INFO] Connection: Connection closed
+2020-06-24 17:15:37 [INFO] Connection: Connection opened
+2020-06-24 17:15:37 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:37 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:37 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:37 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:37 [INFO] Connection: Connection closed
+2020-06-24 17:15:37 [INFO] Connection: Connection opened
+2020-06-24 17:15:37 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:37 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:37 [DEBUG] Connection: Received 1 bytes : [b'54']
+2020-06-24 17:15:37 [INFO] UdsClient: Received positive response for service ClearDiagnosticInformation (0x14) from server.
+2020-06-24 17:15:37 [INFO] Connection: Connection closed
+2020-06-24 17:15:37 [INFO] Connection: Connection opened
+2020-06-24 17:15:37 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:37 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:37 [DEBUG] Connection: Received 2 bytes : [b'4300']
+2020-06-24 17:15:37 [ERROR] UdsClient: [InvalidResponseException] : service execution returned an invalid response. Reason : Payload first byte is not a know service response ID.
+2020-06-24 17:15:37 [INFO] Connection: Connection closed
+2020-06-24 17:15:37 [INFO] Connection: Connection opened
+2020-06-24 17:15:37 [INFO] UdsClient: ClearDiagnosticInformation<0x14> - Clearing all DTCs (group mask : 0xFFFFFF)
+2020-06-24 17:15:37 [DEBUG] Connection: Sending 4 bytes : [b'14ffffff']
+2020-06-24 17:15:37 [DEBUG] Connection: Received 2 bytes : [b'4700']
+2020-06-24 17:15:37 [ERROR] UdsClient: [InvalidResponseException] : service execution returned an invalid response. Reason : Payload first byte is not a know service response ID.
+2020-06-24 17:15:37 [INFO] Connection: Connection closed
