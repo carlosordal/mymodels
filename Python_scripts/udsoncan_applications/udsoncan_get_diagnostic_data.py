@@ -10,8 +10,8 @@
 # Next steps:
 # add breaks if inputs are not known
 # convert this code into a function
-# create a function to get DTC description, and subtype description
-# add module list file name, used to read the data and create the report.
+# create a function to get DTC description, and subtype description to call it twice
+# add module list file name, to the report used to read the data and create the report.
 
 # avoid repeating SW PN DID definition 0xF132 or 0xF188 or 0xF190
 # convert it to app simulation and Peak CAN.
@@ -48,10 +48,16 @@ import   pdb
 # 'modulesIdsFusion.yaml'
 # 'modulesIdsMSEscape.yaml'
 
-moduleList = sys.argv[1]
-dtcsFile = sys.argv[2]
-canNetwork = sys.argv[3]
 #udsoncan.setup_logging()
+#with arguments
+# moduleList = sys.argv[1]
+# dtcsFile = sys.argv[2]
+# canNetwork = sys.argv[3]
+
+# without argument VS Code
+moduleList = 'modulesIdsMSEscape.yaml'
+dtcsFile = 'pacifica_dtc_list.csv'
+canNetwork = 'ihs'
 
 # open_file = open(dtcsFile)
 # csv_file = csv.reader(open_file)

@@ -1,21 +1,140 @@
 AMP:
   request: 0x7BE
   response: 0x53E
-  network: [lyftctrl]
+  network: ihs
   description: Audio Amplifier
   requestedData:
     DTCs:
+CDM:
+  request: 0x7B6
+  response: 0x536
+  network: ihs
+  description: Compact Disk Module 
+  requestedData:
+    DTCs:
+CMCM:
+  request: 0x7BF
+  response: 0x53F
+  network: ihs
+  description: Radio 
+  requestedData:
+    DTCs:
+CVPM:
+  request: 0x794
+  response: 0x514
+  network: ihs
+  description: Central Vision Processing Module (360 view)
+  requestedData:
+    DTCs:
+DCSD:
+  request: 0x7AC
+  response: 0x52C
+  network: ihs
+  description: Disassociated Center Stack Display Screen (IP)
+  requestedData:
+    DTCs:    
 DDM:
   request: 0x784
   response: 0x504
-  network: [lyftctrl]
+  network: ihs
   description: Driver Door Module  
+  requestedData:
+    DTCs:
+DMRL:
+  request: 0x786
+  response: 0x506
+  network: ihs
+  description: Door Module Rear Left
+  requestedData:
+    DTCs:
+DMRR:
+  request: 0x787
+  response: 0x507
+  network: ihs
+  description: Door Module Rear Right
+  requestedData:
+    DTCs:
+HSM:
+  request: 0x792
+  response: 0x512
+  network: ihs
+  description: Heater Seat Module
+  requestedData:
+    DTCs:
+HVACR:
+  request: 0x798
+  response: 0x518
+  network: ihs
+  description: Heating Ventilation Air Conditioning Rear Module
+  requestedData:
+    DTCs:
+HVAC:
+  request: 0x783
+  response: 0x503
+  network: ihs
+  description: Heating Ventilation Air Conditioning Module
+  requestedData:
+    DTCs:
+ICSR:
+  request: 0x7AE
+  response: 0x52E
+  network: ihs
+  description: Integrated Center Stack Rear
+  requestedData:
+    DTCs:
+ICS:
+  request: 0x7BC
+  response: 0x53C
+  network: ihs
+  description: Integrated Center Stack (IP Switch Bank)
+  requestedData:
+    DTCs:
+LBSS:
+  request: 0x791
+  response: 0x511
+  network: ihs
+  description: Left Blint Spot System
   requestedData:
     DTCs:
 PDM:
   request: 0x785
   response: 0x505
-  network: [lyftctrl]
+  network: ihs
   description: Passenger Door Module  
+  requestedData:
+    DTCs:
+PLGM:
+  request: 0x78C
+  response: 0x50C
+  network: ihs
+  description: Power Liftgate Module
+  requestedData:
+    DTCs:
+PSDML:
+  request: 0x788
+  response: 0x508
+  network: ihs
+  description: Power Sliding Door Module Left
+  requestedData:
+    DTCs:
+PSDMR:
+  request: 0x789
+  response: 0x509
+  network: ihs
+  description: Power Sliding Door Module Right
+  requestedData:
+    DTCs:
+RBSS:
+  request: 0x799
+  response: 0x519
+  network: ihs
+  description: Right Blind Spot System
+  requestedData:
+    DTCs:
+VRM:
+  request: 0x7AD
+  response: 0x52D
+  network: ihs
+  description: Video Routing Module
   requestedData:
     DTCs:
