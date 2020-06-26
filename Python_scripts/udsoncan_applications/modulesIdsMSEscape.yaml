@@ -1,7 +1,7 @@
 SYNC1:
   request: 0x7D0
   response: 0x7D8
-  network: [ccan]
+  network: ccan
   description: SYNC1
   requestedData:
     DIDs:
@@ -9,28 +9,19 @@ SYNC1:
         didDescription: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
         didConversionType: ASCII
-        decodedData:
-          ecuSWPN:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 15
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
+
       0xDE00:
         didDescription: SYNC Configuration
         responseByteSize: 8                               # plus 3 of response and DID repeat
         didConversionType: HEX
         # SYNC1 0xde00 None : 0x 10 af 98 40 02 40 60 00
-        #                        xx 6 5 4 3 2 1 0
+        # Byte position     xx 8  7  6  5  4  3  2  1  0
         #SYNC1 0xde00 None : 0x10af984002406000
         #SYNC1 0xde00 None : 0x10 af 98 40 02 40 60 00
-        # bit FCA 7 6 5 4 3 2 1 0
         decodedData:
           syncEnable:
-            startByte: 7      #FCA's Bytes xx 6 5 4 3 2 1 0
-            startBit: 4       #(FCA distribution) 7 6 5 4 3 2 1 0
+            startByte: 7      #Bytes position (opposite than FCA) XX xx xx xx xx xx xx xx = 0x10
+            startBit: 4       #Bits position (same as FCA) xxxX xxxx = 0001 0000
             description: SYNC Configuration
             byteSize: 0       # how many bytes? 0 = less than a byte/
             bitSize: 1        # how many bits?
@@ -45,11 +36,10 @@ SYNC1:
             type: Identical
             conversion: HEX
 
-# #     DTCs:
 MFD:
   request: 0x7A5
   response: 0x7AD
-  network: [ccan]
+  network: ccan
   description: Multi Function Dispay 4"
   requestedData:
     DTCs:
@@ -57,7 +47,7 @@ MFD:
 ClimateControl:
   request: 0x733
   response: 0x73B
-  network: [ccan]
+  network: ccan
   description: Climate Control
   requestedData: 
     DIDs:
@@ -78,7 +68,7 @@ ClimateControl:
 Radio:
   request: 0x727
   response: 0x72F
-  network: [ccan]
+  network: ccan
   description: Radio
   requestedData:
     DTCs:
@@ -86,7 +76,7 @@ Radio:
 BCM:
   request: 0x726
   response: 0x72E
-  network: [ccan]
+  network: ccan
   description: Body Control Module
   requestedData:
     DTCs:
@@ -94,7 +84,7 @@ BCM:
 IPC:
   request: 0x720
   response: 0x728
-  network: [ccan]
+  network: ccan
   description: Instrument Panel Cluster
   requestedData:
     DIDs:
@@ -102,21 +92,12 @@ IPC:
         didDescription: ECU SW Part Number
         responseByteSize: 15                             # plus 3 of response and DID repeat
         didConversionType: ASCII
-        decodedData:
-          ecuSWPN:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 15
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
     DTCs:
 
 GPS:
   request: 0x701
   response: 0x709
-  network: [ccan]
+  network: ccan
   description: Body Control Module
   requestedData:
     DTCs:

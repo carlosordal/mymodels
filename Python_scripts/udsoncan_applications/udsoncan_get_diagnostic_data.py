@@ -1,48 +1,78 @@
 # Read information requested on yaml file, depending on vehicle and DID decoder.
-# documentation: https://udsoncan.readthedocs.io/en/latest/
-
-# python can for hardware connection
-# https://python-can.readthedocs.io/en/master/
-# https://github.com/hardbyte/python-can/tree/master
-# tested on fusion 6/2/2020, functions added to read DTCs and DIDs
-# ForScan: https://docs.google.com/spreadsheets/u/1/d/1yax6zfhZYj2joBczEeruqKh9X5Qhee3C0ngilqwTA7E/pubhtml?gid=0&single=true
-
+# HW Connection: Tested with Peak CAN tool. 1 CAN channel.
+# - An special OBD cable is needed with DB9 connections, for CCAN and IHS connections.
+#
+# Inputs:   1) module_list - yaml File that contains ECUs Request and Response Ids, data requested, DID decode data. 
+#           2) dtc_list    - csv File that contains the dtc list and subtype description. (empty rows are not allowed)
+#           3) can_network - Select CAN bus - 'ccan' or 'ihs'
+# Outpus:   1) DTC, DID, report
+# 
 # Next steps:
-# dtc description for non existing DTCs B1A7D-01 BATTERY VOLTAGE
-# # it needs to include Module Network on DTC report.
-# avoid repeating SW PN DID definition
+# add breaks if inputs are not known
+# convert this code into a function
+# create a function to get DTC description, and subtype description
+# add module list file name, used to read the data and create the report.
+
+# avoid repeating SW PN DID definition 0xF132 or 0xF188 or 0xF190
 # convert it to app simulation and Peak CAN.
-# Print DTC description from a different file List.
+
 # Select network for report. if HS1 print out VIN#
 # Create a file with Report. txt
 # error handler for no tool connected.
 # error handler for bus speed not correct.
 
+# create a list of requirements. udsoncan, yaml
+# remove imports on main file if those are not needed.
+
+# README:
+# 1. you gotta use python 3.6 and up
+# 2. you gotta pip install -r requirements.txt
+# 3. usage is python dbcParser <Name Of DBC> = 'file.dbc'
+
+# Requirements:
+# cantools==32.20.0
+# pyyaml==5.1.1
+
 
 import   diagnostic_lib
-import   isotp
-import   can
-import   ics
-import   udsoncan
-import   udsoncan.configs
-from     udsoncan.connections import PythonIsoTpConnection
 from     udsoncan.client      import Client
-import   struct
 import   yaml  
+import   sys
 import   pdb
 
-
-#udsoncan.setup_logging()
-
-
-dtc_status_mask = 0x0D         #0x2F
-bus = diagnostic_lib.canToolDefinition('PeakCan',500000)    #'neovi' 'PeakCan' 'Virtual'
+# arguments example on Escape: 'modulesIdsMSEscape.yaml' 'pacifica_dtc_list.csv' 'ihs'
 # 'modulesIdsPacificaObd2CcanEpt.yaml'
 # 'modulesIdsPacificaCcan.yaml'
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
 # 'modulesIdsFusion.yaml'
-with open('modulesIdsPacificaObd2CcanEpt.yaml') as file:
+# 'modulesIdsMSEscape.yaml'
+
+moduleList = sys.argv[1]
+dtcsFile = sys.argv[2]
+canNetwork = sys.argv[3]
+#udsoncan.setup_logging()
+
+# open_file = open(dtcsFile)
+# csv_file = csv.reader(open_file)
+
+#assign baudrate
+if canNetwork == 'ccan':
+   baudrate = 500000
+elif canNetwork == 'ept':
+   baudrate = 500000
+elif canNetwork == 'ihs':
+   baudrate = 125000
+else:
+   print('Application stopped. Unknown network. Options are ccan, ihs, ept')
+   sys.exit()
+
+
+dtc_status_mask = 0x0D         #0x2F
+#pdb.set_trace()
+bus = diagnostic_lib.canToolDefinition('PeakCan',baudrate)    #'neovi' 'PeakCan' 'Virtual'
+
+with open(moduleList) as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module
@@ -57,7 +87,7 @@ with open('modulesIdsPacificaObd2CcanEpt.yaml') as file:
       with Client(conn, request_timeout=10) as client:                                     # Application layer (UDS protocol)
             for dataTypes, dataTypeContent in requestedData.items():
                if dataTypes == 'DTCs':
-                  diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName)
+                  diagnostic_lib.getDTCs(client, dtc_status_mask, moduleName, dtcsFile)
                elif dataTypes == 'DIDs':
                   for didNumber, didNumberContent in dataTypeContent.items():
                      diagnostic_lib.getDID(client, conn, moduleName, didNumber, didNumberContent)

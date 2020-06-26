@@ -101,7 +101,7 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
 #def extractDtcDescription():
 
 
-def getDTCs(client, dtc_status_mask, moduleName):
+def getDTCs(client, dtc_status_mask, moduleName, dtcsFile):
     try:
         response = client.get_dtc_by_status_mask(dtc_status_mask)
         print("DTCs: ")
@@ -115,7 +115,7 @@ def getDTCs(client, dtc_status_mask, moduleName):
                 dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
                 dtcId = dtcJ2012Code[0:5]
                 #get dtc description
-                open_file = open('pacifica_dtc_list.csv')
+                open_file = open(dtcsFile)
                 csv_file = csv.reader(open_file)
                 dtcDescription = ''
                 for row in csv_file:
