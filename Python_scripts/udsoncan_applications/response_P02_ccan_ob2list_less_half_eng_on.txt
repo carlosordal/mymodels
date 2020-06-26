@@ -1,0 +1,82 @@
+ ----------------- Section: ACC-DASM - ACC-Driver Assistance System Module on ccan-lyftctrl network -------------------
+DTCs: 
+      ACC-DASM DTC 1 : C2227-00 ABS DISABLED ECU -
+      ACC-DASM DTC 2 : U1215-00 LOST COMMUNICATION WITH FORWARD FACING CAMERA - 
+      ACC-DASM DTC 3 : U148D-00 IMPLAUSIBLE DATA RECEIVED FROM FORWARD FACING CAMERA - 
+      ACC-DASM DTC 4 : U0594-00 IMPLAUSIBLE DATA RECEIVED FROM HCP - 
+      ACC-DASM DTC 5 : U0415-00 IMPLAUSIBLE DATA RECEIVED FROM ABS - 
+      ACC-DASM DTC 6 : U0429-00 IMPLAUSIBLE DATA RECEIVED FROM SCM - 
+      ACC-DASM DTC 7 : U110A-00 LOST COMMUNICATION WITH SCM CAN-C - 
+      ACC-DASM DTC 8 : U0121-00 LOST COMMUNICATION WITH ANTI LOCK BRAKE SYSTEM (ABS) CONTROL MODULE -
+      ACC-DASM DTC 9 : U0293-00 LOST COMMUNICATION WITH HYBRID CONTROL MODULE - 
+      ACC-DASM DTC 10 : C2129-16 BATTERY VOLTAGE - CIRCUIT VOLTAGE BELOW THRESHOLD
+ ----------------- Section: BCM-CBC - Body Control Module - CBC on ccan network -------------------
+BCM-CBC 0xf132 ECU SW Part Number : 68351545AA
+BCM-CBC 0x138 ECU Configuration 6 (Steering) : 0x2300
+      Suspension ECU configuration A = 0x0
+      Suspension ECU configuration B = 0x23
+BCM-CBC 0xf011 Programmed ECUS - P/T Chassis Network : 0x80ce994054100000
+      HALF Network Configuration = 0x0
+      DASM Network Configuration = 0x1
+BCM-CBC 0xf190 VIN Number : 2C4RC1N71JR126725
+DTCs: 
+      BCM-CBC DTC 1 : U1216-00 LOST COMMUNICATION WITH DASM - 
+ ----------------- Section: BSMO-ABS - Brake System Module OBD - ABS on ccan network -------------------
+BSMO-ABS 0xf132 ECU SW Part Number : 04672616AL
+DTCs: 
+     no BSMO-ABS dtcs
+ ----------------- Section: EBCM - Electric Booster Control Module on ccan network -------------------
+EBCM 0xf132 ECU SW Part Number : 04672617AL
+DTCs: 
+     no EBCM dtcs
+ ----------------- Section: EPS_A - Electronic Power Steering A on ccan network -------------------
+EPS_A 0xf132 ECU SW Part Number : 68288891ZA
+DTCs: 
+      EPS_A DTC 1 : U0121-00 LOST COMMUNICATION WITH ANTI LOCK BRAKE SYSTEM (ABS) CONTROL MODULE -
+      EPS_A DTC 2 : U148D-00 IMPLAUSIBLE DATA RECEIVED FROM FORWARD FACING CAMERA - 
+ ----------------- Section: ESM - Electronic Shifter Module on ccan network -------------------
+DTCs: 
+      ESM DTC 1 : P1C8C-16 SYSTEM VOLTAGE - CIRCUIT VOLTAGE BELOW THRESHOLD
+      ESM DTC 2 : P1C8B-16 BATTERY VOLTAGE - CIRCUIT VOLTAGE BELOW THRESHOLD
+ ----------------- Section: HALF - Haptic Lane Following (Front Camera) on ccan-lyftctrl network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+HALF Not found
+ ----------------- Section: HCP - Hybrid Control Processor on ccan network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+HCP Not found
+ ----------------- Section: IC - Instrument Cluster on ccan network -------------------
+DTCs: 
+      IC DTC 1 : U1216-00 LOST COMMUNICATION WITH DASM -
+ ----------------- Section: OCM - Occupant Classification Module on ccan network -------------------
+DTCs:
+     no OCM dtcs
+ ----------------- Section: ORC - Occupant Restraint Controller on ccan network -------------------
+DTCs:
+     no ORC dtcs
+ ----------------- Section: PTS - Parktronic System (AutoPark) on ccan network -------------------
+DTCs:
+      PTS DTC 1 : U0002-00 CAN C BUS OFF PERFORMANCE -
+ ----------------- Section: RF_HUB - Radio Frequency Hub on ccan network -------------------
+DTCs:
+      RF_HUB DTC 1 : B2199-16 BATTERY VOLTAGE - CIRCUIT VOLTAGE BELOW THRESHOLD
+      RF_HUB DTC 2 : B1A7D-01  -
+ ----------------- Section: SCCM - Steering Column Control Module on ccan network -------------------
+DTCs:
+     no SCCM dtcs
+ ----------------- Section: SGW - Gateway Module on ccan network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+SGW Not found
+ ----------------- Section: ECM-PCM - Engine Control Module on ccan-ept network -------------------
+ECM-PCM 0xf190 VIN Number : 2C4RC1N71JR126725
+[NegativeResponseException] : ReadDTCInformation service execution returned a negative response ServiceNotSupported (0x11)
+ECM-PCM Not found
+ ----------------- Section: APM - Auxiliary Power Module (DC-DC) on ept network -------------------
+DTCs:
+     no APM dtcs
+ ----------------- Section: BPCM - Battery Pack Control Module on ept network -------------------
+DTCs:
+      BPCM DTC 1 : U11C5-00 BPCM LOST COMMUNICATION WITH ON BOARD CHARGING MODULE -
+ ----------------- Section: OBCM - On-Board Charging Module on ept network -------------------
+DTCs:
+     no OBCM dtcs
+********************************************************* completed  ********************************************

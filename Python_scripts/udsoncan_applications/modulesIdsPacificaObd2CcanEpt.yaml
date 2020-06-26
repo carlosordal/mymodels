@@ -6,12 +6,19 @@
 #  5 [0] DASM
 # 6 [7] HaLF
 
+ACC-DASM:
+  request: 0x753
+  response: 0x4D3
+  network: ccan-lyftctrl
+  description: ACC-Driver Assistance System Module
+  requestedData:
+    DTCs:
 
-CBC:
+BCM-CBC:
   request: 0x620
   response: 0x504
-  network: [ccan]
-  description: Central Body Controller
+  network: ccan
+  description: Body Control Module - CBC
   requestedData:
     DIDs:
       0xF132:
@@ -74,10 +81,23 @@ CBC:
         didConversionType: ASCII
     DTCs:
 
+BSMO-ABS:
+  request: 0x7E4
+  response: 0x7EC
+  network: ccan
+  description: Brake System Module OBD - ABS
+  requestedData:
+    DIDs:
+      0xF132:
+        didDescription: ECU SW Part Number
+        responseByteSize: 10                              # Size from ENG file
+        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
+    DTCs:
+
 EBCM:
   request: 0x7E3
   response: 0x7EB
-  network: [ccan]
+  network: ccan
   description: Electric Booster Control Module
   requestedData:
     DIDs:
@@ -88,23 +108,10 @@ EBCM:
     DTCs:
 
 
-BSMO-ABS:
-  request: 0x7E4
-  response: 0x7EC
-  network: [ccan]
-  description: Brake System Module 
-  requestedData:
-    DIDs:
-      0xF132:
-        didDescription: ECU SW Part Number
-        responseByteSize: 10                              # Size from ENG file
-        didConversionType: ASCII                          # ASCII: it doesn't require decoded data
-    DTCs:
-
 EPS_A:
   request: 0x75A
   response: 0x4DA
-  network: [ccan]
+  network: ccan
   description: Electronic Power Steering A
   requestedData:
     DIDs:
@@ -114,10 +121,91 @@ EPS_A:
         didConversionType: ASCII                        # ASCII: it doesn't require decoded data
     DTCs:
 
-ECM:
+ESM:
+  request: 0x749
+  response: 0x4C9
+  network: ccan
+  description: Electronic Shifter Module
+  requestedData:
+    DTCs:
+
+HALF:
+  request: 0x764
+  response: 0x4E4
+  network: ccan-lyftctrl
+  description: Haptic Lane Following (Front Camera)
+  requestedData:
+    DTCs:
+
+HCP:
+  request: 0x7E2
+  response: 0x7EA
+  network: ccan
+  description: Hybrid Control Processor
+  requestedData:
+    DTCs:
+
+IC:
+  request: 0x742
+  response: 0x4C2
+  network: ccan
+  description: Instrument Cluster
+  requestedData:
+    DTCs:
+
+OCM:
+  request: 0x75E
+  response: 0x4DE
+  network: ccan
+  description: Occupant Classification Module
+  requestedData:
+    DTCs:
+
+ORC:
+  request: 0x744
+  response: 0x4C4
+  network: ccan
+  description: Occupant Restraint Controller
+  requestedData:
+    DTCs:
+
+PTS:
+  request: 0x762
+  response: 0x4E2
+  network: ccan
+  description: Parktronic System (AutoPark)
+  requestedData:
+    DTCs:
+
+RF_HUB:
+  request: 0x740
+  response: 0x4C0
+  network: ccan
+  description: Radio Frequency Hub
+  requestedData:
+    DTCs:
+
+SCCM:
+  request: 0x763
+  response: 0x4E3
+  network: ccan
+  description: Steering Column Control Module
+  requestedData:
+    DTCs:
+
+SGW:
+  request: 0x47E
+  response: 0x47F
+  network: ccan
+  description: Gateway Module
+  requestedData:
+    DTCs:
+
+
+ECM-PCM:
   request: 0x7E0
   response: 0x7E8
-  network: [ccan]
+  network: ccan-ept
   description: Engine Control Module
   requestedData:
     DIDs:
@@ -127,89 +215,33 @@ ECM:
         didConversionType: ASCII
     DTCs:
 
-IC:
-  request: 0x742
-  response: 0x4C2
-  network: [ccan]
-  description: Instrument Cluster
-  requestedData:
-    DTCs:
-
-OCM:
-  request: 0x75E
-  response: 0x4DE
-  network: [ccan]
-  description: Occupant Classification Module
-  requestedData:
-    DTCs:
-
-ORC:
-  request: 0x744
-  response: 0x4C4
-  network: [ccan]
-  description: Occupant Restraint Controller
-  requestedData:
-    DTCs:
-
-PTS:
-  request: 0x762
-  response: 0x4E2
-  network: [ccan]
-  description: Parktronic System (AutoPark)
-  requestedData:
-    DTCs:
-
-RF_HUB:
-  request: 0x740
-  response: 0x4C0
-  network: [ccan]
-  description: Radio Frequency Hub
-  requestedData:
-    DTCs:
-
-SCCM:
-  request: 0x763
-  response: 0x4E3
-  network: [ccan]
-  description: Steering Column Control Module
-  requestedData:
-    DTCs:
-
-ESM:
-  request: 0x749
-  response: 0x4C9
-  network: [ccan]
-  description: Electronic Shifter Module
-  requestedData:
-    DTCs:
 
 APM:
   request: 0x76A
   response: 0x4EA
-  network: [ccan]
+  network: ept
   description: Auxiliary Power Module (DC-DC)
-  requestedData:
-    DTCs:
-OBCM:
-  request: 0x76E
-  response: 0x4EE
-  network: [ccan]
-  description: On-Board Charging Module
   requestedData:
     DTCs:
 
 BPCM:
   request: 0x7E7
   response: 0x7EF
-  network: [ccan]
+  network: ept
   description: Battery Pack Control Module
   requestedData:
     DTCs:
 
-HCP:
-  request: 0x7E2
-  response: 0x7EA
-  network: [ccan]
-  description: Hybrid Control Processor
+OBCM:
+  request: 0x76E
+  response: 0x4EE
+  network: ept
+  description: On-Board Charging Module
   requestedData:
     DTCs:
+
+
+
+
+
+
