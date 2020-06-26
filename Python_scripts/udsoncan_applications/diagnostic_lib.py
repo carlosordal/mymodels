@@ -121,6 +121,7 @@ def getDTCs(client, dtc_status_mask, moduleName):
                 for row in csv_file:
                     if row[0] == dtcId:
                         dtcDescription = row[1]
+                        break
                 
                 #get subtype description
                 subtypeDescription =''
@@ -131,8 +132,7 @@ def getDTCs(client, dtc_status_mask, moduleName):
                 for row_type in csv_file:
                     if row_type[0] == subtypeId:
                         subtypeDescription = row_type[1]
-
-
+                        break
 
                 print('     ', moduleName, "DTC", index, ':', dtcJ2012Code, dtcDescription,'-',subtypeDescription)         # Print the HEX DTC number
     except:

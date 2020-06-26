@@ -22,7 +22,7 @@
 import   diagnostic_lib
 import   isotp
 import   can
-import ics
+import   ics
 import   udsoncan
 import   udsoncan.configs
 from     udsoncan.connections import PythonIsoTpConnection
@@ -37,11 +37,12 @@ import   pdb
 
 dtc_status_mask = 0x0D         #0x2F
 bus = diagnostic_lib.canToolDefinition('PeakCan',500000)    #'neovi' 'PeakCan' 'Virtual'
-# modulesIdsPacificaCcan
+# 'modulesIdsPacificaObd2CcanEpt.yaml'
+# 'modulesIdsPacificaCcan.yaml'
 # 'modulesIdsPacificaLyftCtrl.yaml'
 # 'modulesIdsPacificaIHS.ymal'
 # 'modulesIdsFusion.yaml'
-with open('modulesIdsPacificaCcan.yaml') as file:
+with open('modulesIdsPacificaObd2CcanEpt.yaml') as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
       moduleName = module
@@ -49,7 +50,8 @@ with open('modulesIdsPacificaCcan.yaml') as file:
       requestedData = moduleContent.get('requestedData')
       txId = moduleContent.get('request')
       rxId = moduleContent.get('response')
-      print (' ----------------- Section:', moduleName, '-', moduleDescription, '-------------------')
+      network = moduleContent.get('network')
+      print (' ----------------- Section:', moduleName, '-', moduleDescription, 'on', network, 'network -------------------')
       conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
 
       with Client(conn, request_timeout=10) as client:                                     # Application layer (UDS protocol)
