@@ -912,3 +912,258 @@ U1851,IMPLAUSIBLE DATA RECEIVED FROM EBBM ON D-PT
 U1852,IMPLAUSIBLE DATA RECEIVED FROM ABS ON D-PT
 U1853,IMPLAUSIBLE DATA RECEIVED FROM HYBRID POWERTRAIN CONTROL PROCESSOR ON D-PT
 U3017,CONTROL MODULE TIMER/CLOCK PERFORMANCE
+U025B,Lost Communication With Redundant High Survivability Computer (RHSC2) CCAN
+U025C,Lost Communication With Redundant High Survivability Computer (RHSC2) CCAN3
+U055C,Invalid Data Received From Redundant High Survivability Computer (RHSC2) CCAN
+U055D,Invalid Data Received From Redundant High Survivability Computer (RHSC2) CCAN3
+C15CA,No description provided by FCA
+P01E4,Engine Coolant Temperature Sensor 3 Circuit Performance
+P01E5,Engine Coolant Temperature Sensor 3 Circuit Low
+P01E6,Engine Coolant Temperature Sensor 3 Circuit High
+P0217,Coolant Temperature Too High
+P0480,Cooling Fan 1 Control Circuit Open
+P0531,A/C Pressure Sensor Circuit Performance
+P0532,A/C Pressure Sensor Circuit Low
+P0533,A/C Pressure Sensor Circuit High
+P0604,Internal Control Module Random Access Memory (RAM) Error
+P0605,Internal Control Module ROM
+P061B,Internal Control Module Torque Calculation Performance
+P0691,Cooling Fan 1 Control Circuit Low
+P0692,Cooling Fan 1 Control Circuit High
+P0697,Sensor Reference Voltage 3 Circuit
+P06A3,"Sensor Reference Voltage ""D"" Circuit/Open"
+P06B1,Sensor Power Supply 1 Circuit Low
+P06B2,Sensor Power Supply 1 Circuit High
+P06B4,Sensor Power Supply 2 Circuit Low
+P06B5,Sensor Power Supply 2 Circuit High
+P079A,Transmission Friction Element 1 Slip Detected
+P079B,Transmission Friction Element 2 Slip Detected
+P07B5,Park Pawl Position Sensor 1 Circuit Performance
+P084F,Park/Neutral Switch Output
+P0A01,"Inverter Coolant Temperature Sensor ""A"" Circuit Performance"
+P0A02,"Inverter Coolant Temperature Sensor ""A"" Circuit Low"
+P0A03,"Inverter Coolant Temperature Sensor ""A"" Circuit High"
+P0A2B,Drive Motor A Temperature Sensor 1 Circuit Range/Performance
+P0A2C,Drive Motor A Temperature Sensor 1 Circuit Low
+P0A2D,Drive Motor A Temperature Sensor 1 Circuit High
+P0A2F,Drive Motor A Over Temperature
+P0A31,Drive Motor B Temperature Sensor 1 Circuit Range/Performance
+P0A32,Drive Motor B Temperature Sensor 1 Circuit Low
+P0A33,Drive Motor B Temperature Sensor 1 Circuit High
+P0A35,Drive Motor B Over Temperature
+P0A3C,Drive Motor A Inverter Over Temperature
+P0A3D,Drive Motor B Inverter Over Temperature
+P0A3F,Drive Motor A Position Sensor 1 Circuit
+P0A40,Drive Motor A Position Sensor 1 Circuit Range/Performance
+P0A43,"Drive Motor ""A"" Position Sensor Circuit Intermittent"
+P0A44,Drive Motor A Position Sensor 1 Circuit Overspeed
+P0A45,Drive Motor B Position Sensor 1 Circuit
+P0A46,"Drive Motor ""B"" Position Sensor Circuit Range/Performance"
+P0A49,Drive Motor B Position Sensor Circuit Intermittent
+P0A4A,Drive Motor B Position Sensor 1 Circuit Overspeed
+P0A78,Drive Motor A Inverter Performance
+P0A79,Drive Motor B Inverter Performance
+P0A7D,Hybrid Battery Pack State of Charge Low
+P0A7E,Hybrid/EV Battery Pack Over Temperature
+P0AEE,Drive Motor A Inverter Phase U Temperature Sensor Circuit Performance
+P0AF3,Drive Motor B Inverter Phase U Temperature Sensor Circuit Performance
+P0AFA,Hybrid/EV Battery System Voltage Low
+P0AFB,Hybrid/EV Battery System Voltage High
+P0BE6,Drive Motor A Inverter Phase U Current Sensor Circuit Performance
+P0BE7,Drive Motor A Inverter Phase U Current Sensor Circuit Low
+P0BE8,Drive Motor A Inverter Phase U Current Sensor Circuit High
+P0BEA,Drive Motor A Inverter Phase V Current Sensor Circuit Performance
+P0BEB,Drive Motor A Inverter Phase V Current Sensor Circuit Low
+P0BEC,Drive Motor A Inverter Phase V Current Sensor Circuit High
+P0BEE,Drive Motor A Inverter Phase W Current Sensor Circuit Performance
+P0BEF,Drive Motor A Inverter Phase W Current Sensor Circuit Low
+P0BF0,Drive Motor A Inverter Phase W Current Sensor Circuit High
+P0BF2,Drive Motor B Inverter Phase U Current Sensor Circuit Range/Performance
+P0BF3,Drive Motor B Inverter Phase U Current Sensor Circuit Low
+P0BF4,Drive Motor B Inverter Phase U Current Sensor Circuit High
+P0BF6,Drive Motor B Inverter Phase V Current Sensor Circuit Range/Performance
+P0BF7,Drive Motor B Inverter Phase V Current Sensor Circuit Low
+P0BF8,Drive Motor B Inverter Phase V Current Sensor Circuit High
+P0BFA,"Drive Motor ""B"" Phase W Current Sensor Circuit Range/Performance"
+P0BFB,"Drive Motor ""B"" Phase W Current Sensor Circuit Low"
+P0BFC,Drive Motor B Inverter Phase W Current Sensor Circuit High
+P0BFD,Drive Motor A Phase U-V-W Current Sensor Correlation
+P0BFE,Drive Motor B Phase U-V-W Current Sensor Correlation
+P0C01,Drive Motor A Current High
+P0C04,Drive Motor B Current High
+P0C05,Drive Motor A Phase U-V-W Circuit/Open
+P0C08,Drive Motor B Phase U-V-W Circuit/Open
+P0C0B,Drive Motor A Inverter Power Supply Circuit/Open
+P0C0E,Drive Motor B Inverter Power Supply Circuit/Open
+P0C11,Drive Motor A Inverter Phase U Over Temperature
+P0C12,Drive Motor A Inverter Phase V Over Temperature
+P0C13,Drive Motor A Inverter Phase W Over Temperature
+P0C14,Drive Motor B Inverter Phase U Over Temperature
+P0C15,Drive Motor B Inverter Phase V Over Temperature
+P0C16,Drive Motor B Inverter Phase W Over Temperature
+P0C17,Drive Motor A Position Sensor 1 Not Learned
+P0C18,"Drive Motor ""B"" Position Sensor Not Learned"
+P0C19,Drive Motor A Torque Delivered Performance
+P0C1A,Drive Motor B Torque Delivered Performance
+P0C2F,Internal Control Module Drive Motor/Generator - Engine Speed Sensor Performance
+P0C30,Hybrid Battery Pack State of Charge High
+P0C43,Hybrid Battery Pack Coolant Inlet Temperature Sensor Circuit Range/Performance
+P0C4A,Hybrid/EV Battery Pack Coolant Pump Control Performance
+P0C73,Motor Electronics Coolant Pump 1 Control Performance
+P0C74,"Motor Electronics Coolant Pump ""B"" Control Performance"
+P0C76,Hybrid/EV System Discharge Time Too Long
+P0CD6,Hybrid Battery Pack Coolant Outlet Temperature Sensor Circuit Range/Performance
+P0CDF,"Hybrid/EV Battery Pack Coolant Control Valve ""A"" Control Circuit/Open"
+P0CE2,Hybrid/EV Battery Pack Coolant Control Valve 1 Control Circuit Low
+P0CE3,Hybrid/EV Battery Pack Coolant Control Valve 1 Control Circuit High
+P0CEA,Hybrid/EV Electronics Coolant Pump Performance
+P0CEF,Hybrid/EV Electronics Coolant Temperature Sensor Circuit Range/Performance
+P0CF3,Control Pilot Circuit Open
+P0CF4,Control Pilot Circuit Performance
+P0CF5,Control Pilot Circuit Low
+P0CF6,Control Pilot Circuit High
+P0CFD,Control Pilot Charging Switch Stuck Off
+P0CFE,Control Pilot Charging Switch Stuck On
+P0D21,Battery Charger Output Voltage Too Low
+P0D27,Battery Charger 1 Input Voltage Too Low
+P0D28,Battery Charger 1 Input Voltage Too High
+P0D2A,Battery Charger 1 Input Current Too High
+P0D56,Proximity Detection Circuit
+P0D57,Proximity Detection Circuit Performance
+P0D58,Proximity Detection Circuit Low
+P0D59,Proximity Detection Circuit High
+P0D85,Battery Charging Output Voltage Too High
+P0D94,Battery Charger Coupler Lock Control Circuit Performance
+P0D9A,"Battery Charger Coupler Temperature Sensor ""A"" Circuit Range/Performance"
+P0D9B,"Battery Charger Coupler Temperature Sensor ""A"" Circuit Low"
+P0D9C,"Battery Charger Coupler Temperature Sensor ""A"" Circuit High"
+P0E15,"Hybrid/EV Battery Pack Coolant Heater ""A"" Control Performance"
+P0E5E,Battery Charger Control Module Processor Performance
+P0E5F,"Battery Charger Coupler Temperature ""A"" Too High"
+P0E75,"Coolant Bypass Valve ""A"" Control Circuit Open"
+P0E76,"Coolant Bypass Valve ""A"" Control Circuit Low"
+P0E77,"Coolant Bypass Valve ""A"" Control Circuit High"
+P0E78,"Coolant Bypass Valve ""A"" Control Circuit Range/Performance"
+P0E79,"Coolant Bypass Valve ""A"" Control Stuck/Open"
+P0E7B,"Coolant Bypass Valve ""B"" Control Circuit/Open"
+P0E7C,"Coolant Bypass Valve ""B"" Control Circuit Low"
+P0E7D,"Coolant Bypass Valve ""B"" Control Circuit High"
+P0E7F,"Coolant Bypass Valve ""B"" Control Stuck/Open"
+P0E80,"Coolant Bypass Valve ""B"" Control Stuck Closed"
+P0EED,Hybrid/EV Battery System Discharge Circuit Performance
+P139F,Engine Negative Speed (Spinning Backwards)
+P1444,Power Inverter Module - Incorrect Control Mode
+P149A,Cooling Fan Module Internal
+P149F,Cooling Fan Motor Blocked
+P14A0,Cooling Fan Motor Partially Blocked
+P14A2,Coolant Pump Dry Run
+P1503,Control Pilot Duty Cycle Out of Range
+P160A,ECU Overtemperature
+P1625,Park Pawl System Failure
+P1626,Park Pawl Motor Stuck
+P167A,Calibration  Mismatch
+P16F0,SPI Comm Hardware Fault
+P16F1,Internal SPI Communication
+P16F3,Internal Control Module Redundant Memory Performance
+P16F5,HCP Internal - PLD Failure
+P16F9,HCP Internal - Shutdown Performance
+P177A,Park Lock/Pawl Actuator Motor Current Sensor Circuit Low
+P177B,Park Lock/Pawl Actuator Motor Current Sensor Circuit High
+P177C,Park Lock/Pawl Actuator Motor Current Sensor Performance
+P1A11,Secret Key Not Stored in ECU
+P1A1E,Hybrid Thermal System Control Circuit
+P1A24,AC Contactor Shorted to AC Supply
+P1A26,BPCM Hybrid Battery State of Charge Performance
+P1A27,On Board Charging Module System Voltage Low
+P1A28,On Board Charging Module System Voltage High
+P1AC6,MCPA Crankshaft Position Signal Sensor Performance
+P1AC7,Crankshaft Position Signal Sensor Performance
+P1ADC,MCPA Internal Control Module EEPROM Error
+P1ADE,MCPA System Voltage Low
+P1ADF,MCPA System Voltage High
+P1AE0,MCPB System Voltage Low
+P1AE1,MCPB System Voltage High
+P1AEC,MCPA HV Battery Voltage Sensor Circuit Performance
+P1AED,MCPB High Voltage Battery Voltage Sensor Circuit Performance
+P1AEE,MCPA HV Battery System Voltage High
+P1AEF,MCPB High Voltage Battery System Voltage High
+P1AF8,MCPA Control Module Shutdown Performance
+P1AFB,MCPA - PLD Programing Security Failure
+P1AFC,MCPA Lost Communication With HCP
+P1AFD,MCPA Lost Communication With MCPB
+P1AFE,MCPB Improper Shut Down
+P1B02,MCPB Lost Communication With HCP
+P1B03,Resolver Signal / MCPA Rationality
+P1B04,Resolver Signal / MCPB Rationality
+P1B07,MCPA High Voltage Battery System Voltage Low
+P1B08,MCPB High Voltage Battery System Voltage Low
+P1B0F,Drive Motor A Position Sensor Offset Incorrect
+P1B10,Drive Motor B Position Sensor Offset Incorrect
+P1B11,Actual Engine Torque Performance Low
+P1B12,Actual Engine Torque Performance High
+P1B2D,OBCM Controlled System Shutdown
+P1B72,Electric Coolant Heater Temperature Outlet Sensor Performance
+P1B73,Electric Coolant Heater Temperature Inlet Sensor Performance
+P1C64,Hybrid Perf - Engine Speed Below Target During Autostart
+P1C65,Hybrid Perf - Engine Speed Target Not Achieved During Autostart
+P1C68,Hybrid Perf - Engine Speed Above Target Idle Speed During Autostop
+P1C8E,Power Supply 1 Circuit Low
+P1C8F,Power Supply 1 Circuit High
+P1C91,Power Supply 2 Circuit Low
+P1C92,Power Supply 2 Circuit High
+P1CDD,Hybrid/EV Wakeup Control 2 Output Circuit/Open
+P1CDE,Hybrid/EV Wakeup Control 2 Output Circuit Short to Battery
+P1CDF,Hybrid/EV Wakeup Control 2 Output Circuit Short to Ground
+P1CF8,Battery Heating System Failure
+P1D72,Open High Voltage Cable
+P1DBA,Battery Cooling System Failure
+P1DFD,Unable to Charge Hybrid/EV Battery
+P1E18,Internal Control Module Electronic Park Performance
+P215B,Vehicle Speed - Output Shaft Speed Correlation
+P2183,Engine Coolant Temperature Sensor 2 Circuit Performance
+P2184,Engine Coolant Temperature Sensor 2 Circuit Low
+P2185,Engine Coolant Temperature Sensor 2 Circuit High
+P24F1,Control Module Wake-up Circuit High
+P2534,Ignition Switch Run/Start Position Circuit Low
+P2535,Ignition Switch Run/Start Position Circuit High
+P2537,Ignition Switch Acc/Run Position Circuit Low
+P2538,Ignition Switch Acc/Run Position Circuit High
+P2611,A/C Refrigerant Distribution Valve Control Circuit/Open
+P2612,A/C Refrigerant Distribution Valve Control Circuit Low
+P2613,A/C Refrigerant Distribution Valve Control Circuit High
+P26A6,Engine Coolant Bypass Valve 1 Position Sensor Circuit Low
+P26A7,Engine Coolant Bypass Valve 1 Position Sensor Circuit High
+P26C3,Internal Control Module Electronic Shifter Performance
+P26FD,A/C Compressor Internal Control Module Performance
+P271A,Park Pawl Position Sensor 1 Circuit Low
+P271B,Park Pawl Position Sensor 1 Circuit High
+P272A,Park Pawl Motor Control 2 Circuit
+P272C,Park Pawl Motor Control 1 Circuit
+P272D,Park Pawl Motor Control Circuit Current Too High
+P2797,Auxiliary Transmission Fluid Pump Performance
+P288B,Park Lock/Pawl Actuator Circuit Performance
+P2B28,Hybrid/EV Battery Pack Coolant Pump Performance
+P2BE0,Hybrid/EV Battery Coolant Level Sensor Circuit/Open
+P2BE2,Hybrid/EV Battery Coolant Level Sensor Circuit Low
+P2E46,"Hybrid/EV Electronics Coolant Pump ""B"" Overspeed - Dry Run-"
+U0073,Hybrid/EV Bus Off
+U0103,Lost Communication With Electric Gear Shift Module
+U016B,Lost Communication With A/C Compressor Control Module
+U0287,Lost Communication With Transmission Fluid Pump Module 1
+U0298,"Lost Communication With DC to DC Converter Control Module ""A"""
+U0404,Implausible Data Received From ESM
+U046C,Implausible Data Received From A/C Compressor Control Module
+U049C,"Invalid Data Received From Battery Charger Control Module ""A"""
+U0599,"Implausible Data Received From DC/DC Converter Control Module ""A"""
+U0623,Lost Communication with Coolant Pump “A”
+U0624,Lost Communication with Coolant Pump “B”
+U1123,Lost Communication With LIN ECU 3
+U1124,Lost Communication With LIN ECU 4
+U11DD,Body Control Module Invalid Signal
+U11F8,Lost Communication with On Board Charging Module
+U1461,Implausible Data Received From ESM On D-PT
+U1814,OBCM Lost Communication With BPCM
+U1819,OBCM Lost Communication with ORC
+U1830,Lost Communication with ORC on D-PT
+U1831,Lost Communication with ESM on D-PT
+U209E,OBCM Received Implausible Data from BPCM
