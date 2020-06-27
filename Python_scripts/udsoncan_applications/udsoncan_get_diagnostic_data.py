@@ -8,15 +8,16 @@
 # Outpus:   1) DTC, DID, report
 # 
 # Next steps:
-# add breaks if inputs are not known
+# stop program if inputs are not known
 # convert this code into a function
+# improve the way longer DID responses are decoded/processed, each diff size requires to modify the code. like 6
+# change logic for EPS_B SW part number read. for DID#
 # create a function to get DTC description, and subtype description to call it twice
-# add module list file name, to the report used to read the data and create the report.
+
 
 # avoid repeating SW PN DID definition 0xF132 or 0xF188 or 0xF190
 # convert it to app simulation and Peak CAN.
 
-# Select network for report. if HS1 print out VIN#
 # Create a file with Report. txt
 # error handler for no tool connected.
 # error handler for bus speed not correct.
@@ -35,6 +36,7 @@
 
 
 import   diagnostic_lib
+import   udsoncan
 from     udsoncan.client      import Client
 import   yaml  
 import   sys
@@ -48,7 +50,7 @@ import   pdb
 # 'modulesIdsFusion.yaml'
 # 'modulesIdsMSEscape.yaml'
 
-#udsoncan.setup_logging()
+udsoncan.setup_logging()
 #with arguments
 # moduleList = sys.argv[1]
 # dtcsFile = sys.argv[2]
@@ -78,6 +80,7 @@ dtc_status_mask = 0x0D         #0x2F
 #pdb.set_trace()
 bus = diagnostic_lib.canToolDefinition('PeakCan',baudrate)    #'neovi' 'PeakCan' 'Virtual'
 
+print('**************Report created with, Modules File: ', moduleList, 'DTCs file: ', dtcsFile, 'network:', canNetwork)
 with open(moduleList) as file:
    documents = yaml.full_load(file)
    for module, moduleContent in documents.items():
@@ -87,7 +90,8 @@ with open(moduleList) as file:
       txId = moduleContent.get('request')
       rxId = moduleContent.get('response')
       network = moduleContent.get('network')
-      print (' ----------------- Section:', moduleName, '-', moduleDescription, 'on', network, 'network -------------------')
+
+      print(' ----------------- Section:', moduleName, '-', moduleDescription, 'on', network, 'network -------------------')
       conn = diagnostic_lib.ecuConnection(txId, rxId, bus)
 
       with Client(conn, request_timeout=10) as client:                                     # Application layer (UDS protocol)

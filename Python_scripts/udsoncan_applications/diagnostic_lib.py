@@ -3,7 +3,7 @@
 
 import  isotp
 import  can
-import ics
+import  ics
 import  udsoncan
 import  udsoncan.configs
 from    udsoncan.connections import PythonIsoTpConnection
@@ -98,7 +98,6 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
     extractInfo = binaryData[bitStartPosition: bitEndPosition]
     return extractInfo
 
-#def extractDtcDescription():
 
 
 def getDTCs(client, dtc_status_mask, moduleName, dtcsFile):
@@ -221,7 +220,11 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
 
             response = client.read_data_by_identifier(didItem)
             if didConversionType == 'HEX':
-                print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+                #print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+                didData = response.service_data.values[didItem]
+                hexFormat = '0' + str(size*2) + 'X'
+                hexData = format(didData, hexFormat)
+                print(moduleName, hex(didItem), description, '(hex):', hexData)
                 decodeDIDs = didNumberContent.get('decodedData')
                 for decodeDIDsItem, decodeDIDsContent in decodeDIDs.items():
                     data = response.service_data.values[didItem]

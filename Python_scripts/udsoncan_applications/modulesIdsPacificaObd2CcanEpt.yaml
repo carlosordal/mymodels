@@ -76,7 +76,7 @@ BCM-CBC:
             conversion: HEX
 
       0xF190:
-        didDescription: VIN Number
+        didDescription: VIN
         responseByteSize: 17                            # Size from ENG file
         didConversionType: ASCII
     DTCs:
