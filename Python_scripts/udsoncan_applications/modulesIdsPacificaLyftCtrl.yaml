@@ -16,13 +16,14 @@ DASM:
 EPS_B:
   request: 0x75A
   response: 0x4DA
-  network: [lyftctrl]
+  network: lyftctrl
   description: Electronic Power Steering B
   requestedData:
     DIDs:
       0xF132:
         description: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
+        didConversionType: HEX
         decodedData:
           ecuSoftwarePartNumber:
             startByte: 0

@@ -1,0 +1,42 @@
+**************Report created with, Modules File:  modulesIdsPacificaLyftCtrl.yaml DTCs file:  pacifica_dtc_list.csv network: lyftctrl
+ ----------------- Section: HaLF - Haptic Lane Following (Front Camera) on ['lyftctrl'] network -------------------
+2020-06-29 14:32:57 [INFO] Connection: Connection opened
+2020-06-29 14:32:57 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:32:57 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:32:58 [DEBUG] Connection: No data received: [TimeoutException] - Did not receive frame IsoTP Transport layer in time (timeout=1 sec) 
+2020-06-29 14:32:58 [ERROR] UdsClient: [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+HaLF Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+2020-06-29 14:32:59 [INFO] Connection: Connection closed
+ ----------------- Section: DASM - Driver Assistant System Module (ACC) on ['lyftctrl'] network -------------------
+2020-06-29 14:32:59 [INFO] Connection: Connection opened
+2020-06-29 14:32:59 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:32:59 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:33:00 [DEBUG] Connection: No data received: [TimeoutException] - Did not receive frame IsoTP Transport layer in time (timeout=1 sec) 
+2020-06-29 14:33:00 [ERROR] UdsClient: [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+DASM Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+2020-06-29 14:33:00 [INFO] Connection: Connection closed
+ ----------------- Section: EPS_B - Electronic Power Steering B on lyftctrl network -------------------
+2020-06-29 14:33:00 [INFO] Connection: Connection opened
+2020-06-29 14:33:00 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf132 (IdentificationOptionVehicleManufacturerSpecificDataIdentifier)
+2020-06-29 14:33:00 [DEBUG] Connection: Sending 3 bytes : [b'22f132']
+2020-06-29 14:33:00 [DEBUG] Connection: Received 13 bytes : [b'62f13220313767c10cd8f21e04']
+2020-06-29 14:33:00 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+EPS_B 0xf132 None (hex): 000020313767C10CD8F2
+EPS_B Not found
+error: unsupported operand type(s) for +: 'int' and 'NoneType'
+2020-06-29 14:33:00 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:33:00 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:33:00 [DEBUG] Connection: Received 31 bytes : [b'5902ffc2930068c1550068c1400068c1000068c25b0068c212006dc121006d']
+2020-06-29 14:33:00 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+      EPS_B DTC 1 : U0293-00 LOST COMMUNICATION WITH HYBRID CONTROL MODULE -
+      EPS_B DTC 2 : U0155-00 LOST COMMUNICATION WITH CLUSTER-CCN -
+      EPS_B DTC 3 : U0140-00 LOST COMMUNICATION WITH BODY CONTROL MODULE -
+      EPS_B DTC 4 : U0100-00 LOST COMMUNICATION WITH ECM/PCM -
+      EPS_B DTC 5 : U025B-00 Lost Communication With Redundant High Survivability Computer (RHSC2) CCAN -
+      EPS_B DTC 6 : U0212-00 LOST COMMUNICATION WITH SCM -
+      EPS_B DTC 7 : U0121-00 LOST COMMUNICATION WITH ANTI LOCK BRAKE SYSTEM (ABS) CONTROL MODULE -
+2020-06-29 14:33:00 [INFO] Connection: Connection closed
+********************************************************* completed  ********************************************

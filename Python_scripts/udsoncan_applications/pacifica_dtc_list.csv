@@ -29,7 +29,7 @@
 92,PERFORMANCE OR INCORRECT OPERATION
 96,COMPONENT INTERNAL FAILURE
 9A,COMPONENT OR SYSTEM OPERATING CONDITIONS
-*****************************,*****************************************************************DTC,Description
+*****************************,*****************************************************************DTC Description
 B1030,EVAPORATOR TEMPERATURE SENSOR
 B1058,RECIRCULATION DOOR CONTROL
 B105C,RECIRCULATION DOOR TRAVEL RANGE TOO SMALL

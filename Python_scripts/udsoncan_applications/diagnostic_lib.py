@@ -114,28 +114,30 @@ def getDTCs(client, dtc_status_mask, moduleName, dtcsFile):
                 dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
                 dtcId = dtcJ2012Code[0:5]
                 #get dtc description
-                open_file = open(dtcsFile)
+                open_file = open(dtcsFile, encoding="utf8")
                 csv_file = csv.reader(open_file)
                 dtcDescription = ''
                 for row in csv_file:
                     if row[0] == dtcId:
                         dtcDescription = row[1]
-                        break
+                        #break
                 
                 #get subtype description
                 subtypeDescription =''
                 subtypeId = dtcJ2012Code[6:8]
 
-                open_file = open('pacifica_dtc_list.csv')
+                open_file = open(dtcsFile, encoding="utf8")
                 csv_file = csv.reader(open_file)
                 for row_type in csv_file:
                     if row_type[0] == subtypeId:
                         subtypeDescription = row_type[1]
-                        break
+                        #break
 
                 print('     ', moduleName, "DTC", index, ':', dtcJ2012Code, dtcDescription,'-',subtypeDescription)         # Print the HEX DTC number
-    except:
+    #except:
+    except Exception as e:
         print(moduleName, 'Not found')
+        print('error: '+ str(e))
     
 
 

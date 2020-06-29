@@ -8,6 +8,8 @@
 # Outpus:   1) DTC, DID, report
 # 
 # Next steps:
+# fix EPS_A B redundant rack response.
+# is DTC active or stored?
 # stop program if inputs are not known
 # convert this code into a function
 # improve the way longer DID responses are decoded/processed, each diff size requires to modify the code. like 6
@@ -57,15 +59,17 @@ udsoncan.setup_logging()
 # canNetwork = sys.argv[3]
 
 # without argument VS Code
-moduleList = 'modulesIdsMSEscape.yaml'
+moduleList = 'modulesIdsPacificaLyftCtrl.yaml'
 dtcsFile = 'pacifica_dtc_list.csv'
-canNetwork = 'ihs'
+canNetwork = 'lyftctrl'
 
 # open_file = open(dtcsFile)
 # csv_file = csv.reader(open_file)
 
 #assign baudrate
 if canNetwork == 'ccan':
+   baudrate = 500000
+elif canNetwork == 'lyftctrl':
    baudrate = 500000
 elif canNetwork == 'ept':
    baudrate = 500000

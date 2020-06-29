@@ -1,0 +1,75 @@
+**************Report created with, Modules File:  modulesIdsPacificaObd2CcanEpt.yaml DTCs file:  pacifica_dtc_list.csv network: ccan
+ ----------------- Section: ACC-DASM - ACC-Driver Assistance System Module on ccan-lyftctrl network -------------------
+DTCs: 
+      ACC-DASM DTC 1 : C2227-00 ABS DISABLED ECU -
+ ----------------- Section: BCM-CBC - Body Control Module - CBC on ccan network -------------------
+BCM-CBC 0xf132 ECU SW Part Number : 68351545AA
+BCM-CBC 0x138 ECU Configuration 6 (Steering) (hex): 4100
+      Suspension ECU configuration A = 0x0
+      Suspension ECU configuration B = 0x41
+BCM-CBC 0xf011 Programmed ECUS - P/T Chassis Network (hex): 80CE89C054100000
+      HALF Network Configuration = 0x1
+      DASM Network Configuration = 0x1
+BCM-CBC 0xf190 VIN : 2C4RC1N72JR358993
+DTCs: 
+     no BCM-CBC dtcs
+ ----------------- Section: BSMO-ABS - Brake System Module OBD - ABS on ccan network -------------------
+BSMO-ABS 0xf132 ECU SW Part Number : 04672616AL
+DTCs: 
+     no BSMO-ABS dtcs
+ ----------------- Section: EBCM - Electric Booster Control Module on ccan network -------------------
+EBCM 0xf132 ECU SW Part Number : 04672617AL
+DTCs: 
+     no EBCM dtcs
+ ----------------- Section: EPS_A - Electronic Power Steering A on ccan network -------------------
+EPS_A 0xf132 ECU SW Part Number (hex): 000020313767C10CD8F2
+EPS_A Not found
+error: unsupported operand type(s) for +: 'int' and 'NoneType'
+DTCs: 
+      EPS_A DTC 1 : U025B-00 Lost Communication With Redundant High Survivability Computer (RHSC2) CCAN - 
+ ----------------- Section: ESM - Electronic Shifter Module on ccan network -------------------
+DTCs: 
+     no ESM dtcs
+ ----------------- Section: HALF - Haptic Lane Following (Front Camera) on ccan-lyftctrl network -------------------
+DTCs: 
+     no HALF dtcs
+ ----------------- Section: HCP - Hybrid Control Processor on ccan network -------------------
+DTCs: 
+     no HCP dtcs
+ ----------------- Section: IC - Instrument Cluster on ccan network -------------------
+DTCs: 
+     no IC dtcs
+ ----------------- Section: OCM - Occupant Classification Module on ccan network -------------------
+DTCs: 
+     no OCM dtcs
+ ----------------- Section: ORC - Occupant Restraint Controller on ccan network -------------------
+DTCs: 
+     no ORC dtcs
+ ----------------- Section: PTS - Parktronic System (AutoPark) on ccan network -------------------
+DTCs: 
+     no PTS dtcs
+ ----------------- Section: RF_HUB - Radio Frequency Hub on ccan network -------------------
+DTCs:
+     no RF_HUB dtcs
+ ----------------- Section: SCCM - Steering Column Control Module on ccan network -------------------
+DTCs:
+     no SCCM dtcs
+ ----------------- Section: SGW - Gateway Module on ccan network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+SGW Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+ ----------------- Section: ECM-PCM - Engine Control Module on ccan-ept network -------------------
+ECM-PCM 0xf190 VIN Number : 2C4RC1N72JR358993
+[NegativeResponseException] : ReadDTCInformation service execution returned a negative response ServiceNotSupported (0x11)
+ECM-PCM Not found
+error: ReadDTCInformation service execution returned a negative response ServiceNotSupported (0x11)
+ ----------------- Section: APM - Auxiliary Power Module (DC-DC) on ept network -------------------
+DTCs:
+     no APM dtcs
+ ----------------- Section: BPCM - Battery Pack Control Module on ept network -------------------
+DTCs:
+     no BPCM dtcs
+ ----------------- Section: OBCM - On-Board Charging Module on ept network -------------------
+DTCs:
+     no OBCM dtcs
+********************************************************* completed  ********************************************
