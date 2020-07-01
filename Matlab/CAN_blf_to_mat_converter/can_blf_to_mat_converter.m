@@ -4,6 +4,7 @@
 % *** dbcs uses avcampari names and the location is part of the function.
 
 % Next steps: 
+% add an option to select a folder or select a single file for conversion.
 % add converting file x, channel x, ccandb x
 % add building message table, building signal table.
 % is it possible to create different channels from the same Msg Table? 
