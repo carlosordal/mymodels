@@ -59,7 +59,7 @@ for i = 1:numel(fieldNamesA)   %number of messages
     for k = 1:numel(fieldNamesB)   %number of messages
         thisMsgB = fieldNamesB{k};
         if isequal(thisMsgA, thisMsgB)
-            fieldNamesA{i,2}=1;
+            fieldNamesA{i,2}="Found on B";
             %msgFound = boolean(1);
             break
         end
@@ -80,14 +80,12 @@ for i = 1:numel(fieldNamesB)   %number of messages
     for k = 1:numel(fieldNamesA)   %number of messages
         thisMsgA = fieldNamesA{k};
         if isequal(thisMsgA, thisMsgB)
-            fieldNamesB{i,2}=1;
-            %msgFound = boolean(1);
+            fieldNamesB{i,2}="Found on A";
             break
         end
         if k == numel(fieldNamesB)
             z = z + 1;
             msgsFromBNotOnA{z,1} = thisMsgB;
-            msgs = msgs + "," + thisMsgB;
             
         end
     end
