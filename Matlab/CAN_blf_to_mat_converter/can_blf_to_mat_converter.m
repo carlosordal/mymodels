@@ -4,17 +4,21 @@
 % *** dbcs uses avcampari names and the location is part of the function.
 
 % Next steps: 
+% add converting file x, channel x, ccandb x
+% add building message table, building signal table.
+% is it possible to create different channels from the same Msg Table? 
+% add inputs check, for only known networks.
 % fix the candb file that is empty.
 % make the function more flexible, convert 2 or more channels at the same
 % time
 % select DBC per channel.
 
-%Inputs:    1) network_a    - Network Name (ccan_rr, ccan_nrr, lyftctrlcan, eptcan)
-%           2) channel_a    - Channel number on the blf file
+%Inputs:    1) network_name_a    - Network Name (ccan_rr, ccan_nrr, lyftctrlcan, eptcan)
+%           2) channel_number_a    - Channel number on the blf file
 %           3) dbcDirectory - Directory of the dbcs. Same names as avcampari. ('C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs')    
-%Outputs:    1) Matfiles stored on the blf folder.
+%Outputs:   1) Matfiles stored on the blf folder.
 
-
+%can_blf_to_mat_converter('ccan_rr',4,'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs')
 %Reference for BU CAN data logger:
 %Golden Unicorn CAN Channels:
 % Ch1 : CAN L5 Power
@@ -26,9 +30,9 @@
 % Ch7: CAN ePT - isolated
 
 
-function can_blf_to_mat_converter(network_a, channel_a, dbcDirectory)
-    networkSel = network_a;
-    canCh = channel_a;
+function can_blf_to_mat_converter(network_name_a, channel_number_a, dbcDirectory)
+    networkSel = network_name_a;
+    canCh = channel_number_a;
     %% DBCs Path definition (avcampari dir)
     this_folder = fileparts(mfilename('fullpath'));   
     addpath(dbcDirectory);
@@ -50,7 +54,7 @@ function can_blf_to_mat_converter(network_a, channel_a, dbcDirectory)
 
             %convert CAN canlog into struct with timetables and save
             %initial matfile
-            matFile = createSignalTableMatFile(thisFile.name, candbSel, canCh, networkSel, this_folder);
+            matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, this_folder);
 
             % Rename Mat file similar to blf filename plus network and save it on blf
             % folder
@@ -73,10 +77,11 @@ function can_blf_to_mat_converter(network_a, channel_a, dbcDirectory)
 
 
 
-    function matFile = createSignalTableMatFile(blfFile, candbSel, canCh, networkSel, blfPath)
+    function matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, blfPath)
             db = canDatabase(candbSel);
+            blfFile = fullfile(thisFile.folder,'\', thisFile.name);
             MsgTable = blfread(blfFile,canCh,'DataBase',db);        % convert blf to matlab data
-            SignalTable = canSignalTimetable(MsgTable);             %
+            SignalTable = canSignalTimetable(MsgTable);             % Create CAN signal timetable from CAN message timetable
             % save Sigal Table into a mat file
             matFile = strcat(networkSel,'_DATA.mat');                        %create string net+Data
            % structName = strcat(networkSel,'LogSigTable');

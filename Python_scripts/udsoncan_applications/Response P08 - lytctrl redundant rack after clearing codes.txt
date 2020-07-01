@@ -1,0 +1,16 @@
+**************Report created with, Modules File:  modulesIdsPacificaLyftCtrl.yaml DTCs file:  pacifica_dtc_list.csv network: lyftctrl
+ ----------------- Section: HaLF - Haptic Lane Following (Front Camera) on ['lyftctrl'] network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+HaLF Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+ ----------------- Section: DASM - Driver Assistant System Module (ACC) on ['lyftctrl'] network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+DASM Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+ ----------------- Section: EPS_B - Electronic Power Steering B on lyftctrl network -------------------
+EPS_B 0xf132 None (hex): 000020313767C10CD8F2
+EPS_B Not found
+error: unsupported operand type(s) for +: 'int' and 'NoneType'
+DTCs:
+     no EPS_B dtcs
+********************************************************* completed  ********************************************

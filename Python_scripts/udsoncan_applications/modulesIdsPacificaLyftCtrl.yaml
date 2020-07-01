@@ -21,7 +21,7 @@ EPS_B:
   requestedData:
     DIDs:
       0xF132:
-        description: ECU SW Part Number
+        didDescription: ECU SW Part Number
         responseByteSize: 10                             # plus 3 of response and DID repeat
         didConversionType: HEX
         decodedData:
@@ -32,6 +32,6 @@ EPS_B:
             byteSize: 10
             bitSize: 0
             type: Identical
-            conversion: HEX
+            conversion: HEX    
     DTCs:
   
