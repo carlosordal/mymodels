@@ -122,7 +122,7 @@ EPS_A:
         decodedData:
           ecuSoftwarePartNumber:
             startByte: 0
-            startbit: 0
+            startBit: 0
             description: ECU SW Part Number
             byteSize: 10
             bitSize: 0

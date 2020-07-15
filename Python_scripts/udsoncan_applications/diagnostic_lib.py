@@ -26,8 +26,6 @@ def canToolDefinition(canHw, busSpeed):
         bus = can.interface.Bus('test', bustype='virtual')
     return bus
 
-
-
 def ecuConnection(txId, rxId, bus):  
     # CAN connetion Tx and Rx IDs.
     # Refer to isotp documentation for full details about parameters
@@ -80,8 +78,6 @@ def dtcHexToJ2012Conversion(dtcIdNumber):
     dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
     return dtcJ2012Code
 
-
-
 def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
 
     dataBitSize = size * 8
@@ -94,11 +90,12 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
     bitEndPosition = dataBitSize  - ((startByte * byteLength) + startBit)
     bitStartPosition =  (byteSize *8) + bitSize
     bitStartPosition = bitEndPosition - bitStartPosition
+    
 
     extractInfo = binaryData[bitStartPosition: bitEndPosition]
+    
+
     return extractInfo
-
-
 
 def getDTCs(client, dtc_status_mask, moduleName, dtcsFile):
     try:
@@ -139,8 +136,6 @@ def getDTCs(client, dtc_status_mask, moduleName, dtcsFile):
         print(moduleName, 'Not found')
         print('error: '+ str(e))
     
-
-
 def getDID(client, conn, moduleName, didNumber, didNumberContent):
     try:
         class CodecTwoBytes(udsoncan.DidCodec):
@@ -229,13 +224,17 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
                 print(moduleName, hex(didItem), description, '(hex):', hexData)
                 decodeDIDs = didNumberContent.get('decodedData')
                 for decodeDIDsItem, decodeDIDsContent in decodeDIDs.items():
-                    data = response.service_data.values[didItem]
+                    data = didData
                     startByte   = decodeDIDsContent.get('startByte')
                     startBit    = decodeDIDsContent.get('startBit')
                     byteSize    = decodeDIDsContent.get('byteSize')
                     bitSize     = decodeDIDsContent.get('bitSize')
-                    information = extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize)
-                    print('     ', decodeDIDsContent['description'],'=', hex(int(information, base = 2)))
+                    informationBin = extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize)
+                    informationDec = int(informationBin, base = 2)
+                    hexFormat = '0' + str(byteSize*2) + 'X'
+                    hexDidDecoded = format(informationDec, hexFormat)
+                    print('     ', decodeDIDsContent['description'],'=', hexDidDecoded)
+                    #print('     ', decodeDIDsContent['description'],'=', hex(int(information, base = 2)))
 
                     
             if didConversionType == 'ASCII':

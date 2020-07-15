@@ -8,8 +8,8 @@
 # Outpus:   1) DTC, DID, report
 # 
 # Next steps:
-# fix EPS_A B redundant rack response.
-# is DTC active or stored?
+# print decoded info with the lenght requested.
+# is DTC active or stored? update on Fusion.
 # stop program if inputs are not known
 # convert this code into a function
 # improve the way longer DID responses are decoded/processed, each diff size requires to modify the code. like 6
@@ -52,16 +52,16 @@ import   pdb
 # 'modulesIdsFusion.yaml'
 # 'modulesIdsMSEscape.yaml'
 
-udsoncan.setup_logging()
+#udsoncan.setup_logging()
 #with arguments
 # moduleList = sys.argv[1]
 # dtcsFile = sys.argv[2]
 # canNetwork = sys.argv[3]
 
 # without argument VS Code
-moduleList = 'modulesIdsPacificaLyftCtrl.yaml'
+moduleList = 'modulesIdsPacificaIHS.yaml'
 dtcsFile = 'pacifica_dtc_list.csv'
-canNetwork = 'lyftctrl'
+canNetwork = 'ihs'
 
 # open_file = open(dtcsFile)
 # csv_file = csv.reader(open_file)

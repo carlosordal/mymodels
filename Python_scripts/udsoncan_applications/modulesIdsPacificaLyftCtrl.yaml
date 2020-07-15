@@ -1,17 +1,17 @@
-HaLF:
-  request: 0x764
-  response: 0x4E4
-  network: [lyftctrl]
-  description: Haptic Lane Following (Front Camera)
-  requestedData:
-    DTCs:
-DASM:
-  request: 0x753
-  response: 0x4D3
-  network: [lyftctrl]
-  description: Driver Assistant System Module (ACC)  
-  requestedData:
-    DTCs:
+# HaLF:
+#   request: 0x764
+#   response: 0x4E4
+#   network: [lyftctrl]
+#   description: Haptic Lane Following (Front Camera)
+#   requestedData:
+#     DTCs:
+# DASM:
+#   request: 0x753
+#   response: 0x4D3
+#   network: [lyftctrl]
+#   description: Driver Assistant System Module (ACC)  
+#   requestedData:
+#     DTCs:
 
 EPS_B:
   request: 0x75A
@@ -22,12 +22,12 @@ EPS_B:
     DIDs:
       0xF132:
         didDescription: ECU SW Part Number
-        responseByteSize: 10                             # plus 3 of response and DID repeat
+        responseByteSize: 10     # is it 9 size?                        # plus 3 of response and DID repeat
         didConversionType: HEX
         decodedData:
           ecuSoftwarePartNumber:
             startByte: 0
-            startbit: 0
+            startBit: 0
             description: ECU SW Part Number
             byteSize: 10
             bitSize: 0
