@@ -34,11 +34,20 @@
 function can_blf_to_mat_converter(network_name_a, channel_number_a, dbcDirectory)
     
 % check Matlab version is newer than 2019b (9.7)
+
     if verLessThan('matlab','9.7')
         matlabVer = ver;
-        matlabVersion = matlabVer.Version;
-        matlabRelease = matlabVer.Release;
-        error(['Matlab 9.7 (release: 2019b) or higher is required, your Matlab version is: ', matlabVersion, '; Release: ' , matlabRelease])
+        table = struct2table(matlabVer);
+        rows = height(table);
+        for i = 1: rows
+            thisApp = char(table{i,1});
+            if isequal(thisApp, 'MATLAB')
+                matlabVersion = char(table{i,2});
+                matlabRelease = char(table{i,3});
+                %disp(['matlab Version: ', matlabVersion, ', Release:', matlabRelease])
+            end
+        end
+        error(['Matlab 9.7 (release: 2019b) or higher is required. Your Matlab version is: ', matlabVersion, ', Release: ' , matlabRelease])
     end
 
     networkSel = network_name_a;
