@@ -188,10 +188,51 @@ else
 
 end
 
-%% 
+%% Accelerator Pedal check
+% Accelerator pedal position must not fluctuate more than +-5% of the full travel from the original pedal position.
+% Accel check, should be done vs Distance Object - 5.4 senconds.
+%ECM_SKIM_OBD	AccelPdlPosn_OBD	Pedal value for OBD (ISO 15031-5.4 PID 49)
+acceleratorPedalPosition = signalTable.ECM_SKIM_OBD.AccelPdlPosn_OBD;
+ecmSkimObdTime = signalTable.ECM_SKIM_OBD.Time;
+figure();
+hold on % allow all vectors to be plotted in same
+accel = plot(ecmSkimObdTime,acceleratorPedalPosition);
+speed = plot(esp_a8_Time,vehicleSpeed);
+accel.DisplayName = 'Pedal';
+accel.DisplayName = 'Speed';
+
+acceleratorPedalTolerance = 5; %+- 5% 
+[checkStartIndex, checkStopIndex] = extractStartStopIndex(ecmSkimObdTime, checkStartTime, checkStopTime);
+
+acceleratorPedalCheck = acceleratorPedalPosition(checkStartIndex:checkStopIndex);
+acceleratorPedalMin = min(acceleratorPedalCheck);
+acceleratorPedalMax  = max(acceleratorPedalCheck);
+acceleratorPedalMean = mean(acceleratorPedalCheck);
+checkVehicleAcceleratorPedal(acceleratorPedalMean,acceleratorPedalTolerance, ...
+    acceleratorPedalMax, acceleratorPedalMin);
+
+%% Functions
+function checkVehicleAcceleratorPedal(acceleratorPedalMean, acceleratorPedalTolerance, ...
+  acceleratorPedalMax, acceleratorPedalMin)
+  maxPedalAccepted = acceleratorPedalMean + acceleratorPedalTolerance;
+  minPedalAccepted = acceleratorPedalMean - acceleratorPedalTolerance;
+  if acceleratorPedalMax < maxPedalAccepted
+    maxPedalCheck = true;
+  else 
+    maxPedalCheck = false;
+  end
+  if acceleratorPedalMin > minPedalAccepted
+    minPedalCheck = true;
+  else 
+    minPedalCheck = false;
+  end
+  
+  %disp([num2str(vehicleSpeedTest), 'km/h test:'])
+  disp(['Vehicle Max Accel Pedal: ', num2str(acceleratorPedalMax), ', Result: ', num2str(maxPedalCheck)])
+  disp(['Vehicle Min Accel Pedal: ', num2str(acceleratorPedalMin), ', Result: ', num2str(minPedalCheck)])
+end
 
 
-%% Funcntions
 function checkVehicleSpeed(vehicleSpeedTest, vehicleSpeedTolerance, ...
   vehicleSpeedMax, vehicleSpeedMin)
   maxSpeedAccepted = vehicleSpeedTest + vehicleSpeedTolerance;
