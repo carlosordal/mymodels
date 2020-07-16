@@ -78,8 +78,53 @@ hold on % allow all vectors to be plotted in same
 set(gcf, 'Position', get(0, 'Screensize'));
 
 % extract time of interest - FCW Warning Activation and AEB Request Stopped
-[startPlotAtTime, stopPlotAtTime, fcwTriggerTime, aebDeacticationTime] = ...
-  extractStartAndStopTime(fcwDisplay, aebRequestId, das_a3_Time, deltaTimePlot);
+% % [startPlotAtTime, stopPlotAtTime, fcwTriggerTime, aebDeacticationTime] = ...
+% %   extractStartAndStopTime(fcwDisplay, aebRequestId, das_a3_Time, deltaTimePlot);
+
+% extract time of interest - AEB request Start and AEB Request Stopped -DAS_A3.DAS_Rq_ID
+[aebRequestStartTime, aebRequestStopTime] = ...
+  aebExtractStartAndStopTime(aebRequestId, das_a3_Time);
+
+% detect Distance to Object Stop being published
+% distanceToObject = signalTable.DAS_A4.ObjIntrstDist;
+% das_a4_Time = signalTable.DAS_A4.Time;
+distanceToObjectPublished = false;
+distanceDefaultValue = 254;
+for i=1 : numel(distanceToObject)
+  if (distanceToObject(i) ~= distanceDefaultValue) && ~distanceToObjectPublished
+    distanceToObjectPublished = true;
+    initialDistanceToObjectIndex = i;
+  end
+  if distanceToObjectPublished && (distanceToObject(i) == distanceDefaultValue)
+    distanceToObjectNotPublishedTime = das_a4_Time(i);
+    distanceToObjectNotPublishedLine = xline(distanceToObjectNotPublishedTime);
+    distanceToObjectNotPublishedLine.DisplayName = 'Dist to Obj Stopped';
+    distanceToObjectNotPublishedLine.Color = 'r';
+    distanceToObjectNotPublishedLine.LineWidth = 2;
+    distanceToObjectNotPublishedLine.LineStyle = '--';
+    finalDistanceToObjectIndex = i-1;
+    break
+  end
+
+end
+distancePublished = distanceToObject(initialDistanceToObjectIndex : finalDistanceToObjectIndex);
+maxDistancePublished = max(distancePublished);
+minDistancePublished = min(distancePublished);
+
+%fine Time when the minimum distance was reported.
+approachLength = duration('0:0:05.4');
+for i=1 : numel(distanceToObject)
+  if distanceToObject(i) == 2
+    minDistanceIndex = i;
+    minDistanceTime = das_a4_Time(i);
+    approachStartTime = minDistanceTime - approachLength;
+
+
+    break
+  end
+end
+
+startPlotAtTime = approachStartTime;
 
 % Plot FCW Display Index das_a3
 [startPlotAtIndex, stopPlotAtIndex] = extractStartStopIndex(das_a3_Time, startPlotAtTime, stopPlotAtTime);
@@ -137,51 +182,19 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
   das_a4_Time_short, distanceToObjectShort, ...
   'Distance to Object', 'DAS A4.ObjIntrstDist', ...
   'Time (s)', 'Distance (m)');
+minDistancePublishedLine = xline(minDistanceTime);
+minDistancePublishedLine.DisplayName = 'min Distance Published';
+minDistancePublishedLine.Color = [0.49,0.18,0.56]; %purple
+minDistancePublishedLine.LineWidth = 2;
+minDistancePublishedLine.LineStyle = '--';
+approachStartLine = xline(approachStartTime);
+approachStartLine.DisplayName = 'approach Start';
+approachStartLine.Color = [0.49,0.18,0.56]; %purple
+approachStartLine.LineWidth = 2;
+approachStartLine.LineStyle = ':';
 
 
 
-% detect Distance to Object Stop being published
-% distanceToObject = signalTable.DAS_A4.ObjIntrstDist;
-% das_a4_Time = signalTable.DAS_A4.Time;
-distanceToObjectPublished = false;
-distanceDefaultValue = 254;
-for i=1 : numel(distanceToObject)
-  if (distanceToObject(i) ~= distanceDefaultValue) && ~distanceToObjectPublished
-    distanceToObjectPublished = true;
-    initialDistanceToObjectIndex = i;
-  end
-  if distanceToObjectPublished && (distanceToObject(i) == distanceDefaultValue)
-    distanceToObjectNotPublishedTime = das_a4_Time(i);
-    distanceToObjectNotPublishedLine = xline(distanceToObjectNotPublishedTime);
-    distanceToObjectNotPublishedLine.DisplayName = 'Dist to Obj Stopped';
-    distanceToObjectNotPublishedLine.Color = 'r';
-    distanceToObjectNotPublishedLine.LineWidth = 2;
-    distanceToObjectNotPublishedLine.LineStyle = '--';
-    finalDistanceToObjectIndex = i-1;
-    break
-  end
-
-end
-distancePublished = distanceToObject(initialDistanceToObjectIndex : finalDistanceToObjectIndex);
-maxDistancePublished = max(distancePublished);
-minDistancePublished = min(distancePublished);
-
-%fine Time when the minimum distance was reported.
-approachLength = duration('0:0:05.4');
-for i=1 : numel(distanceToObject)
-  if distanceToObject(i) == 2
-    minDistanceIndex = i;
-    minDistanceTime = das_a4_Time(i);
-    approachStartTime = minDistanceTime - approachLength;
-    minDistancePublishedLine = xline(minDistanceTime);
-    minDistancePublishedLine.DisplayName = 'min Distance Published';
-    minDistancePublishedLine.Color = [0.49,0.18,0.56]; %purple
-    minDistancePublishedLine.LineWidth = 2;
-    minDistancePublishedLine.LineStyle = ':';
-
-    break
-  end
-end
 
 % Plot Vehicle Acceleration from ESP_A4
 [espA4StartIndex, espA4StopIndex] = extractStartStopIndex(esp_a4_Time, startPlotAtTime, stopPlotAtTime);
@@ -365,6 +378,27 @@ function [startPlotAtTime, stopPlotAtTime, fcwTriggerTime, aebDeacticationTime] 
   end
 end
 
+function [StartTime, StopTime] = ...
+  aebExtractStartAndStopTime( ...
+  statusData, ...
+  TimeData)
+% detect time/index for AEB start/stop request DAS_A3.DAS_Rq_ID
+  aebRequestActive = false;
+  aebRequestDefault = 0;
+  for i=1 : numel(statusData)
+    if (statusData(i) ~= aebRequestDefault) && ~aebRequestActive
+      aebRequestActive = true;
+      aebRequestStartIndex = i;
+      StartTime = TimeData(aebRequestStartIndex);
+
+    end
+    if aebRequestActive && (statusData(i) == aebRequestDefault)
+      aebRequestStopIndex = i-1;
+      StopTime = TimeData(aebRequestStopIndex);
+      break
+    end
+  end
+end
 
 function plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, position,...
   xValues, yValues,...
