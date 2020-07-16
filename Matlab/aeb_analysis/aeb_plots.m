@@ -14,11 +14,11 @@ signalTable = aebMatData.(fieldNames{1});
 
 
 %% All data ploted 
-rowsOnPlot = 5;
+rowsOnPlot = 6;
 columnsOnPlot = 1;
 figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName]);
-hold on % allow all vectors to be plotted in same
-set(gcf, 'Position', get(0, 'Screensize'));
+%hold on % allow all vectors to be plotted in same
+set(gcf, 'Position', get(0, 'Screensize'));     %figure on full screen
 
 %fcw Display
 fcwDisplay = signalTable.DAS_A3.As_DispRq;
@@ -34,13 +34,18 @@ aebRequestId = signalTable.DAS_A3.DAS_Rq_ID;
 
 
 % AEB Activated ESP_A2.DAS_RqActv
-aebActivated = signalTable.ESP_A2.DAS_RqActv;
+aebActuatorStatus = signalTable.ESP_A2.DAS_RqActv;
 esp_a2_Time = signalTable.ESP_A2.Time;
-plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
-  [das_a3_Time, esp_a2_Time], [aebRequestId, aebActivated], ...
-  'AEB request ID', ['DAS A3.DAS Rq ID '; 'ESP A2.DAS RqActv'], ...
+plotAebRequestStatus = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
+  das_a3_Time, aebRequestId, ...
+  'AEB request ID', 'DAS A3.DAS Rq ID', ...
   'Time (s)', 'AEB request ID');
-
+hold on;
+plotAebActuatorStatus = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
+  esp_a2_Time, aebActuatorStatus, ...
+  'AEB request ID', 'ESP A2.DAS RqActv', ...
+  'Time (s)', 'AEB request ID');
+hold off;
 % Vehicle Speed ESP_A8.VEH_SPEED
 vehicleSpeed = signalTable.ESP_A8.VEH_SPEED;
 esp_a8_Time = signalTable.ESP_A8.Time;
@@ -68,9 +73,18 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 5, ...
   'Vehicle Acceleration', 'ESP A4.VehAccel X', ...
   'Time (s)', 'Acceleration m/s^2');
 
+% Accelerator Pedal Postion %ECM_SKIM_OBD.AccelPdlPosn_OBD
+acceleratorPedalPosition = signalTable.ECM_SKIM_OBD.AccelPdlPosn_OBD;
+ecmSkimObdTime = signalTable.ECM_SKIM_OBD.Time;
+accelPedalPlot = createPlot(rowsOnPlot, columnsOnPlot, 6, ...
+  ecmSkimObdTime, acceleratorPedalPosition, ...
+  'Accelerator Pedal', 'ECM SKIM OBD.AccelPdlPosn OBD', ...
+  'Time (s)', 'Pedal Pos %');
+
 
 %% Focus Aread plotted
 deltaTimePlot = duration('0:0:00.5');
+extendPlotTime = duration('0:0:1');
 rowsOnPlot = 5;
 columnsOnPlot = 1;
 figure('NumberTitle', 'off', 'Name', ['Focus Area Plotted: ',fileName]);
@@ -99,7 +113,7 @@ for i=1 : numel(distanceToObject)
     distanceToObjectNotPublishedTime = das_a4_Time(i);
     distanceToObjectNotPublishedLine = xline(distanceToObjectNotPublishedTime);
     distanceToObjectNotPublishedLine.DisplayName = 'Dist to Obj Stopped';
-    distanceToObjectNotPublishedLine.Color = 'r';
+    distanceToObjectNotPublishedLine.Color = [1,0,1]	; %pink
     distanceToObjectNotPublishedLine.LineWidth = 2;
     distanceToObjectNotPublishedLine.LineStyle = '--';
     finalDistanceToObjectIndex = i-1;
@@ -125,6 +139,7 @@ for i=1 : numel(distanceToObject)
 end
 
 startPlotAtTime = approachStartTime;
+stopPlotAtTime = aebRequestStopTime + extendPlotTime;
 
 % Plot FCW Display Index das_a3
 [startPlotAtIndex, stopPlotAtIndex] = extractStartStopIndex(das_a3_Time, startPlotAtTime, stopPlotAtTime);
@@ -134,77 +149,62 @@ fcwDisplay_short = fcwDisplay(startPlotAtIndex : stopPlotAtIndex);
 
 plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
   das_a3_Time_short, fcwDisplay_short, ...
-  'FCW State', 'DAS A3.As DispRq', ...
+  'FCW State', 'FCW Warning Status', ...
   'Time (s)', 'FCW State');
-fcwTriggerLine = xline(fcwTriggerTime);
-fcwTriggerLine.DisplayName = 'FCW Trigger Time';
-fcwTriggerLine.Color = 'r';
-fcwTriggerLine.LineWidth = 2;
-fcwTriggerLine.LineStyle = '--';
+% fcwTriggerLine = xline(fcwTriggerTime);
+% fcwTriggerLine.DisplayName = 'FCW Trigger Time';
+% fcwTriggerLine.Color = 'r';
+% fcwTriggerLine.LineWidth = 2;
+% fcwTriggerLine.LineStyle = '--';
 
 
 
-% Plot DAS_A3.DAS_Rq_ID and ESP_A2.DAS_Rq_Act
+% AEB Activation. Plot DAS_A3.DAS_Rq_ID and ESP_A2.DAS_Rq_Act
 
 [espA2StartIndex, espA2StopIndex] = extractStartStopIndex(esp_a2_Time, startPlotAtTime, stopPlotAtTime);
-
 aebRequestId_short = aebRequestId(startPlotAtIndex : stopPlotAtIndex);
 
 esp_a2_Time_short = esp_a2_Time(espA2StartIndex : espA2StopIndex);
-aebActivatedShort = aebActivated(espA2StartIndex : espA2StopIndex);
+aebActuatorStatusShort = aebActuatorStatus(espA2StartIndex : espA2StopIndex);
 
-plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
+plotAebRequest = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
   das_a3_Time_short, aebRequestId_short, ...
-  'AEB request ID', 'DAS A3.DAS Rq ID', ...
-  'Time (s)', 'AEB ID');
-aebDeactivationRequestLine = xline(aebDeacticationTime);
+  'AEB Req/Act Status', 'AEB Request Status', ...
+  'Time (s)', 'AEB Status');
+aebDeactivationRequestLine = xline(aebRequestStopTime);
 aebDeactivationRequestLine.DisplayName = 'AEB Deactivation Request Time';
-aebDeactivationRequestLine.Color = 'r';
+aebDeactivationRequestLine.Color = 	[1.00,0.00,1.00]	; %pink
 aebDeactivationRequestLine.LineWidth = 2;
 aebDeactivationRequestLine.LineStyle = '--';
-
+hold on;
+plotAebActuator = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
+  esp_a2_Time_short, aebActuatorStatusShort, ...
+  'AEB Req/Act Status', 'AEB Actuator Status', ...
+  'Time (s)', 'AEB Status');
 
 % Plot Vehicle Speed from ESP_A8.VEH_SPEED
 [startPlotAtIndex, stopPlotAtIndex] = extractStartStopIndex(das_a3_Time, startPlotAtTime, stopPlotAtTime);
 esp_a8_Time_short = esp_a8_Time(startPlotAtIndex : stopPlotAtIndex);
 vehicleSpeedShort = vehicleSpeed(startPlotAtIndex : stopPlotAtIndex);
+hold off;
+
 
 plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 3, ...
   esp_a8_Time_short, vehicleSpeedShort, ...
-  'Vehicle Speed', 'ESP A8.VEH SPEED', ...
+  'Vehicle Speed', 'Vehicle Speed', ...
   'Time (s)', 'Speed (km/h)');
 
-% Plot Distance to Object from DAS_A4
-[dasA4StartIndex, dasA4StopIndex] = extractStartStopIndex(das_a4_Time, startPlotAtTime, stopPlotAtTime);
-das_a4_Time_short = das_a4_Time(dasA4StartIndex : dasA4StopIndex);
-distanceToObjectShort = distanceToObject(dasA4StartIndex : dasA4StopIndex);
-plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
-  das_a4_Time_short, distanceToObjectShort, ...
-  'Distance to Object', 'DAS A4.ObjIntrstDist', ...
-  'Time (s)', 'Distance (m)');
-minDistancePublishedLine = xline(minDistanceTime);
-minDistancePublishedLine.DisplayName = 'min Distance Published';
-minDistancePublishedLine.Color = [0.49,0.18,0.56]; %purple
-minDistancePublishedLine.LineWidth = 2;
-minDistancePublishedLine.LineStyle = '--';
-approachStartLine = xline(approachStartTime);
-approachStartLine.DisplayName = 'approach Start';
-approachStartLine.Color = [0.49,0.18,0.56]; %purple
-approachStartLine.LineWidth = 2;
-approachStartLine.LineStyle = ':';
+hold on;
+yyaxis right;
 
-
-
-
-% Plot Vehicle Acceleration from ESP_A4
+% Vehicle acceleration data & plot
 [espA4StartIndex, espA4StopIndex] = extractStartStopIndex(esp_a4_Time, startPlotAtTime, stopPlotAtTime);
 esp_a4_Time_short = esp_a4_Time(espA4StartIndex : espA4StopIndex);
 vehicleAccelerationShort = vehicleAcceleration(espA4StartIndex : espA4StopIndex);
-plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 5, ...
+plotAccelPedal = createPlot(rowsOnPlot, columnsOnPlot, 3, ...
   esp_a4_Time_short, vehicleAccelerationShort, ...
-  'Vehicle Acceleration', 'ESP A4.VehAccel X', ...
-  'Time (s)', 'Speed (m/s^2)');
-
+  'Vehicle Acceleration', 'Vehicle Acceleration', ...
+  'Time (s)', 'Acceleration (m/s^2)');
 
 % detect AEB start -0.5 m/s^2 after AEB was requested
 % ESP_A4.VehAccel_X
@@ -216,7 +216,7 @@ for j=1 : numel(vehicleAccelerationShort)
     %set(plotAttribute, 'Color', 'r');
     verticalLine = xline(aebStartTime);
     legend('ESP A4.VehAccel X','AEB start -0.5m/s^2');
-    verticalLine.Color = 'r';
+    verticalLine.Color = [1,0,1]	; %pink
     verticalLine.LineWidth = 2;
     verticalLine.LineStyle = '--';
 %     verticalLine.Label = 'AEB start -0.5m/s^2';
@@ -225,6 +225,31 @@ for j=1 : numel(vehicleAccelerationShort)
     break
   end
 end
+
+hold off;
+% Plot Distance to Object from DAS_A4
+[dasA4StartIndex, dasA4StopIndex] = extractStartStopIndex(das_a4_Time, startPlotAtTime, stopPlotAtTime);
+das_a4_Time_short = das_a4_Time(dasA4StartIndex : dasA4StopIndex);
+distanceToObjectShort = distanceToObject(dasA4StartIndex : dasA4StopIndex);
+plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
+  das_a4_Time_short, distanceToObjectShort, ...
+  'Distance to Object', 'Distance to Object', ...
+  'Time (s)', 'Distance (m)');
+minDistancePublishedLine = xline(minDistanceTime);
+minDistancePublishedLine.DisplayName = 'min Distance Published';
+minDistancePublishedLine.Color = [1,0,1]	; %pink
+minDistancePublishedLine.LineWidth = 2;
+minDistancePublishedLine.LineStyle = '--';
+approachStartLine = xline(approachStartTime);
+approachStartLine.DisplayName = 'approach Start';
+approachStartLine.Color = [1,0,1]	; %pink
+approachStartLine.LineWidth = 2;
+approachStartLine.LineStyle = ':';
+
+
+
+
+
 
 %% Vehicle Speed Max and Min before AEB activation ESP_A8.VEH_SPEED
 deltaTimeChecks = duration('0:0:03');
@@ -258,14 +283,20 @@ end
 % Accel check, should be done vs Distance Object - 5.4 senconds.
 %ECM_SKIM_OBD	AccelPdlPosn_OBD	Pedal value for OBD (ISO 15031-5.4 PID 49)
 approachPhaseDeltaTime = duration('0:0:5.4');
-acceleratorPedalPosition = signalTable.ECM_SKIM_OBD.AccelPdlPosn_OBD;
-ecmSkimObdTime = signalTable.ECM_SKIM_OBD.Time;
-figure();
-hold on % allow all vectors to be plotted in same
-accel = plot(ecmSkimObdTime,acceleratorPedalPosition);
-speed = plot(esp_a8_Time,vehicleSpeed);
-accel.DisplayName = 'Pedal';
-accel.DisplayName = 'Speed';
+
+
+[ecmSkimObdStartIndex, ecmSkimObdStopIndex] = extractStartStopIndex(ecmSkimObdTime, startPlotAtTime, stopPlotAtTime);
+ecmSkimObdTimeShort = ecmSkimObdTime(ecmSkimObdStartIndex : ecmSkimObdStopIndex);
+acceleratorPedalPositionShort = acceleratorPedalPosition(ecmSkimObdStartIndex : ecmSkimObdStopIndex);
+
+accelPedalPlot = createPlot(rowsOnPlot, columnsOnPlot, 5, ...
+  ecmSkimObdTimeShort, acceleratorPedalPositionShort, ...
+  'Accelerator Pedal Position', 'Accel Pedal Position', ...
+  'Time (s)', 'Pedal Pos %');
+% accel = plot(ecmSkimObdTime,acceleratorPedalPosition);
+% speed = plot(esp_a8_Time,vehicleSpeed);
+% accel.DisplayName = 'Pedal';
+% accel.DisplayName = 'Speed';
 
 acceleratorPedalTolerance = 5; %+- 5% 
 [checkStartIndex, checkStopIndex] = extractStartStopIndex(ecmSkimObdTime, checkStartTime, checkStopTime);
@@ -405,9 +436,19 @@ function plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, position,...
   plotTitle, plotLengend, ...
   xPlotLabel, yPlotLabel)
     subplot(rowsOnPlot, columnsOnPlot, position)
-    plotAttribute = plot(xValues, yValues);
+    legend('-DynamicLegend');
+
+    plotAttribute = plot(xValues, yValues, 'DisplayName',plotLengend);
+    legend show;
+
+    %plotAttribute.DisplayName = plotLengend;
+    %legend('ESP A4.VehAccel X','AEB start -0.5m/s^2');
+    %verticalLine.Color = 'r';
+    plotAttribute.LineWidth = 1.5 ;
+    %verticalLine.LineStyle = '--';
+    
     title(plotTitle) % title
-    legend(plotLengend)
+    %legend([plotAttribute],{plotLengend})
     xlabel(xPlotLabel) % label for x axis
     ylabel(yPlotLabel) % label for y axis
 
