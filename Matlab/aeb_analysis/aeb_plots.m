@@ -13,9 +13,6 @@ fieldNames = fieldnames(aebMatData);
 signalTable = aebMatData.(fieldNames{1});
 
 
-% Plots for Modules disengagement error
-
-
 %% All data ploted 
 rowsOnPlot = 5;
 columnsOnPlot = 1;
@@ -26,7 +23,7 @@ set(gcf, 'Position', get(0, 'Screensize'));
 %fcw Display
 fcwDisplay = signalTable.DAS_A3.As_DispRq;
 das_a3_Time = signalTable.DAS_A3.Time;
-plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
+plotFcwDisplay = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
   das_a3_Time, fcwDisplay, ...
   'FCW State', 'DAS A3.As DispRq', ...
   'Time (s)', 'FCW State');
@@ -53,7 +50,7 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 3, ...
   'Vehicle Speed', 'ESP A8.VEH SPEED', ...
   'Time (s)', 'Speed (km/h)');
   
-% Distance to Object
+% Distance to Object DAS_A4.ObjIntrstDist
 distanceToObject = signalTable.DAS_A4.ObjIntrstDist;
 das_a4_Time = signalTable.DAS_A4.Time;
 
@@ -62,8 +59,7 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
   'Distance to Object', 'DAS A4.ObjIntrstDist', ...
   'Time (s)', 'Distance (m)');
 
-% Vehicle Acceleration
-%ESP_A4	20	cyclicX	20	5	0	VehAccel_X
+% Vehicle Acceleration ESP_A4.VehAccel_X
 vehicleAcceleration = signalTable.ESP_A4.VehAccel_X;
 esp_a4_Time = signalTable.ESP_A4.Time;
 
@@ -82,7 +78,8 @@ hold on % allow all vectors to be plotted in same
 set(gcf, 'Position', get(0, 'Screensize'));
 
 % extract time of interest - FCW Warning Activation and AEB Request Stopped
-[startPlotAtTime, stopPlotAtTime] = extractStartAndStopTime(fcwDisplay, aebRequestId, das_a3_Time, deltaTimePlot);
+[startPlotAtTime, stopPlotAtTime, fcwTriggerTime, aebDeacticationTime] = ...
+  extractStartAndStopTime(fcwDisplay, aebRequestId, das_a3_Time, deltaTimePlot);
 
 % Plot FCW Display Index das_a3
 [startPlotAtIndex, stopPlotAtIndex] = extractStartStopIndex(das_a3_Time, startPlotAtTime, stopPlotAtTime);
@@ -94,7 +91,11 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
   das_a3_Time_short, fcwDisplay_short, ...
   'FCW State', 'DAS A3.As DispRq', ...
   'Time (s)', 'FCW State');
-
+fcwTriggerLine = xline(fcwTriggerTime);
+fcwTriggerLine.DisplayName = 'FCW Trigger Time';
+fcwTriggerLine.Color = 'r';
+fcwTriggerLine.LineWidth = 2;
+fcwTriggerLine.LineStyle = '--';
 
 
 
@@ -111,6 +112,11 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
   das_a3_Time_short, aebRequestId_short, ...
   'AEB request ID', 'DAS A3.DAS Rq ID', ...
   'Time (s)', 'AEB ID');
+aebDeactivationRequestLine = xline(aebDeacticationTime);
+aebDeactivationRequestLine.DisplayName = 'AEB Deactivation Request Time';
+aebDeactivationRequestLine.Color = 'r';
+aebDeactivationRequestLine.LineWidth = 2;
+aebDeactivationRequestLine.LineStyle = '--';
 
 
 % Plot Vehicle Speed from ESP_A8.VEH_SPEED
@@ -132,6 +138,51 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
   'Distance to Object', 'DAS A4.ObjIntrstDist', ...
   'Time (s)', 'Distance (m)');
 
+
+
+% detect Distance to Object Stop being published
+% distanceToObject = signalTable.DAS_A4.ObjIntrstDist;
+% das_a4_Time = signalTable.DAS_A4.Time;
+distanceToObjectPublished = false;
+distanceDefaultValue = 254;
+for i=1 : numel(distanceToObject)
+  if (distanceToObject(i) ~= distanceDefaultValue) && ~distanceToObjectPublished
+    distanceToObjectPublished = true;
+    initialDistanceToObjectIndex = i;
+  end
+  if distanceToObjectPublished && (distanceToObject(i) == distanceDefaultValue)
+    distanceToObjectNotPublishedTime = das_a4_Time(i);
+    distanceToObjectNotPublishedLine = xline(distanceToObjectNotPublishedTime);
+    distanceToObjectNotPublishedLine.DisplayName = 'Dist to Obj Stopped';
+    distanceToObjectNotPublishedLine.Color = 'r';
+    distanceToObjectNotPublishedLine.LineWidth = 2;
+    distanceToObjectNotPublishedLine.LineStyle = '--';
+    finalDistanceToObjectIndex = i-1;
+    break
+  end
+
+end
+distancePublished = distanceToObject(initialDistanceToObjectIndex : finalDistanceToObjectIndex);
+maxDistancePublished = max(distancePublished);
+minDistancePublished = min(distancePublished);
+
+%fine Time when the minimum distance was reported.
+approachLength = duration('0:0:05.4');
+for i=1 : numel(distanceToObject)
+  if distanceToObject(i) == 2
+    minDistanceIndex = i;
+    minDistanceTime = das_a4_Time(i);
+    approachStartTime = minDistanceTime - approachLength;
+    minDistancePublishedLine = xline(minDistanceTime);
+    minDistancePublishedLine.DisplayName = 'min Distance Published';
+    minDistancePublishedLine.Color = [0.49,0.18,0.56]; %purple
+    minDistancePublishedLine.LineWidth = 2;
+    minDistancePublishedLine.LineStyle = ':';
+
+    break
+  end
+end
+
 % Plot Vehicle Acceleration from ESP_A4
 [espA4StartIndex, espA4StopIndex] = extractStartStopIndex(esp_a4_Time, startPlotAtTime, stopPlotAtTime);
 esp_a4_Time_short = esp_a4_Time(espA4StartIndex : espA4StopIndex);
@@ -140,6 +191,7 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 5, ...
   esp_a4_Time_short, vehicleAccelerationShort, ...
   'Vehicle Acceleration', 'ESP A4.VehAccel X', ...
   'Time (s)', 'Speed (m/s^2)');
+
 
 % detect AEB start -0.5 m/s^2 after AEB was requested
 % ESP_A4.VehAccel_X
@@ -192,6 +244,7 @@ end
 % Accelerator pedal position must not fluctuate more than +-5% of the full travel from the original pedal position.
 % Accel check, should be done vs Distance Object - 5.4 senconds.
 %ECM_SKIM_OBD	AccelPdlPosn_OBD	Pedal value for OBD (ISO 15031-5.4 PID 49)
+approachPhaseDeltaTime = duration('0:0:5.4');
 acceleratorPedalPosition = signalTable.ECM_SKIM_OBD.AccelPdlPosn_OBD;
 ecmSkimObdTime = signalTable.ECM_SKIM_OBD.Time;
 figure();
@@ -274,7 +327,7 @@ function [startPlotAtIndex, stopPlotAtIndex] = extractStartStopIndex( ...
 
 end
 
-function [startPlotAtTime, stopPlotAtTime] = extractStartAndStopTime( ...
+function [startPlotAtTime, stopPlotAtTime, fcwTriggerTime, aebDeacticationTime] = extractStartAndStopTime( ...
   fcwDisplayData, aebRequestIdData, ...
   das_a3_TimeData, deltaTimePlot)
 % detect time index to start and stop ploting area of interest
@@ -283,16 +336,16 @@ function [startPlotAtTime, stopPlotAtTime] = extractStartAndStopTime( ...
     if fcwDisplayData(i)  ~= 0
       %timeIndexFcwActivation = i;
       %disp(['FCW status changed on ', num2str(timeIndex)])
-      fcwTimeActivation = das_a3_TimeData(i);
+      fcwTriggerTime = das_a3_TimeData(i);
       %disp(['FCW was activated at ', char(fcwTimeActivation)]) 
-      startPlotAtTime = fcwTimeActivation - deltaTimePlot;
+      startPlotAtTime = fcwTriggerTime - deltaTimePlot;
 %       startPlotAtTime = round(seconds(startPlotAtTime));
 %       startPlotAtTime = duration(['0:0:',num2str(startPlotAtTime)]);
       %disp(['Start plotting at ', char(startPlotAt)]) 
       break
     end
   end
-
+ 
 
   % detect time index to stop ploting area of interest
   % distant to AEB request ID transition from requested to not requested
@@ -304,23 +357,11 @@ function [startPlotAtTime, stopPlotAtTime] = extractStartAndStopTime( ...
       aebRequestedStatus = true;
     end
     if aebRequestedStatus && (aebRequestIdData(i) == 0)
-      %timeIndexAebDeactivaded = i;
-      %disp(['AEB Index DE activation 952?: ', num2str(timeIndexAebDeactivaded)])
       aebDeacticationTime = das_a3_TimeData(i);
       stopPlotAtTime = aebDeacticationTime + deltaTimePlot;
-      %stopPlotAtTime = round(seconds(stopPlotAtTime));
-      %stopPlotAtTime = duration(['0:0:',num2str(stopPlotAtTime)]);
-      %disp(['Stop plotting at ', char(stopPlotAtTime)]) 
-
       break
     end
-      %timeIndexDistancePublished = i;
-      %disp(['Distance Index activation', num2str(timeIndexDistancePublished)])
-      %distanceTimeActivation = das_a4_Time(i);
-      %disp(['FCW was activated at ', char(fcwTimeActivation)]) 
 
-
-    %end
   end
 end
 
