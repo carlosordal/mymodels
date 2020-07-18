@@ -40,56 +40,55 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
 % check Matlab version is newer than 2019b (9.7)
 
     checkMatlabVerion('matlab','9.7');
-    checkPlatform('win64')   
-    
+    checkPlatform('win64');   
+    checkblfFolderContent();
+    blfFolder = blfDirectory;
+    blfFilesList = dir(fullfile(blfFolder, '*.blf'));
+
+    % check if BLF files on the selected folder
+    if isempty(blfFilesList)
+        error('****** No BLF files found on selected folder, Please select a different folder');
+    end    
+
     networks = size(networksAndChannels);
     rows = networks(1);
-
+    
+    % networks and channels loop
     for i=1 : rows
-        %disp([networksAndChannels{i,1},', ', num2str(networksAndChannels{i,2})]);
         networkSel = networksAndChannels{i,1};
         canCh = networksAndChannels{i,2};
-
-        %% DBCs Path definition (avcampari dir)
+        % DBCs Path definition
         this_folder = fileparts(mfilename('fullpath'));   
         addpath(dbcDirectory);
-
-        blfFolder = blfDirectory;
-        files = dir(fullfile(blfFolder, '*.blf'));
         %load dbc
         candbSel = lower([networkSel,'.dbc']);
 
-        if ~isempty(files)
+        % blf files loop
+        for j=1 : numel(blfFilesList)   %file list
+            thisFile = blfFilesList(j);
+            disp(['File conversion started: ', thisFile.name]);
+            %disp(['File Name: ', thisFile.name]);
+            % load dbcs and create time tables for logs
 
-            for j=1 : numel(files)   %file list
-                thisFile = files(j);
-                disp(['File conversion started: ', thisFile.name]);
-                %disp(['File Name: ', thisFile.name]);
-                % load dbcs and create time tables for logs
+            %convert CAN canlog into struct with timetables and save
+            %initial matfile
+            matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, this_folder);
 
+            % Rename Mat file similar to blf filename plus network and save it on blf
+            % folder
 
-                %convert CAN canlog into struct with timetables and save
-                %initial matfile
-                matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, this_folder);
+            oldFilename = fullfile(this_folder, matFile);
+            [~, baseFileName, ~] = fileparts(fullfile(thisFile.folder, thisFile.name));
+            noSpaceName =  regexprep(baseFileName, ' ', '_');
+            newFilename = strcat(noSpaceName,'_',matFile);
+            newFilename = fullfile(thisFile.folder,'\', newFilename);
+            movefile( oldFilename, newFilename );
 
-                % Rename Mat file similar to blf filename plus network and save it on blf
-                % folder
+            % Process Complete message:
+            disp(['------File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
+        end           
 
-                oldFilename = fullfile(this_folder, matFile);
-                [~, baseFileName, ~] = fileparts(fullfile(thisFile.folder, thisFile.name));
-                noSpaceName =  regexprep(baseFileName, ' ', '_');
-                newFilename = strcat(noSpaceName,'_',matFile);
-                newFilename = fullfile(thisFile.folder,'\', newFilename);
-                movefile( oldFilename, newFilename );
-
-                %% Process Complete message:
-                disp(['------File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
-
-            end           
-        else
-            disp(['****** No BLF files on selected folder, Please select a different folder']);
-        end        
-    end
+    end          
     disp(['COMPLETED. Total BLF files converted: ',num2str(i)]);
 
 
@@ -128,4 +127,7 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
             error('This functions only runs on Windows')
         end
     end
+    function checkblfFolderContent()
+    end
+
 end
