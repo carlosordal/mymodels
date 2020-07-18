@@ -3,7 +3,7 @@
 
 import  isotp
 import  can
-import ics
+import  ics
 import  udsoncan
 import  udsoncan.configs
 from    udsoncan.connections import PythonIsoTpConnection
@@ -25,8 +25,6 @@ def canToolDefinition(canHw, busSpeed):
     elif canHw == 'Virtual':
         bus = can.interface.Bus('test', bustype='virtual')
     return bus
-
-
 
 def ecuConnection(txId, rxId, bus):  
     # CAN connetion Tx and Rx IDs.
@@ -80,8 +78,6 @@ def dtcHexToJ2012Conversion(dtcIdNumber):
     dtcJ2012Code  = char1 + char2 + char3 + char4 +char5 + "-" + char6 + char7
     return dtcJ2012Code
 
-
-
 def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
 
     dataBitSize = size * 8
@@ -94,14 +90,14 @@ def extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize):
     bitEndPosition = dataBitSize  - ((startByte * byteLength) + startBit)
     bitStartPosition =  (byteSize *8) + bitSize
     bitStartPosition = bitEndPosition - bitStartPosition
+    
 
     extractInfo = binaryData[bitStartPosition: bitEndPosition]
+    
+
     return extractInfo
 
-#def extractDtcDescription():
-
-
-def getDTCs(client, dtc_status_mask, moduleName):
+def getDTCs(client, dtc_status_mask, moduleName, dtcsFile):
     try:
         response = client.get_dtc_by_status_mask(dtc_status_mask)
         print("DTCs: ")
@@ -115,31 +111,31 @@ def getDTCs(client, dtc_status_mask, moduleName):
                 dtcJ2012Code = dtcHexToJ2012Conversion (dtc.id)
                 dtcId = dtcJ2012Code[0:5]
                 #get dtc description
-                open_file = open('pacifica_dtc_list.csv')
+                open_file = open(dtcsFile, encoding="utf8")
                 csv_file = csv.reader(open_file)
                 dtcDescription = ''
                 for row in csv_file:
                     if row[0] == dtcId:
                         dtcDescription = row[1]
-                        break
+                        #break
                 
                 #get subtype description
                 subtypeDescription =''
                 subtypeId = dtcJ2012Code[6:8]
 
-                open_file = open('pacifica_dtc_list.csv')
+                open_file = open(dtcsFile, encoding="utf8")
                 csv_file = csv.reader(open_file)
                 for row_type in csv_file:
                     if row_type[0] == subtypeId:
                         subtypeDescription = row_type[1]
-                        break
+                        #break
 
                 print('     ', moduleName, "DTC", index, ':', dtcJ2012Code, dtcDescription,'-',subtypeDescription)         # Print the HEX DTC number
-    except:
+    #except:
+    except Exception as e:
         print(moduleName, 'Not found')
+        print('error: '+ str(e))
     
-
-
 def getDID(client, conn, moduleName, didNumber, didNumberContent):
     try:
         class CodecTwoBytes(udsoncan.DidCodec):
@@ -221,16 +217,24 @@ def getDID(client, conn, moduleName, didNumber, didNumberContent):
 
             response = client.read_data_by_identifier(didItem)
             if didConversionType == 'HEX':
-                print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+                #print(moduleName, hex(didItem), description, ':', hex(response.service_data.values[didItem]))
+                didData = response.service_data.values[didItem]
+                hexFormat = '0' + str(size*2) + 'X'
+                hexData = format(didData, hexFormat)
+                print(moduleName, hex(didItem), description, '(hex):', hexData)
                 decodeDIDs = didNumberContent.get('decodedData')
                 for decodeDIDsItem, decodeDIDsContent in decodeDIDs.items():
-                    data = response.service_data.values[didItem]
+                    data = didData
                     startByte   = decodeDIDsContent.get('startByte')
                     startBit    = decodeDIDsContent.get('startBit')
                     byteSize    = decodeDIDsContent.get('byteSize')
                     bitSize     = decodeDIDsContent.get('bitSize')
-                    information = extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize)
-                    print('     ', decodeDIDsContent['description'],'=', hex(int(information, base = 2)))
+                    informationBin = extractDIDInformation(data, size, startByte, startBit, byteSize, bitSize)
+                    informationDec = int(informationBin, base = 2)
+                    hexFormat = '0' + str(byteSize*2) + 'X'
+                    hexDidDecoded = format(informationDec, hexFormat)
+                    print('     ', decodeDIDsContent['description'],'=', hexDidDecoded)
+                    #print('     ', decodeDIDsContent['description'],'=', hex(int(information, base = 2)))
 
                     
             if didConversionType == 'ASCII':

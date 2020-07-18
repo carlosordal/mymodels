@@ -1,0 +1,74 @@
+**************Report created with, Modules File:  modulesIdsPacificaIHS.yaml DTCs file:  pacifica_dtc_list.csv network: ihs
+ ----------------- Section: AMP - Audio Amplifier on ihs network -------------------
+DTCs: 
+      AMP DTC 1 : B14B9-13  - CIRCUIT OPEN
+      AMP DTC 2 : B14C3-13  - CIRCUIT OPEN
+      AMP DTC 3 : B14C8-13  - CIRCUIT OPEN
+ ----------------- Section: CDM - Compact Disk Module on ihs network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+CDM Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+ ----------------- Section: CMCM - Radio on ihs network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+CMCM Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+ ----------------- Section: CVPM - Central Vision Processing Module (360 view) on ihs network -------------------
+DTCs: 
+     no CVPM dtcs
+ ----------------- Section: DCSD - Disassociated Center Stack Display Screen (IP) on ihs network -------------------
+DTCs: 
+     no DCSD dtcs
+ ----------------- Section: DDM - Driver Door Module on ihs network -------------------
+DTCs: 
+     no DDM dtcs
+ ----------------- Section: DMRL - Door Module Rear Left on ihs network -------------------
+DTCs: 
+      DMRL DTC 1 : B25B0-31  - 
+      DMRL DTC 2 : B224F-54  - 
+ ----------------- Section: DMRR - Door Module Rear Right on ihs network -------------------
+DTCs: 
+      DMRR DTC 1 : B224F-54  - 
+      DMRR DTC 2 : B25B0-31  - 
+ ----------------- Section: HSM - Heater Seat Module on ihs network -------------------
+DTCs: 
+      HSM DTC 1 : U0011-00 CAN INTERIOR BUS OFF PERFORMANCE -
+ ----------------- Section: HVACR - Heating Ventilation Air Conditioning Rear Module on ihs network -------------------
+DTCs: 
+     no HVACR dtcs
+ ----------------- Section: HVAC - Heating Ventilation Air Conditioning Module on ihs network -------------------
+DTCs: 
+     no HVAC dtcs
+ ----------------- Section: ICSR - Integrated Center Stack Rear on ihs network -------------------
+DTCs: 
+     no ICSR dtcs
+ ----------------- Section: ICS - Integrated Center Stack (IP Switch Bank) on ihs network -------------------
+DTCs: 
+     no ICS dtcs
+ ----------------- Section: LBSS - Left Blint Spot System on ihs network -------------------
+DTCs: 
+     no LBSS dtcs
+ ----------------- Section: PDM - Passenger Door Module on ihs network -------------------
+DTCs: 
+     no PDM dtcs
+ ----------------- Section: PLGM - Power Liftgate Module on ihs network -------------------
+DTCs:
+      PLGM DTC 1 : B197F-13  - CIRCUIT OPEN
+      PLGM DTC 2 : B1978-00  -
+      PLGM DTC 3 : U0011-00 CAN INTERIOR BUS OFF PERFORMANCE -
+      PLGM DTC 4 : U0140-00 LOST COMMUNICATION WITH BODY CONTROL MODULE -
+      PLGM DTC 5 : B1977-00  -
+ ----------------- Section: PSDML - Power Sliding Door Module Left on ihs network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+PSDML Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+ ----------------- Section: PSDMR - Power Sliding Door Module Right on ihs network -------------------
+DTCs:
+     no PSDMR dtcs
+ ----------------- Section: RBSS - Right Blind Spot System on ihs network -------------------
+DTCs:
+     no RBSS dtcs
+ ----------------- Section: VRM - Video Routing Module on ihs network -------------------
+[TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+VRM Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+********************************************************* completed  ********************************************

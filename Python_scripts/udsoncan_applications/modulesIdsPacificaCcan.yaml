@@ -111,7 +111,16 @@ EPS_A:
       0xF132:                                           # Single Rack SW version
         didDescription: ECU SW Part Number
         responseByteSize: 10                            # Size from ENG file
-        didConversionType: ASCII                        # ASCII: it doesn't require decoded data
+        didConversionType: HEX                        # ASCII: it doesn't require decoded data
+        decodedData:
+          ecuSoftwarePartNumber:
+            startByte: 0
+            startBit: 0
+            description: ECU SW Part Number
+            byteSize: 10
+            bitSize: 0
+            type: Identical
+            conversion: HEX                       # ASCII: it doesn't require decoded data
     DTCs:
 
 ECM:

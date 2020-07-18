@@ -1,123 +1,152 @@
-SYNC1:
-  request: 0x7D0
-  response: 0x7D8
-  network: [ccan]
-  description: SYNC1
-  requestedData:
-    DIDs:
-      0xF188:
-        didDescription: ECU SW Part Number
-        responseByteSize: 15                             # plus 3 of response and DID repeat
-        didConversionType: ASCII
-        decodedData:
-          ecuSWPN:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 15
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
-      0xDE00:
-        didDescription: SYNC Configuration
-        responseByteSize: 8                               # plus 3 of response and DID repeat
-        didConversionType: HEX
-        # SYNC1 0xde00 None : 0x 10 af 98 40 02 40 60 00
-        #                        xx 6 5 4 3 2 1 0
-        #SYNC1 0xde00 None : 0x10af984002406000
-        #SYNC1 0xde00 None : 0x10 af 98 40 02 40 60 00
-        # bit FCA 7 6 5 4 3 2 1 0
-        decodedData:
-          syncEnable:
-            startByte: 7      #FCA's Bytes xx 6 5 4 3 2 1 0
-            startBit: 4       #(FCA distribution) 7 6 5 4 3 2 1 0
-            description: SYNC Configuration
-            byteSize: 0       # how many bytes? 0 = less than a byte/
-            bitSize: 1        # how many bits?
-            type: Identical
-            conversion: HEX
-          displaySize:
-            startByte: 4
-            startBit: 0
-            description: Display Size
-            byteSize: 1
-            bitSize: 0
-            type: Identical
-            conversion: HEX
+# # SYNC1:
+# #   request: 0x7D0
+# #   response: 0x7D8
+# #   network: ccan
+# #   description: SYNC1
+# #   requestedData:
+# #     DIDs:
+# #       0xF188:
+# #         didDescription: ECU SW Part Number
+# #         responseByteSize: 15                             # plus 3 of response and DID repeat
+# #         didConversionType: ASCII
+
+# #       0xDE00:
+# #         didDescription: SYNC Configuration
+# #         responseByteSize: 8                               # plus 3 of response and DID repeat
+# #         didConversionType: HEX
+# #         # SYNC1 0xde00 None : 0x 10 af 98 40 02 40 60 00
+# #         # Byte position     xx 8  7  6  5  4  3  2  1  0
+# #         #SYNC1 0xde00 None : 0x10af984002406000
+# #         #SYNC1 0xde00 None : 0x10 af 98 40 02 40 60 00
+# #         decodedData:
+# #           syncEnable:
+# #             startByte: 7      #Bytes position (opposite than FCA) XX xx xx xx xx xx xx xx = 0x10
+# #             startBit: 4       #Bits position (same as FCA) xxxX xxxx = 0001 0000
+# #             description: SYNC Configuration
+# #             byteSize: 0       # how many bytes? 0 = less than a byte/
+# #             bitSize: 1        # how many bits?
+# #             type: Identical
+# #             conversion: HEX
+# #           displaySize:
+# #             startByte: 4
+# #             startBit: 0
+# #             description: Display Size
+# #             byteSize: 1
+# #             bitSize: 0
+# #             type: Identical
+# #             conversion: HEX
+
+# # MFD:
+# #   request: 0x7A5
+# #   response: 0x7AD
+# #   network: ccan
+# #   description: Multi Function Dispay 4"
+# #   requestedData:
+# #     DTCs:
+
+# # ClimateControl:
+# #   request: 0x733
+# #   response: 0x73B
+# #   network: ccan
+# #   description: Climate Control
+# #   requestedData: 
+# #     DIDs:
+# #       0xF188:
+# #         didDescription: ECU SW Part Number
+# #         responseByteSize: 15                             # plus 3 of response and DID repeat
+# #         didConversionType: ASCII
 
 # #     DTCs:
-MFD:
-  request: 0x7A5
-  response: 0x7AD
-  network: [ccan]
-  description: Multi Function Dispay 4"
-  requestedData:
-    DTCs:
+# Radio:
+#   request: 0x727
+#   response: 0x72F
+#   network: ccan
+#   description: Radio
+#   requestedData:
+#     DIDs:
+#       0xF188:
+#         didDescription: ECU SW Part Number
+#         responseByteSize: 15                             # plus 3 of response and DID repeat
+#         didConversionType: ASCII
+#     DTCs:
 
-ClimateControl:
-  request: 0x733
-  response: 0x73B
-  network: [ccan]
-  description: Climate Control
-  requestedData: 
-    DIDs:
-      0xF188:
-        didDescription: ECU SW Part Number
-        responseByteSize: 15                             # plus 3 of response and DID repeat
-        didConversionType: ASCII
-        decodedData:
-          ecuSWPN:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 15
-            bitSize: 0
-            type: Identical
-            conversion: ASCII
-    DTCs:
-Radio:
-  request: 0x727
-  response: 0x72F
-  network: [ccan]
-  description: Radio
-  requestedData:
-    DTCs:
-
-BCM:
-  request: 0x726
-  response: 0x72E
-  network: [ccan]
-  description: Body Control Module
-  requestedData:
-    DTCs:
+# BCM:
+#   request: 0x726
+#   response: 0x72E
+#   network: ccan
+#   description: Body Control Module
+#   requestedData:
+#     DIDs:
+#       0xF190:
+#         didDescription: VIN
+#         responseByteSize: 17                            # plus 3 of response and DID repeat
+#         didConversionType: ASCII
+#     DTCs:
 
 IPC:
   request: 0x720
   response: 0x728
-  network: [ccan]
+  network: ccan
   description: Instrument Panel Cluster
   requestedData:
     DIDs:
-      0xF188:
-        didDescription: ECU SW Part Number
-        responseByteSize: 15                             # plus 3 of response and DID repeat
-        didConversionType: ASCII
+      # 0xF188:
+      #   didDescription: ECU SW Part Number
+      #   responseByteSize: 15                             # plus 3 of response and DID repeat
+      #   didConversionType: ASCII
+      0xDE03:
+        didDescription: Cluster Configuration
+        responseByteSize: 4                               # start counting from 1
+        didConversionType: HEX
+        # Radio 0xde03 None : 0x 02 00 A1 E4
+        # Byte position (opposite than FCA)    xx 8  7  6  5  4  3  2  1  0
+        # Bit position  (same as FCA)                7  6  5  4  3  2  1  0
         decodedData:
-          ecuSWPN:
-            startByte: 0
-            startbit: 0
-            description: ECU SW Part Number
-            byteSize: 15
+          radioConfiguration:
+            startByte: 2      #Bytes position (opposite than FCA) xx XX xx xx = 0x00
+            startBit: 4       #Bits position (same as FCA) xxxX xxxx = 0001 0000
+            description: Radio Configuration
+            byteSize: 0       # how many bytes? 0 = less than a byte/
+            bitSize: 1        # how many bits?
+            type: Identical
+            conversion: HEX
+          numberOfSpeakers:
+            startByte: 3    #Bytes position (opposite than FCA) XX xx xx xx = 0x02
+            startBit: 0     #Bits position (same as FCA) xxxX xxxx = 0001 0000  -- 0:08(python)
+            description: Number of Speakers
+            byteSize: 1
             bitSize: 0
             type: Identical
-            conversion: ASCII
-    DTCs:
+            conversion: HEX
+        ############### Same as FCA Byte position 0 1 2 3 4 5 6 xx
+        # Radio 0xde03 None : 0x 02 00 A1 E4
+        # decodedData:
+        #   radioConfiguration:
+        #     startByte: 1      #Bytes position (same FCA) xx XX xx xx = 0x00
+        #     startBit: 4       #Bits position (same as FCA) xxxX xxxx = 0001 0000  -- 11:12(python)
+        #     description: Radio Configuration
+        #     byteSize: 0       # how many bytes? 0 = less than a byte/
+        #     bitSize: 1        # how many bits?
+        #     type: Identical
+        #     conversion: HEX
+        #   numberOfSpeakers:
+        #     startByte: 0      #Bytes position (same FCA) XX xx xx xx = 0x02
+        #     startBit: 0       #Bits position (same as FCA) xxxX xxxx = 0001 0000  -- 0:08(python)
+        #     description: Number of Speakers
+        #     byteSize: 1
+        #     bitSize: 0
+        #     type: Identical
+        #     conversion: HEX
+    # DTCs:
 
-GPS:
-  request: 0x701
-  response: 0x709
-  network: [ccan]
-  description: Body Control Module
-  requestedData:
-    DTCs:
+# GPS:
+#   request: 0x701
+#   response: 0x709
+#   network: ccan
+#   description: Body Control Module
+#   requestedData:
+#     DTCs:
+
+
+
 

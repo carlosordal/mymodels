@@ -1,0 +1,224 @@
+**************Report created with, Modules File:  modulesIdsPacificaObd2CcanEpt.yaml DTCs file:  pacifica_dtc_list.csv network: ccan
+ ----------------- Section: ACC-DASM - ACC-Driver Assistance System Module on ccan-lyftctrl network -------------------
+2020-06-29 14:37:22 [INFO] Connection: Connection opened
+2020-06-29 14:37:22 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:22 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:22 [DEBUG] Connection: Received 3 bytes : [b'7f1978']
+2020-06-29 14:37:22 [DEBUG] Connection: Received 7 bytes : [b'59020d6227000d']
+2020-06-29 14:37:22 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+      ACC-DASM DTC 1 : C2227-00 ABS DISABLED ECU - 
+2020-06-29 14:37:22 [INFO] Connection: Connection closed
+ ----------------- Section: BCM-CBC - Body Control Module - CBC on ccan network -------------------
+2020-06-29 14:37:22 [INFO] Connection: Connection opened
+2020-06-29 14:37:22 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf132 (IdentificationOptionVehicleManufacturerSpecificDataIdentifier)
+2020-06-29 14:37:22 [DEBUG] Connection: Sending 3 bytes : [b'22f132']
+2020-06-29 14:37:23 [DEBUG] Connection: Received 13 bytes : [b'62f13236383335313534354141']
+2020-06-29 14:37:23 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+BCM-CBC 0xf132 ECU SW Part Number : 68351545AA
+2020-06-29 14:37:23 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0x0138 (VehicleManufacturerSpecific)
+2020-06-29 14:37:23 [DEBUG] Connection: Sending 3 bytes : [b'220138']
+2020-06-29 14:37:23 [DEBUG] Connection: Received 5 bytes : [b'6201380041']
+2020-06-29 14:37:23 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+BCM-CBC 0x138 ECU Configuration 6 (Steering) (hex): 4100
+      Suspension ECU configuration A = 0x0
+      Suspension ECU configuration B = 0x41
+2020-06-29 14:37:23 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf011 (VehicleManufacturerSpecific)
+2020-06-29 14:37:23 [DEBUG] Connection: Sending 3 bytes : [b'22f011']
+2020-06-29 14:37:23 [DEBUG] Connection: Received 11 bytes : [b'62f01180ce89c054100000']
+2020-06-29 14:37:23 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+BCM-CBC 0xf011 Programmed ECUS - P/T Chassis Network (hex): 80CE89C054100000
+      HALF Network Configuration = 0x1
+      DASM Network Configuration = 0x1
+2020-06-29 14:37:23 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf190 (VINDataIdentifier)
+2020-06-29 14:37:23 [DEBUG] Connection: Sending 3 bytes : [b'22f190']
+2020-06-29 14:37:23 [DEBUG] Connection: Received 20 bytes : [b'62f1903243345243314e37324a52333538393933']
+2020-06-29 14:37:23 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+BCM-CBC 0xf190 VIN : 2C4RC1N72JR358993
+2020-06-29 14:37:23 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:23 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 3 bytes : [b'5902fb']
+2020-06-29 14:37:24 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no BCM-CBC dtcs
+2020-06-29 14:37:24 [INFO] Connection: Connection closed
+ ----------------- Section: BSMO-ABS - Brake System Module OBD - ABS on ccan network -------------------
+2020-06-29 14:37:24 [INFO] Connection: Connection opened
+2020-06-29 14:37:24 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf132 (IdentificationOptionVehicleManufacturerSpecificDataIdentifier)
+2020-06-29 14:37:24 [DEBUG] Connection: Sending 3 bytes : [b'22f132']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 13 bytes : [b'62f1323034363732363136414c']
+2020-06-29 14:37:24 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+BSMO-ABS 0xf132 ECU SW Part Number : 04672616AL
+2020-06-29 14:37:24 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:24 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 3 bytes : [b'7f1978']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 3 bytes : [b'5902cf']
+2020-06-29 14:37:24 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no BSMO-ABS dtcs
+2020-06-29 14:37:24 [INFO] Connection: Connection closed
+ ----------------- Section: EBCM - Electric Booster Control Module on ccan network -------------------
+2020-06-29 14:37:24 [INFO] Connection: Connection opened
+2020-06-29 14:37:24 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf132 (IdentificationOptionVehicleManufacturerSpecificDataIdentifier)
+2020-06-29 14:37:24 [DEBUG] Connection: Sending 3 bytes : [b'22f132']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 13 bytes : [b'62f1323034363732363137414c']
+2020-06-29 14:37:24 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+EBCM 0xf132 ECU SW Part Number : 04672617AL
+2020-06-29 14:37:24 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:24 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 3 bytes : [b'7f1978']
+2020-06-29 14:37:24 [DEBUG] Connection: Received 3 bytes : [b'5902cf']
+2020-06-29 14:37:24 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs: 
+     no EBCM dtcs
+2020-06-29 14:37:24 [INFO] Connection: Connection closed
+ ----------------- Section: EPS_A - Electronic Power Steering A on ccan network -------------------
+2020-06-29 14:37:24 [INFO] Connection: Connection opened
+2020-06-29 14:37:24 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf132 (IdentificationOptionVehicleManufacturerSpecificDataIdentifier)
+2020-06-29 14:37:24 [DEBUG] Connection: Sending 3 bytes : [b'22f132']
+2020-06-29 14:37:25 [DEBUG] Connection: Received 13 bytes : [b'62f13220313767c10cd8f21e04']
+2020-06-29 14:37:25 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+EPS_A 0xf132 ECU SW Part Number (hex): 000020313767C10CD8F2
+EPS_A Not found
+error: unsupported operand type(s) for +: 'int' and 'NoneType'
+2020-06-29 14:37:25 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:25 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:25 [DEBUG] Connection: Received 7 bytes : [b'5902ffc25b006d']
+2020-06-29 14:37:25 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+      EPS_A DTC 1 : U025B-00 Lost Communication With Redundant High Survivability Computer (RHSC2) CCAN - 
+2020-06-29 14:37:25 [INFO] Connection: Connection closed
+ ----------------- Section: ESM - Electronic Shifter Module on ccan network -------------------
+2020-06-29 14:37:25 [INFO] Connection: Connection opened
+2020-06-29 14:37:25 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:25 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:25 [DEBUG] Connection: Received 3 bytes : [b'59027b']
+2020-06-29 14:37:25 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no ESM dtcs
+2020-06-29 14:37:25 [INFO] Connection: Connection closed
+ ----------------- Section: HALF - Haptic Lane Following (Front Camera) on ccan-lyftctrl network -------------------
+2020-06-29 14:37:25 [INFO] Connection: Connection opened
+2020-06-29 14:37:25 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:25 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:25 [DEBUG] Connection: Received 3 bytes : [b'590239']
+2020-06-29 14:37:25 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no HALF dtcs
+2020-06-29 14:37:25 [INFO] Connection: Connection closed
+ ----------------- Section: HCP - Hybrid Control Processor on ccan network -------------------
+2020-06-29 14:37:26 [INFO] Connection: Connection opened
+2020-06-29 14:37:26 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:26 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:26 [DEBUG] Connection: Received 3 bytes : [b'5902ff']
+2020-06-29 14:37:26 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs: 
+     no HCP dtcs
+2020-06-29 14:37:26 [INFO] Connection: Connection closed
+ ----------------- Section: IC - Instrument Cluster on ccan network -------------------
+2020-06-29 14:37:26 [INFO] Connection: Connection opened
+2020-06-29 14:37:26 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:26 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:26 [DEBUG] Connection: Received 3 bytes : [b'5902fb']
+2020-06-29 14:37:26 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs: 
+     no IC dtcs
+2020-06-29 14:37:26 [INFO] Connection: Connection closed
+ ----------------- Section: OCM - Occupant Classification Module on ccan network -------------------
+2020-06-29 14:37:26 [INFO] Connection: Connection opened
+2020-06-29 14:37:27 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:27 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:27 [DEBUG] Connection: Received 3 bytes : [b'59027b']
+2020-06-29 14:37:27 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no OCM dtcs
+2020-06-29 14:37:27 [INFO] Connection: Connection closed
+ ----------------- Section: ORC - Occupant Restraint Controller on ccan network -------------------
+2020-06-29 14:37:27 [INFO] Connection: Connection opened
+2020-06-29 14:37:27 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:27 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:27 [DEBUG] Connection: Received 3 bytes : [b'7f1978']
+2020-06-29 14:37:27 [DEBUG] Connection: Received 3 bytes : [b'5902fb']
+2020-06-29 14:37:27 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no ORC dtcs
+2020-06-29 14:37:27 [INFO] Connection: Connection closed
+ ----------------- Section: PTS - Parktronic System (AutoPark) on ccan network -------------------
+2020-06-29 14:37:27 [INFO] Connection: Connection opened
+2020-06-29 14:37:27 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:27 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:27 [DEBUG] Connection: Received 3 bytes : [b'7f1978']
+2020-06-29 14:37:27 [DEBUG] Connection: Received 3 bytes : [b'59027f']
+2020-06-29 14:37:27 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no PTS dtcs
+2020-06-29 14:37:28 [INFO] Connection: Connection closed
+ ----------------- Section: RF_HUB - Radio Frequency Hub on ccan network -------------------
+2020-06-29 14:37:28 [INFO] Connection: Connection opened
+2020-06-29 14:37:28 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:28 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:28 [DEBUG] Connection: Received 3 bytes : [b'5902db']
+2020-06-29 14:37:28 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no RF_HUB dtcs
+2020-06-29 14:37:28 [INFO] Connection: Connection closed
+ ----------------- Section: SCCM - Steering Column Control Module on ccan network -------------------
+2020-06-29 14:37:28 [INFO] Connection: Connection opened
+2020-06-29 14:37:28 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:28 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:28 [DEBUG] Connection: Received 3 bytes : [b'590239']
+2020-06-29 14:37:28 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no SCCM dtcs
+2020-06-29 14:37:28 [INFO] Connection: Connection closed
+ ----------------- Section: SGW - Gateway Module on ccan network -------------------
+2020-06-29 14:37:28 [INFO] Connection: Connection opened
+2020-06-29 14:37:28 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:28 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:29 [DEBUG] Connection: No data received: [TimeoutException] - Did not receive frame IsoTP Transport layer in time (timeout=1 sec) 
+2020-06-29 14:37:29 [ERROR] UdsClient: [TimeoutException] : Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+SGW Not found
+error: Did not receive response in time. P2 timeout time has expired (timeout=1.000 sec)
+2020-06-29 14:37:29 [INFO] Connection: Connection closed
+ ----------------- Section: ECM-PCM - Engine Control Module on ccan-ept network -------------------
+2020-06-29 14:37:29 [INFO] Connection: Connection opened
+2020-06-29 14:37:29 [INFO] UdsClient: ReadDataByIdentifier<0x22> - Reading data identifier : 0xf190 (VINDataIdentifier)
+2020-06-29 14:37:29 [DEBUG] Connection: Sending 3 bytes : [b'22f190']
+2020-06-29 14:37:29 [DEBUG] Connection: Received 20 bytes : [b'62f1903243345243314e37324a52333538393933']
+2020-06-29 14:37:29 [INFO] UdsClient: Received positive response for service ReadDataByIdentifier (0x22) from server.
+ECM-PCM 0xf190 VIN Number : 2C4RC1N72JR358993
+2020-06-29 14:37:29 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:29 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:30 [DEBUG] Connection: Received 3 bytes : [b'7f1911']
+2020-06-29 14:37:30 [WARNING] UdsClient: [NegativeResponseException] : ReadDTCInformation service execution returned a negative response ServiceNotSupported (0x11)
+ECM-PCM Not found
+error: ReadDTCInformation service execution returned a negative response ServiceNotSupported (0x11)
+2020-06-29 14:37:30 [INFO] Connection: Connection closed
+ ----------------- Section: APM - Auxiliary Power Module (DC-DC) on ept network -------------------
+2020-06-29 14:37:30 [INFO] Connection: Connection opened
+2020-06-29 14:37:30 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:30 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:30 [DEBUG] Connection: Received 3 bytes : [b'59027f']
+2020-06-29 14:37:30 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no APM dtcs
+2020-06-29 14:37:30 [INFO] Connection: Connection closed
+ ----------------- Section: BPCM - Battery Pack Control Module on ept network -------------------
+2020-06-29 14:37:30 [INFO] Connection: Connection opened
+2020-06-29 14:37:30 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:30 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:30 [DEBUG] Connection: Received 3 bytes : [b'5902fb']
+2020-06-29 14:37:30 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no BPCM dtcs
+2020-06-29 14:37:30 [INFO] Connection: Connection closed
+ ----------------- Section: OBCM - On-Board Charging Module on ept network -------------------
+2020-06-29 14:37:30 [INFO] Connection: Connection opened
+2020-06-29 14:37:30 [INFO] UdsClient: ReadDTCInformation<0x19> - Sending request with subfunction "reportDTCByStatusMask" (0x02).
+2020-06-29 14:37:30 [DEBUG] Connection: Sending 3 bytes : [b'19020d']
+2020-06-29 14:37:30 [DEBUG] Connection: Received 3 bytes : [b'59027f']
+2020-06-29 14:37:30 [INFO] UdsClient: Received positive response for service ReadDTCInformation (0x19) from server.
+DTCs:
+     no OBCM dtcs
+2020-06-29 14:37:30 [INFO] Connection: Connection closed
+********************************************************* completed  ********************************************
