@@ -1,6 +1,7 @@
 %IT REQUIRES MATLAB 2019b or newer and Vehicle Network Toolbox
 %% This function takes a folder with blfs files and create matfiles with signal tables
 % Next steps: 
+% correct matfile needs to be saved
 % convert more than 2 networks on a single mat file
 % remove this_folder and crete the file directly on the blf files.
 % add checks for network name and DBC file names match
@@ -20,8 +21,9 @@
 
 % Example:
 % networksAndChannels = {'ccan_rr.dbc',1;'lyftctrlcan.dbc',2};
-% blfFolder = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\CAN_blf_to_mat_converter\can_logs'
-% dbcFolder = 'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs'
+% blfFolder =
+% 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\CAN_blf_to_mat_converter\can_logs';
+% dbcFolder = 'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs';
 % can_blf_to_mat_converter(networksAndChannels, dbcFolder, blfFolder)
 %
 % Reference for BU CAN data logger:
@@ -35,16 +37,14 @@
 % Ch7: CAN ePT - isolated
 
 
-function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirectory)
+function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfDirectory)
     
 % check Matlab version is newer than 2019b (9.7)
 
     checkMatlabVerion('matlab','9.7');
     checkPlatform('win64');   
-    checkblfFolderContent();
     blfFolder = blfDirectory;
-    addpath(dbcDirectory);
-    this_folder = fileparts(mfilename('fullpath'));  
+    addpath(dbcDirectory); 
     blfFilesList = dir(fullfile(blfFolder, '*.blf'));    
     % check if BLF files on the selected folder
     if isempty(blfFilesList)
@@ -54,54 +54,42 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
 
     
     %% new loops for BLF Files and x networks
-    for m=1 : numel(blfFilesList)   % blf loops
-        thisFile = blfFilesList(m);
-        disp(['File conversion started: ', thisFile.name]);
-        % load dbcs and create time tables for logs
-
-
-            %convert CAN canlog into struct with timetables and save
-            %initial matfile
-            matFile = createSignalTableMatFile(thisFile, this_folder, networksAndChannels);
-
-            % Rename Mat file similar to blf filename plus network and save it on blf
-            % folder
-
-            oldFilename = fullfile(this_folder, matFile);
-            [~, baseFileName, ~] = fileparts(fullfile(thisFile.folder, thisFile.name));
-            noSpaceName =  regexprep(baseFileName, ' ', '_');
-            newFilename = strcat(noSpaceName,'_',matFile);
-            newFilename = fullfile(thisFile.folder,'\', newFilename);
-            movefile( oldFilename, newFilename );
-
-            % Process Complete message:
-            %disp(['------File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
-    
-     
+    for nBlfFiles=1 : numel(blfFilesList)   % blf loops
+        thisFile = blfFilesList(nBlfFiles);
+        disp(['- File conversion started: ', thisFile.name]);
+        %initial matfile
+        createSignalTableMatFile(thisFile, networksAndChannels);     
     end
-    disp(['COMPLETED. Total BLF files converted: ',num2str(m)]);
+    disp(['COMPLETED. Total BLF files converted: ',num2str(nBlfFiles)]);
 
 
-    function matFile = createSignalTableMatFile(thisBlfFile, blfPath, networksAndChannels)
+    function createSignalTableMatFile(thisBlfFile, networksAndChannels)
         networks = size(networksAndChannels);
         rows = networks(1);
-        for n=1 : rows % networks loop
-            dbcFileName = networksAndChannels{n,1};
+        networksNamesStr = '';
+        canChannelsStr = '';
+        for nNetworks=1 : rows % networks loop
+            dbcFileName = networksAndChannels{nNetworks,1};
             networkName = dbcFileName(1:end-4);
-            canCh = networksAndChannels{n,2};
-            %dbc file name
-            %candbSel = lower([networkSel,'.dbc']);
+            canCh = networksAndChannels{nNetworks,2};
             %load dbc as mat file
-            db = canDatabase(dbcFileName);
+            canDb = canDatabase(dbcFileName);
             blfFile = fullfile(thisBlfFile.folder,'\', thisBlfFile.name);
-            MsgTable = blfread(blfFile,canCh,'DataBase',db);        % convert blf to matlab data
-            %s = struct();
-            signalTable.(networkName) = canSignalTimetable(MsgTable);             % Create CAN signal timetable from CAN message timetable
-            % save Sigal Table into a mat file
-            matFile = strcat(dbcFileName,'_DATA.mat');                        %create string net+Data
-           % structName = strcat(networkSel,'LogSigTable');
+            MsgTable = blfread(blfFile,canCh,'DataBase',canDb);        % convert blf to matlab data
+            canLogSignalsTable.(networkName) = canSignalTimetable(MsgTable);   % Create struct that contains CAN signal timetable from CAN message timetable    
+            networksNamesStr = strcat(networksNamesStr, '; ', num2str(dbcFileName));
+
+            canChannelsStr = strcat(canChannelsStr, '; ', num2str(canCh));
+
         end
-        save(fullfile(blfPath,matFile),'signalTable');              %stores ccan signal time table 
+        networksNamesStr = networksNamesStr(2:end);
+        canChannelsStr = canChannelsStr(2:end);
+        %disp([networksNamesStr, ', ',canChannelsStr]);
+        matFileName = thisBlfFile.name (1:end-4);
+        save(fullfile(thisBlfFile.folder, matFileName),'canLogSignalsTable');              %stores ccan signal time table 
+        % file conversion Completed message:
+        disp(['-- File conversion completed: CAN database/networks: [', networksNamesStr, '], Channels Numbers: [', canChannelsStr,']']);
+
     end
     function checkMatlabVerion(tool, version)
         if verLessThan(tool,version)    
@@ -128,13 +116,7 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
             error('This functions only runs on Windows')
         end
     end
-    function checkblfFolderContent()
-    end
 
-%         for n=1 : rows % networks loop
-%             networkSel = networksAndChannels{n,1};
-%             canCh = networksAndChannels{n,2};
-%             %dbc file name
-%             candbSel = lower([networkSel,'.dbc']);
+
 
 end
