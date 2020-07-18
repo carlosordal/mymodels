@@ -4,6 +4,8 @@
 % *** dbcs uses avcampari names and the location is part of the function.
 
 % Next steps: 
+% add checks for network name and print error with options.
+% display conversion file started
 % add an option to select a folder or select a single file for conversion.
 % add converting file x, channel x, ccandb x
 % add building message table, building signal table.
