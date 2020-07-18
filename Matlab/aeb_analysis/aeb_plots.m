@@ -1,16 +1,25 @@
-fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
+fileName = '5-7 P010-Drv not brk bef FCW-40 kph trial 01.mat';
+%fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
 %windows:
 %filePath = 'C:\Users\cordunoalbarran\Repo\av-control-design\dspace\lib\AEB_matlab_analysis\';
 %mac:
-filePath = '/Users/cordunoalbarran/Documents/Repo/av-control-design/dspace/lib/AEB_matlab_analysis/';
+%filePath = '/Users/cordunoalbarran/Documents/Repo/av-control-design/dspace/lib/AEB_matlab_analysis/';
+filePath = '/Users/cordunoalbarran/Documents/Repo/mymodels/Matlab/aeb_analysis/can_logs';
 %fullfullfile(matPath, matFileA)
 %fullName = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\Can_log_review\canLogData\02_1211_AEB_40kph_10_40_cCANData.mat';
 
  
-%addpath(filePath);
-aebMatData = load(fileName);
-fieldNames = fieldnames(aebMatData);
-signalTable = aebMatData.(fieldNames{1});
+% addpath(filePath);
+% aebMatData = load(fileName);            % it contains the canLogSignalsTable
+% fieldNames = fieldnames(aebMatData);    % canLogs 
+% signalTable = aebMatData.(fieldNames{1});
+
+addpath(filePath);
+aebMatFile = load(fileName);            % it contains the canLogSignalsTable
+matTopTitleList = fieldnames(aebMatFile);    % canLogs 
+signalTablesData = aebMatFile.(matTopTitleList{1});
+dataLogsList = fieldnames(signalTable);
+ccanTableData = signalTablesData.(dataLogsList{1});
 
 
 %% All data ploted 
