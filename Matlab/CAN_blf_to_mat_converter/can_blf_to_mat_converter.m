@@ -19,7 +19,7 @@
 % Outputs:  1) Matfiles stored on the blf folder.
 
 % Example:
-% networksAndChannels = {'ccan_rr',1;'lyftctrlcan',2};
+% networksAndChannels = {'ccan_rr.dbc',1;'lyftctrlcan.dbc',2};
 % blfFolder = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\CAN_blf_to_mat_converter\can_logs'
 % dbcFolder = 'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs'
 % can_blf_to_mat_converter(networksAndChannels, dbcFolder, blfFolder)
@@ -43,36 +43,26 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
     checkPlatform('win64');   
     checkblfFolderContent();
     blfFolder = blfDirectory;
-    blfFilesList = dir(fullfile(blfFolder, '*.blf'));
-
+    addpath(dbcDirectory);
+    this_folder = fileparts(mfilename('fullpath'));  
+    blfFilesList = dir(fullfile(blfFolder, '*.blf'));    
     % check if BLF files on the selected folder
     if isempty(blfFilesList)
         error('****** No BLF files found on selected folder, Please select a different folder');
     end    
 
-    networks = size(networksAndChannels);
-    rows = networks(1);
-    
-    % networks and channels loop
-    for i=1 : rows
-        networkSel = networksAndChannels{i,1};
-        canCh = networksAndChannels{i,2};
-        % DBCs Path definition
-        this_folder = fileparts(mfilename('fullpath'));   
-        addpath(dbcDirectory);
-        %load dbc
-        candbSel = lower([networkSel,'.dbc']);
 
-        % blf files loop
-        for j=1 : numel(blfFilesList)   %file list
-            thisFile = blfFilesList(j);
-            disp(['File conversion started: ', thisFile.name]);
-            %disp(['File Name: ', thisFile.name]);
-            % load dbcs and create time tables for logs
+    
+    %% new loops for BLF Files and x networks
+    for m=1 : numel(blfFilesList)   % blf loops
+        thisFile = blfFilesList(m);
+        disp(['File conversion started: ', thisFile.name]);
+        % load dbcs and create time tables for logs
+
 
             %convert CAN canlog into struct with timetables and save
             %initial matfile
-            matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, this_folder);
+            matFile = createSignalTableMatFile(thisFile, this_folder, networksAndChannels);
 
             % Rename Mat file similar to blf filename plus network and save it on blf
             % folder
@@ -85,22 +75,33 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
             movefile( oldFilename, newFilename );
 
             % Process Complete message:
-            disp(['------File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
-        end           
+            %disp(['------File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
+    
+     
+    end
+    disp(['COMPLETED. Total BLF files converted: ',num2str(m)]);
 
-    end          
-    disp(['COMPLETED. Total BLF files converted: ',num2str(i)]);
 
-
-    function matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, blfPath)
-            db = canDatabase(candbSel);
-            blfFile = fullfile(thisFile.folder,'\', thisFile.name);
+    function matFile = createSignalTableMatFile(thisBlfFile, blfPath, networksAndChannels)
+        networks = size(networksAndChannels);
+        rows = networks(1);
+        for n=1 : rows % networks loop
+            dbcFileName = networksAndChannels{n,1};
+            networkName = dbcFileName(1:end-4);
+            canCh = networksAndChannels{n,2};
+            %dbc file name
+            %candbSel = lower([networkSel,'.dbc']);
+            %load dbc as mat file
+            db = canDatabase(dbcFileName);
+            blfFile = fullfile(thisBlfFile.folder,'\', thisBlfFile.name);
             MsgTable = blfread(blfFile,canCh,'DataBase',db);        % convert blf to matlab data
-            SignalTable = canSignalTimetable(MsgTable);             % Create CAN signal timetable from CAN message timetable
+            %s = struct();
+            signalTable.(networkName) = canSignalTimetable(MsgTable);             % Create CAN signal timetable from CAN message timetable
             % save Sigal Table into a mat file
-            matFile = strcat(networkSel,'_DATA.mat');                        %create string net+Data
+            matFile = strcat(dbcFileName,'_DATA.mat');                        %create string net+Data
            % structName = strcat(networkSel,'LogSigTable');
-            save(fullfile(blfPath,matFile),'SignalTable');              %stores ccan signal time table 
+        end
+        save(fullfile(blfPath,matFile),'signalTable');              %stores ccan signal time table 
     end
     function checkMatlabVerion(tool, version)
         if verLessThan(tool,version)    
@@ -129,5 +130,11 @@ function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirector
     end
     function checkblfFolderContent()
     end
+
+%         for n=1 : rows % networks loop
+%             networkSel = networksAndChannels{n,1};
+%             canCh = networksAndChannels{n,2};
+%             %dbc file name
+%             candbSel = lower([networkSel,'.dbc']);
 
 end
