@@ -1,29 +1,31 @@
 %IT REQUIRES MATLAB 2019b or newer and Vehicle Network Toolbox
-%% This function takes a folder with blfs files and create matfiles with 
-% signal tables for 1 network/channel at a time
-% *** dbcs uses avcampari names and the location is part of the function.
-
+%% This function takes a folder with blfs files and create matfiles with signal tables
 % Next steps: 
-% add checks for network name and print error with options.
-% display conversion file started
-% add an option to select a folder or select a single file for conversion.
-% add converting file x, channel x, ccandb x
-% add building message table, building signal table.
+% convert more than 2 networks on a single mat file
+% remove this_folder and crete the file directly on the blf files.
+% add checks for network name and DBC file names match
 % is it possible to create different channels from the same Msg Table? 
 % add inputs check, for only known networks.
 % fix the candb file that is empty.
-% make the function more flexible, convert 2 or more channels at the same
-% time
-% select DBC per channel.
+% Inputs:   1) networksAndChannels  - x*2 cell including network name and channel numnber.
+%                                       {<'network name'>,<channel Number>}
+%                                       network Name should match networks
+%                                       stored on dbcFolder
+%           2) dbcDirectory         - Directory of the dbcs. DBC file names
+%                                       should match network name on
+%                                       networkAndChannels cell input.
+%           3) blfDirectory         - Directory of blfs that will be converted   
+%
+% Outputs:  1) Matfiles stored on the blf folder.
 
-%Inputs:    1) network_name_a    - Network Name (ccan_rr, ccan_nrr, lyftctrlcan, eptcan)
-%           2) channel_number_a    - Channel number on the blf file
-%           3) dbcDirectory - Directory of the dbcs. Same names as avcampari. ('C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs')    
-%Outputs:   1) Matfiles stored on the blf folder.
-
-%can_blf_to_mat_converter('ccan_rr',4,'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs')
-%Reference for BU CAN data logger:
-%Golden Unicorn CAN Channels:
+% Example:
+% networksAndChannels = {'ccan_rr',1;'lyftctrlcan',2};
+% blfFolder = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\CAN_blf_to_mat_converter\can_logs'
+% dbcFolder = 'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs'
+% can_blf_to_mat_converter(networksAndChannels, dbcFolder, blfFolder)
+%
+% Reference for BU CAN data logger:
+% Golden Unicorn CAN Channels:
 % Ch1 : CAN L5 Power
 % Ch2: CAN L5 Ctrl
 % Ch3: CAN/Ethernet
@@ -33,69 +35,62 @@
 % Ch7: CAN ePT - isolated
 
 
-function can_blf_to_mat_converter(network_name_a, channel_number_a, dbcDirectory)
+function can_blf_to_mat_converter(networksAndChannels, dbcDirectory, blfDirectory)
     
 % check Matlab version is newer than 2019b (9.7)
 
-    if verLessThan('matlab','9.7')
-        matlabVer = ver;
-        table = struct2table(matlabVer);
-        rows = height(table);
-        for i = 1: rows
-            thisApp = char(table{i,1});
-            if isequal(thisApp, 'MATLAB')
-                matlabVersion = char(table{i,2});
-                matlabRelease = char(table{i,3});
-                %disp(['matlab Version: ', matlabVersion, ', Release:', matlabRelease])
-            end
-        end
-        error(['Matlab 9.7 (release: 2019b) or higher is required. Your Matlab version is: ', matlabVersion, ', Release: ' , matlabRelease])
-    end
-
-    networkSel = network_name_a;
-    canCh = channel_number_a;
-    %% DBCs Path definition (avcampari dir)
-    this_folder = fileparts(mfilename('fullpath'));   
-    addpath(dbcDirectory);
-
+    checkMatlabVerion('matlab','9.7');
+    checkPlatform('win64')   
     
-    % Script to select folder and print blf files
-    this_folder = fileparts(mfilename('fullpath')); 
-    directory = uigetdir(this_folder, 'Select Folder with BLF files');
-    files = dir(fullfile(directory, '*.blf'));
-    %load dbc
-    candbSel = lower([networkSel,'.dbc']);
+    networks = size(networksAndChannels);
+    rows = networks(1);
 
-    if ~isempty(files)
-        for i=1 : numel(files)   %file list
-            thisFile = files(i);
-            %disp(['File Name: ', thisFile.name]);
-            % load dbcs and create time tables for logs
+    for i=1 : rows
+        %disp([networksAndChannels{i,1},', ', num2str(networksAndChannels{i,2})]);
+        networkSel = networksAndChannels{i,1};
+        canCh = networksAndChannels{i,2};
+
+        %% DBCs Path definition (avcampari dir)
+        this_folder = fileparts(mfilename('fullpath'));   
+        addpath(dbcDirectory);
+
+        blfFolder = blfDirectory;
+        files = dir(fullfile(blfFolder, '*.blf'));
+        %load dbc
+        candbSel = lower([networkSel,'.dbc']);
+
+        if ~isempty(files)
+
+            for j=1 : numel(files)   %file list
+                thisFile = files(j);
+                disp(['File conversion started: ', thisFile.name]);
+                %disp(['File Name: ', thisFile.name]);
+                % load dbcs and create time tables for logs
 
 
-            %convert CAN canlog into struct with timetables and save
-            %initial matfile
-            matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, this_folder);
+                %convert CAN canlog into struct with timetables and save
+                %initial matfile
+                matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, this_folder);
 
-            % Rename Mat file similar to blf filename plus network and save it on blf
-            % folder
+                % Rename Mat file similar to blf filename plus network and save it on blf
+                % folder
 
-            oldFilename = fullfile(this_folder, matFile);
-            [~, baseFileName, ~] = fileparts(fullfile(thisFile.folder, thisFile.name));
-            noSpaceName =  regexprep(baseFileName, ' ', '_');
-            newFilename = strcat(noSpaceName,'_',matFile);
-            newFilename = fullfile(thisFile.folder,'\', newFilename);
-            movefile( oldFilename, newFilename );
+                oldFilename = fullfile(this_folder, matFile);
+                [~, baseFileName, ~] = fileparts(fullfile(thisFile.folder, thisFile.name));
+                noSpaceName =  regexprep(baseFileName, ' ', '_');
+                newFilename = strcat(noSpaceName,'_',matFile);
+                newFilename = fullfile(thisFile.folder,'\', newFilename);
+                movefile( oldFilename, newFilename );
 
-            %% Process Complete message:
-            disp(['File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
+                %% Process Complete message:
+                disp(['------File Converted, CAN database/network: ', networkSel, ', BLF Channel: ', num2str(canCh), ', Name: ', thisFile.name]);
 
-        end
-        disp(['COMPLETED. Total BLF files converted: ',num2str(i)]);
-    else
-        disp(['****** No BLF files on selected folder, Please select a different folder']);
+            end           
+        else
+            disp(['****** No BLF files on selected folder, Please select a different folder']);
+        end        
     end
-
+    disp(['COMPLETED. Total BLF files converted: ',num2str(i)]);
 
 
     function matFile = createSignalTableMatFile(thisFile, candbSel, canCh, networkSel, blfPath)
@@ -107,5 +102,30 @@ function can_blf_to_mat_converter(network_name_a, channel_number_a, dbcDirectory
             matFile = strcat(networkSel,'_DATA.mat');                        %create string net+Data
            % structName = strcat(networkSel,'LogSigTable');
             save(fullfile(blfPath,matFile),'SignalTable');              %stores ccan signal time table 
+    end
+    function checkMatlabVerion(tool, version)
+        if verLessThan(tool,version)    
+            matlabVer = ver;
+            table = struct2table(matlabVer);
+            rows = height(table);
+            for i = 1: rows
+                thisApp = char(table{i,1});
+                if isequal(thisApp, 'MATLAB')
+                    matlabVersion = char(table{i,2});
+                    matlabRelease = char(table{i,3});
+                    %disp(['matlab Version: ', matlabVersion, ', Release:', matlabRelease])
+                end
+            end
+            error(['Matlab 9.7 (release: 2019b) or higher is required. Your Matlab version is: ', matlabVersion, ', Release: ' , matlabRelease])
+        end
+    end
+    function checkPlatform(platformExpected)
+%       Inputs: PlatformExpected
+%           'win64' - 64-bit Windows platform
+%           'glnxa64' - 64-bit Linux platform
+%           'maci64' - 64-bit macOS platform
+        if (computer('arch') ~= platformExpected)
+            error('This functions only runs on Windows')
+        end
     end
 end
