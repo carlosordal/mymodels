@@ -66,7 +66,7 @@ function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfD
         for nNetworks=1 : rows % networks loop
             dbcFileName = networksAndChannels{nNetworks,1};
             networkName = dbcFileName(1:end-4);
-            logName = strcat(networkName, '_can_log');
+            logName = strcat(networkName, '_log');
             canCh = networksAndChannels{nNetworks,2};
             %load dbc as mat file
             canDb = canDatabase(dbcFileName);
