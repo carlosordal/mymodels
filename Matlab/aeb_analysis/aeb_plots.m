@@ -1,3 +1,13 @@
+% AEB test procotol: https://docs.google.com/document/d/1pz1lNJWJckO5f-3dfKTAUUEOIpNzPw4-Id30lYpt1wo/edit#
+% Next steps:
+% Fix legend on Vehicle acceleration plot
+% Fix AEB start detection.
+% convert it into function
+% define a way to point to the signal Time table withing the struct. That
+% works with different strcut content. old and new 1 or more signal table
+% 
+% 
+
 fileName = '5-7 P010-Drv not brk bef FCW-40 kph trial 01.mat';
 %fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
 %windows:
@@ -21,7 +31,7 @@ ccanTableDatasData = aebMatFile.(matTopTitleList{1});
 dataLogsList = fieldnames(ccanTableDatasData);
 ccanTableData = ccanTableDatasData.(dataLogsList{1});
 
-%ccanTableData = ccanTableData;
+
 %% All data ploted 
 rowsOnPlot = 6;
 columnsOnPlot = 1;
@@ -38,7 +48,7 @@ plotFcwDisplay = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
   'Time (s)', 'FCW State');
 
 
-% AEB request ID and AEB activated
+% AEB request ID DAS_A3.DAS_Rq_ID and AEB activated  ESP_A2.DAS_RqActv
 aebRequestId = ccanTableData.DAS_A3.DAS_Rq_ID;
 
 
@@ -105,6 +115,7 @@ set(gcf, 'Position', get(0, 'Screensize'));
 % %   extractStartAndStopTime(fcwDisplay, aebRequestId, das_a3_Time, deltaTimePlot);
 
 % extract time of interest - AEB request Start and AEB Request Stopped -DAS_A3.DAS_Rq_ID
+% this is used to determine area of interest
 [aebRequestStartTime, aebRequestStopTime] = ...
   aebExtractStartAndStopTime(aebRequestId, das_a3_Time);
 
@@ -215,13 +226,20 @@ plotAccelPedal = createPlot(rowsOnPlot, columnsOnPlot, 3, ...
   'Vehicle Acceleration', 'Vehicle Acceleration', ...
   'Time (s)', 'Acceleration (m/s^2)');
 
+% Vehicle acceleration during AEB request 
+
 % detect AEB start -0.5 m/s^2 after AEB was requested
 % ESP_A4.VehAccel_X
+% ESP_A2.DAS_Rq_Act
 aebDecelerationStart = -0.5;  
-for j=1 : numel(vehicleAccelerationShort)
-  if vehicleAccelerationShort(j) <= aebDecelerationStart
+[vehAccelOnAebStartIndex, vehAccelOnAebStopIndex] = extractStartStopIndex(esp_a4_Time_short, aebRequestStartTime, aebRequestStopTime);
+vehAccelOnAebVector = vehicleAccelerationShort(vehAccelOnAebStartIndex : vehAccelOnAebStopIndex);
+espA4TimeOnAebVector = esp_a4_Time_short(vehAccelOnAebStartIndex : vehAccelOnAebStopIndex);
+%aebRequestStartTime
+for j=1 : numel(vehAccelOnAebVector)
+  if vehAccelOnAebVector(j) <= aebDecelerationStart
     aebStartIndex = j;
-    aebStartTime = esp_a4_Time_short(j);
+    aebStartTime = espA4TimeOnAebVector(j);
     %set(plotAttribute, 'Color', 'r');
     verticalLine = xline(aebStartTime);
     legend('ESP A4.VehAccel X','AEB start -0.5m/s^2');
