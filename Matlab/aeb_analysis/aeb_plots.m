@@ -12,16 +12,16 @@ filePath = '/Users/cordunoalbarran/Documents/Repo/mymodels/Matlab/aeb_analysis/c
 % addpath(filePath);
 % aebMatData = load(fileName);            % it contains the canLogSignalsTable
 % fieldNames = fieldnames(aebMatData);    % canLogs 
-% signalTable = aebMatData.(fieldNames{1});
+% ccanTableData = aebMatData.(fieldNames{1});
 
 addpath(filePath);
 aebMatFile = load(fileName);            % it contains the canLogSignalsTable
 matTopTitleList = fieldnames(aebMatFile);    % canLogs 
-signalTablesData = aebMatFile.(matTopTitleList{1});
-dataLogsList = fieldnames(signalTable);
-ccanTableData = signalTablesData.(dataLogsList{1});
+ccanTableDatasData = aebMatFile.(matTopTitleList{1});
+dataLogsList = fieldnames(ccanTableDatasData);
+ccanTableData = ccanTableDatasData.(dataLogsList{1});
 
-
+%ccanTableData = ccanTableData;
 %% All data ploted 
 rowsOnPlot = 6;
 columnsOnPlot = 1;
@@ -30,8 +30,8 @@ figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName]);
 set(gcf, 'Position', get(0, 'Screensize'));     %figure on full screen
 
 %fcw Display
-fcwDisplay = signalTable.DAS_A3.As_DispRq;
-das_a3_Time = signalTable.DAS_A3.Time;
+fcwDisplay = ccanTableData.DAS_A3.As_DispRq;
+das_a3_Time = ccanTableData.DAS_A3.Time;
 plotFcwDisplay = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
   das_a3_Time, fcwDisplay, ...
   'FCW State', 'DAS A3.As DispRq', ...
@@ -39,12 +39,12 @@ plotFcwDisplay = createPlot(rowsOnPlot, columnsOnPlot, 1, ...
 
 
 % AEB request ID and AEB activated
-aebRequestId = signalTable.DAS_A3.DAS_Rq_ID;
+aebRequestId = ccanTableData.DAS_A3.DAS_Rq_ID;
 
 
 % AEB Activated ESP_A2.DAS_RqActv
-aebActuatorStatus = signalTable.ESP_A2.DAS_RqActv;
-esp_a2_Time = signalTable.ESP_A2.Time;
+aebActuatorStatus = ccanTableData.ESP_A2.DAS_RqActv;
+esp_a2_Time = ccanTableData.ESP_A2.Time;
 plotAebRequestStatus = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
   das_a3_Time, aebRequestId, ...
   'AEB request ID', 'DAS A3.DAS Rq ID', ...
@@ -56,8 +56,8 @@ plotAebActuatorStatus = createPlot(rowsOnPlot, columnsOnPlot, 2, ...
   'Time (s)', 'AEB request ID');
 hold off;
 % Vehicle Speed ESP_A8.VEH_SPEED
-vehicleSpeed = signalTable.ESP_A8.VEH_SPEED;
-esp_a8_Time = signalTable.ESP_A8.Time;
+vehicleSpeed = ccanTableData.ESP_A8.VEH_SPEED;
+esp_a8_Time = ccanTableData.ESP_A8.Time;
 
 plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 3, ...
   esp_a8_Time, vehicleSpeed, ...
@@ -65,8 +65,8 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 3, ...
   'Time (s)', 'Speed (km/h)');
   
 % Distance to Object DAS_A4.ObjIntrstDist
-distanceToObject = signalTable.DAS_A4.ObjIntrstDist;
-das_a4_Time = signalTable.DAS_A4.Time;
+distanceToObject = ccanTableData.DAS_A4.ObjIntrstDist;
+das_a4_Time = ccanTableData.DAS_A4.Time;
 
 plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
   das_a4_Time, distanceToObject, ...
@@ -74,8 +74,8 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 4, ...
   'Time (s)', 'Distance (m)');
 
 % Vehicle Acceleration ESP_A4.VehAccel_X
-vehicleAcceleration = signalTable.ESP_A4.VehAccel_X;
-esp_a4_Time = signalTable.ESP_A4.Time;
+vehicleAcceleration = ccanTableData.ESP_A4.VehAccel_X;
+esp_a4_Time = ccanTableData.ESP_A4.Time;
 
 plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 5, ...
   esp_a4_Time, vehicleAcceleration, ...
@@ -83,8 +83,8 @@ plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, 5, ...
   'Time (s)', 'Acceleration m/s^2');
 
 % Accelerator Pedal Postion %ECM_SKIM_OBD.AccelPdlPosn_OBD
-acceleratorPedalPosition = signalTable.ECM_SKIM_OBD.AccelPdlPosn_OBD;
-ecmSkimObdTime = signalTable.ECM_SKIM_OBD.Time;
+acceleratorPedalPosition = ccanTableData.ECM_SKIM_OBD.AccelPdlPosn_OBD;
+ecmSkimObdTime = ccanTableData.ECM_SKIM_OBD.Time;
 accelPedalPlot = createPlot(rowsOnPlot, columnsOnPlot, 6, ...
   ecmSkimObdTime, acceleratorPedalPosition, ...
   'Accelerator Pedal', 'ECM SKIM OBD.AccelPdlPosn OBD', ...
@@ -109,8 +109,8 @@ set(gcf, 'Position', get(0, 'Screensize'));
   aebExtractStartAndStopTime(aebRequestId, das_a3_Time);
 
 % detect Distance to Object Stop being published
-% distanceToObject = signalTable.DAS_A4.ObjIntrstDist;
-% das_a4_Time = signalTable.DAS_A4.Time;
+% distanceToObject = ccanTableData.DAS_A4.ObjIntrstDist;
+% das_a4_Time = ccanTableData.DAS_A4.Time;
 distanceToObjectPublished = false;
 distanceDefaultValue = 254;
 for i=1 : numel(distanceToObject)
