@@ -10,19 +10,21 @@
 % 
 
 %fileName = '5-7 P010-Drv not brk bef FCW-40 kph trial 01.mat';
-fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
+%fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
+fileName = '09 1211 AEB 40kph 11_24.mat';
 %fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
 %windows:
 %filePath = 'C:\Users\cordunoalbarran\Repo\av-control-design\dspace\lib\AEB_matlab_analysis';
+filePath = 'G:\Shared drives\Vehicle Controls\[05] - Vehicle Platforms\Chrysler Pacifica\GUv0 AEB Testing-docs\1211 AEB weeks testing';
 %mac:
-filePath = '/Users/cordunoalbarran/Documents/Repo/mymodels/Matlab/aeb_analysis/can_logs';
+%filePath = '/Users/cordunoalbarran/Documents/Repo/mymodels/Matlab/aeb_analysis/can_logs';
 %fullfullfile(matPath, matFileA)
 %fullName = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\Can_log_review\canLogData\02_1211_AEB_40kph_10_40_cCANData.mat';
 
  
 % addpath(filePath);
-%dataMatLocation = 'canLogSignalsTable.ccan_rr_log';
-dataFieldAddress = 'SignalTable';      % Fields Address inside Mat file where the CAN log is stored. example: 'signalTable' or 'canLogSignalsTable.ccan_rr_log'
+dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
+%dataFieldAddress = 'SignalTable';      % Fields Address inside Mat file where the CAN log is stored. example: 'signalTable' or 'canLogSignalsTable.ccan_rr_log'
                                        % load the mat file manually and
                                        % find the data that needs to be
                                        % analized.
@@ -267,7 +269,7 @@ hold on;
 accelPedalObdFull      = ccanTableData.ECM_SKIM_OBD(:,'AccelPdlPosn_OBD');
 plotAccelPedalObdFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
   accelPedalObdFull.Time, accelPedalObdFull.AccelPdlPosn_OBD, ...
-  'Accelerator Pedal Position', 'OBD ISDO 15031 Accel Pedal Pos', ...
+  'Accelerator Pedal Position & Distance to Object', 'OBD ISDO 15031 Accel Pedal Pos', ...
   'Time (s)', 'Position(%)');
 
 % OBD Accelerator Pedal Position - Focus Area - ECM_SKIM_OBD.AccelPdlPosn_OBD
@@ -277,7 +279,7 @@ hold on;
 %yyaxis right;
 plotAccelPedalObdFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
   accelPedalObdFocus.Time, accelPedalObdFocus.AccelPdlPosn_OBD, ...
-  'Accelerator Pedal Position', 'OBD ISDO 15031 Accel Pedal Pos', ...
+  'Accelerator Pedal Position & Distance to Object', 'OBD ISDO 15031 Accel Pedal Pos', ...
   'Time (s)', 'Position(%)');
 
 % -------------------------------------------------------------------------
@@ -288,7 +290,7 @@ hold on;
 accelPedalEcmFull     = ccanTableData.ECM_A5(:,'ActlAccelPdlPosn');
 plotAccelPedalEcmFull = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
   accelPedalEcmFull.Time, accelPedalEcmFull.ActlAccelPdlPosn, ...
-  'Accelerator Pedal Position', 'ECM A5 Accel Pedal Pos', ...
+  'Accelerator Pedal Position & Distance to Object', 'ECM A5 Accel Pedal Pos', ...
   'Time (s)', 'Position(%)');
 
 % ECM_A5 Accelerator Pedal Position - Focus Area - ECM_A5.ActlAccelPdlPosn
@@ -298,7 +300,7 @@ hold on;
 %yyaxis right;
 plotAccelPedalEcmFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
   accelPedalEcmFocus.Time, accelPedalEcmFocus.ActlAccelPdlPosn, ...
-  'Accelerator Pedal Position', 'ECM A5 Accel Pedal Pos', ...
+  'Accelerator Pedal Position & Distance to Object', 'ECM A5 Accel Pedal Pos', ...
   'Time (s)', 'Position(%)');
 
 % -------------------------------------------------------------------------
@@ -309,7 +311,7 @@ yyaxis right;
 distanceToObjectFull      = ccanTableData.DAS_A4(:,'ObjIntrstDist');
 plotDistanceToObjectFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
   distanceToObjectFull .Time, distanceToObjectFull .ObjIntrstDist, ...
-  'Distance to Object', 'Distance to Object', ...
+  'Accelerator Pedal Position & Distance to Object', 'Distance to Object', ...
   'Time (s)', 'Distance (m)');
 
 % Distance To Object - Focus Area - DAS_A4.ObjIntrstDist
@@ -319,7 +321,7 @@ hold on;
 yyaxis right;
 plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
   distanceToObjectEvent.Time, distanceToObjectEvent.ObjIntrstDist, ...
-  'Distance to Object', 'Distance to Object', ...
+  'Accelerator Pedal Position & Distance to Object', 'Distance to Object', ...
   'Time (s)', 'Distance (m)');
 
 % -------------------------------------------------------------------------
