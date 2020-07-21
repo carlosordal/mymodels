@@ -131,11 +131,11 @@ for i=1 : numel(distanceToObject)
   end
   if distanceToObjectPublished && (distanceToObject(i) == distanceDefaultValue)
     distanceToObjectNotPublishedTime = das_a4_Time(i);
-    distanceToObjectNotPublishedLine = xline(distanceToObjectNotPublishedTime);
-    distanceToObjectNotPublishedLine.DisplayName = 'Dist to Obj Stopped';
-    distanceToObjectNotPublishedLine.Color = [1,0,1]	; %pink
-    distanceToObjectNotPublishedLine.LineWidth = 2;
-    distanceToObjectNotPublishedLine.LineStyle = '--';
+%     distanceToObjectNotPublishedLine = xline(distanceToObjectNotPublishedTime);
+%     distanceToObjectNotPublishedLine.DisplayName = 'Dist to Obj Stopped';
+%     distanceToObjectNotPublishedLine.Color = [1,0,1]	; %pink
+%     distanceToObjectNotPublishedLine.LineWidth = 2;
+%     distanceToObjectNotPublishedLine.LineStyle = '--';
     finalDistanceToObjectIndex = i-1;
     break
   end
