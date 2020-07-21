@@ -1,5 +1,7 @@
 % AEB test procotol: https://docs.google.com/document/d/1pz1lNJWJckO5f-3dfKTAUUEOIpNzPw4-Id30lYpt1wo/edit#
 % Next steps:
+% Add an error handler on findValue in case the value is not found on the
+% vector.
 % Fix legend on Vehicle acceleration plot
 % Fix AEB start detection.
 % convert it into function
@@ -64,12 +66,25 @@ timeWindow = timerange(distanceStartTime, distanceStopTime);
 distanceToObjectPublished = distanceToObject(timeWindow,:);
 approachLength      = duration('0:0:05.4');
 extendPlotTime      = duration('0:0:1');
-minDistanceTime     = getValueTime(distanceToObjectPublished, distanceStopValue);
+minDistanceTime     = findEqualToValueTimeStamp(distanceToObjectPublished, distanceStopValue);
 
 approachStartTime   = minDistanceTime - approachLength;
 startPlotTime       = approachStartTime;
 stopPlotTime        = aebRequestStopTime + extendPlotTime;
 focusAreaTimeWindow = timerange(startPlotTime,stopPlotTime);
+
+% find Time when AEB actually starts -0.5 m/s^2.
+% AEB actuator used to shorten the acceleration vector
+aebDefaultValue     = 0;
+aebDecelStart       = -0.5;
+aebActuatorSignal   = ccanTableData.ESP_A2(:,'DAS_RqActv');
+[aebActuatorStartTime, aebActuatorStartValue, ...
+  aebActuatorStopTime, aebActuatorStopValue] = ...
+    signalEdgesDetection(aebActuatorSignal, aebDefaultValue );
+aebActiveTimeWindow  = timerange(aebActuatorStartTime, aebActuatorStopTime);
+vehAccelOnAebRequest    = ccanTableData.ESP_A4(aebActiveTimeWindow,'VehAccel_X');
+aebTestStartTime        = findLessThanValueTimeStamp(vehAccelOnAebRequest, aebDecelStart);
+
 
 
 
@@ -106,7 +121,7 @@ plotFcwDisplayFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   'Time (s)', 'FCW State');
 
 % -------------------------------------------------------------------------
-% AEB Request Status - Full
+% AEB Request Status - Full - DAS_A3.DAS_Rq_ID
 figure(plotAllData);
 hold on;
 aebRequestFull      =  ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
@@ -114,7 +129,7 @@ plotAebRequest      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
   aebRequestFull.Time, aebRequestFull.DAS_Rq_ID, ...
   'AEB Req/Act Status', 'AEB Request Status', ...
   'Time (s)', 'AEB Status');
-% AEB Request Status - Focus Area
+% AEB Request Status - Focus Area - DAS_A3.DAS_Rq_ID
 aebRequestEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'DAS_Rq_ID');
 figure(plotFocusArea);
 hold on;
@@ -180,6 +195,17 @@ plotVehicleAccelerationFocus  = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 
   'Time (s)', 'Acceleration m/s^2');
 
 % -------------------------------------------------------------------------
+% AEB Actuator Active
+lineColor = [0.5, 0.5 , 0.5];
+aebActuatorActiveLine = plotVerticalLine(aebActuatorStartTime, 'AEB Actuator Active', lineColor);
+
+
+% -------------------------------------------------------------------------
+% AEB start -0.5 m/s^2 - Vertical Line
+lineColor = [1.00,0.00,1.00];
+aebTestStartLine = plotVerticalLine(aebTestStartTime, 'AEB Test Start -0.5 m/s^2', lineColor);
+
+% -------------------------------------------------------------------------
 % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
 figure(plotAllData);
 hold on;
@@ -241,6 +267,9 @@ plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, .
   distanceToObjectEvent.Time, distanceToObjectEvent.ObjIntrstDist, ...
   'Distance to Object', 'Distance to Object', ...
   'Time (s)', 'Distance (m)');
+
+
+
 
 
 %% Functions
@@ -363,14 +392,41 @@ function [edgeStartTime, edgeStartValue, edgeStopTime, edgeSoptValue] = ...
   end
 end
 
-function timeStamp = getValueTime(signalTimeTable, value)
-
+function timeStamp = findEqualToValueTimeStamp(signalTimeTable, value)
+  variableName = inputname(1);
   for i=1 : numel(signalTimeTable)
     if signalTimeTable.(1)(i) == value
       timeStamp = signalTimeTable.Time(i);
       break
+    else
+      timeStamp = {};
     end
+  end
+  if isempty(timeStamp)
+    error(['Equal Value not found for : ', variableName]);
   end
 end
 
+function timeStamp = findLessThanValueTimeStamp(signalTimeTable, value)
+  variableName = inputname(1);
+  for i=1 : numel(signalTimeTable)
+    if signalTimeTable.(1)(i) < value
+      timeStamp = signalTimeTable.Time(i);
+      break
+    else
+      timeStamp = {};
+    end
+  end
+  if isempty(timeStamp)
+    error(['Value Less Than: ', num2str(value),' not found for: ', variableName]);
+  end
+end
+
+function verticalLine = plotVerticalLine(timeStamp, legendStr, lineColor)
+  verticalLine             = xline(timeStamp);
+  verticalLine.DisplayName = legendStr;
+  verticalLine.Color       = lineColor;
+  verticalLine.LineWidth   = 2;
+  verticalLine.LineStyle   = '--';
+end
 
