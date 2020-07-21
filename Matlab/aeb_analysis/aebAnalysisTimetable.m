@@ -2,44 +2,46 @@
 % Next steps:
 % Does the yaw rate goes negative?
 % move the yaw rate to a different plot?
-% Print Yaw Rate.
 % Adjust Distance to object scale depending on First Value published.
-% Add Line format to the function so it can be differentiated.
 % convert it into function
 % define a way to point to the signal Time table withing the struct. That
-% works with different strcut content. old and new 1 or more signal table
+% works with different struct content. old and new 1 or more signal table
 % 
 % 
 
-fileName = '5-7 P010-Drv not brk bef FCW-40 kph trial 01.mat';
+%fileName = '5-7 P010-Drv not brk bef FCW-40 kph trial 01.mat';
+fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
 %fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
 %windows:
-%filePath = 'C:\Users\cordunoalbarran\Repo\av-control-design\dspace\lib\AEB_matlab_analysis\';
+%filePath = 'C:\Users\cordunoalbarran\Repo\av-control-design\dspace\lib\AEB_matlab_analysis';
 %mac:
-%filePath = '/Users/cordunoalbarran/Documents/Repo/av-control-design/dspace/lib/AEB_matlab_analysis/';
 filePath = '/Users/cordunoalbarran/Documents/Repo/mymodels/Matlab/aeb_analysis/can_logs';
 %fullfullfile(matPath, matFileA)
 %fullName = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\Can_log_review\canLogData\02_1211_AEB_40kph_10_40_cCANData.mat';
 
  
 % addpath(filePath);
-% aebMatData = load(fileName);            % it contains the canLogSignalsTable
-% fieldNames = fieldnames(aebMatData);    % canLogs 
-% ccanTableData = aebMatData.(fieldNames{1});
+%dataMatLocation = 'canLogSignalsTable.ccan_rr_log';
+dataFieldAddress = 'SignalTable';      % Fields Address inside Mat file where the CAN log is stored. example: 'signalTable' or 'canLogSignalsTable.ccan_rr_log'
+                                       % load the mat file manually and
+                                       % find the data that needs to be
+                                       % analized.
+                                       % use: '' if the TimeTableData are
+                                       % stored directly on the root.
 
-dataMatLocation = 'canLogSignalsTable.ccan_rr_log';
-dataMatLocation = split(dataMatLocation, '.');
-level1 = string(dataMatLocation(1));
-level2 = string(dataMatLocation(2));
+
 
 addpath(filePath);
 aebMatFile = load(fileName);            % it contains the canLogSignalsTable
-ccanTableData = aebMatFile.(level1).(level2);
-% matTopTitleList = fieldnames(aebMatFile);    % canLogs 
-% ccanTableDatasData = aebMatFile.(matTopTitleList{1});
-% dataLogsList = fieldnames(ccanTableDatasData);
-% ccanTableData = ccanTableDatasData.(dataLogsList{1});
 
+% Find can log data location within the matfile
+ccanTableData = aebMatFile;
+if ~isempty(dataFieldAddress)
+  fields = split(dataFieldAddress, '.');
+  for i=1 : numel(fields)
+    ccanTableData = ccanTableData.(string(fields(i)));
+  end
+end
 
 % Find Approach phase time and AEB End time
 % Approach Phase Start/Plot Start = Min Distance Report Time - 5.4s
