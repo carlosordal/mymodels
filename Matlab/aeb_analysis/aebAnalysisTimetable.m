@@ -91,6 +91,8 @@ vehAccelOnAebRequest  = ccanTableData.ESP_A4(aebActiveTimeWindow,'VehAccel_X');
 aebTestStartTime      = findLessThanValueTimeStamp(vehAccelOnAebRequest, aebDecelStart);
 
 %% Test Checks
+disp('******************************************************************************');
+disp(['**** VEHICLE AEB TEST CHECK. File: ', fileName]);
 % Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
 testCheckTimeWindow = timerange(approachStartTime, aebTestStartTime);
 vehSpeedApproach    = ccanTableData.ESP_A8(testCheckTimeWindow, 'VEH_SPEED');
@@ -193,24 +195,46 @@ plotAebActuatorFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Actuator Status', ...
   'Time (s)', 'AEB Status');
 
+% -------------------------------------------------------------------------
 % Vehicle Yaw Rate - Full - ORC_YRS_DATA.YawRate;
 figure(plotAllData);
 hold on;
 yyaxis right;
-vehicleYawRateFull     =  ccanTableData.ORC_YRS_DATA(:,'YawRate');
-plotYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-  vehicleYawRateFull.Time, vehicleYawRateFull.YawRate, ...
-  'FCW State - AEB Req/Act Status - Yaw Rate', 'Yaw Rate', ...
+vehicleOrcYawRateFull     =  ccanTableData.ORC_YRS_DATA(:,'YawRate');
+plotOrcYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+  vehicleOrcYawRateFull.Time, vehicleOrcYawRateFull.YawRate, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'ORC Yaw Rate', ...
   'Time (s)', 'Yaw Rate deg/s');
 % Vehicle Yaw Rate - Focus Area - ORC_YRS_DATA.YawRate;
-vehicleYawRateEvent    = ccanTableData.ORC_YRS_DATA(focusAreaTimeWindow,'YawRate');
+vehicleOrcYawRateEvent    = ccanTableData.ORC_YRS_DATA(focusAreaTimeWindow,'YawRate');
 figure(plotFocusArea);
 hold on;
 yyaxis right;
-plotYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-  vehicleYawRateEvent.Time, vehicleYawRateEvent.YawRate, ...
-  'FCW State - AEB Req/Act Status - Yaw Rate', 'Yaw Rate', ...
+plotOrcYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  vehicleOrcYawRateEvent.Time, vehicleOrcYawRateEvent.YawRate, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'ORC Yaw Rate', ...
   'Time (s)', 'Yaw Rate deg/s');
+
+% -------------------------------------------------------------------------
+% Vehicle Yaw Rate - Full - ESP_A4.VehYawRate_Raw
+figure(plotAllData);
+hold on;
+yyaxis right;
+vehicleEspYawRateFull     = ccanTableData.ESP_A4(:,'VehYawRate_Raw');
+plotEspYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+  vehicleEspYawRateFull.Time, vehicleEspYawRateFull.VehYawRate_Raw, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
+  'Time (s)', 'Yaw Rate deg/s');
+% Vehicle Yaw Rate - Focus Area - ESP_A4.VehYawRate_Raw
+vehicleEspYawRateEvent    = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Raw');
+figure(plotFocusArea);
+hold on;
+yyaxis right;
+plotEspYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  vehicleEspYawRateEvent.Time, vehicleEspYawRateEvent.VehYawRate_Raw, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
+  'Time (s)', 'Yaw Rate deg/s');
+
 
 
 
@@ -352,8 +376,8 @@ function accelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition)
   end
   
   disp(['* ACCELERERATOR PEDAL POSITION CHECK. Initial Value: ', num2str(accelPedalPosStart), '%. (Tolerance ± 5%)']);
-  disp(['-- Actual Vehicle Max Accel Pedal: ', num2str(accelPedalPosMax), ', Result: ', num2str(maxPedalCheck), '. Min Accepted: ', num2str(maxPedalAccepted)]);
-  disp(['-- Actual ehicle Min Accel Pedal: ', num2str(accelPedalPosMin), ', Result: ', num2str(minPedalCheck), '. Min Accepted: ', num2str(minPedalAccepted)]);
+  disp(['-- Actual Vehicle Max Accel Pedal: ', num2str(accelPedalPosMax), ', Result: ', num2str(maxPedalCheck), '. (Max Accepted: ', num2str(maxPedalAccepted),')']);
+  disp(['-- Actual Vehicle Min Accel Pedal: ', num2str(accelPedalPosMin), ', Result: ', num2str(minPedalCheck), '. (Min Accepted: ', num2str(minPedalAccepted),')']);
   
   if maxPedalCheck && minPedalCheck
     disp('--- Accelerator Pedal Position is Valid during Vehicle Approach Phase');
@@ -399,8 +423,8 @@ function vehicleSpeedCheck = checkVehicleSpeed( ...
   end
   
   disp(['* VEHICLE SPEED CHECK. TEST SPEED: ', num2str(vehicleSpeedTest), 'km/h test. (Tolerance: ± 1 km/h):']);
-  disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. Max Accepted: ', num2str(maxSpeedAccepted)]);
-  disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. Min Accepted: ', num2str(minSpeedAccepted)]);
+  disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. (Max Accepted: ', num2str(maxSpeedAccepted),')']);
+  disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. (Min Accepted: ', num2str(minSpeedAccepted),')']);
   if maxSpeedCheck && minSpeedCheck
     disp('--- Speed Check is Valid during Vehicle Approach Phase');
     vehicleSpeedCheck = true;
@@ -431,8 +455,8 @@ function yawRateCheck = checkVehicleYawRate(vehicleYawRateTable)
   end
   
   disp('* VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
-  disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. Max Accepted: ', num2str(maxYawRateAccepted)]);
-  disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. Min Accepted: ', num2str(minYawRateAccepted)]);
+  disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. (Max Accepted: ', num2str(maxYawRateAccepted),')']);
+  disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. (Min Accepted: ', num2str(minYawRateAccepted),')']);
   if maxYawRateCheck && minYawRateCheck
     disp('--- Speed Check is Valid during Vehicle Approach Phase');
     yawRateCheck = true;
