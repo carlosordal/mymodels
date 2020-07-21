@@ -1,9 +1,10 @@
 % AEB test procotol: https://docs.google.com/document/d/1pz1lNJWJckO5f-3dfKTAUUEOIpNzPw4-Id30lYpt1wo/edit#
 % Next steps:
-% Add an error handler on findValue in case the value is not found on the
-% vector.
-% Fix legend on Vehicle acceleration plot
-% Fix AEB start detection.
+% Does the yaw rate goes negative?
+% move the yaw rate to a different plot?
+% Print Yaw Rate.
+% Adjust Distance to object scale depending on First Value published.
+% Add Line format to the function so it can be differentiated.
 % convert it into function
 % define a way to point to the signal Time table withing the struct. That
 % works with different strcut content. old and new 1 or more signal table
@@ -75,20 +76,50 @@ focusAreaTimeWindow = timerange(startPlotTime,stopPlotTime);
 
 % find Time when AEB actually starts -0.5 m/s^2.
 % AEB actuator used to shorten the acceleration vector
-aebDefaultValue     = 0;
-aebDecelStart       = -0.5;
-aebActuatorSignal   = ccanTableData.ESP_A2(:,'DAS_RqActv');
+aebDefaultValue       = 0;
+aebDecelStart         = -0.5;
+aebActuatorSignal     = ccanTableData.ESP_A2(:,'DAS_RqActv');
 [aebActuatorStartTime, aebActuatorStartValue, ...
   aebActuatorStopTime, aebActuatorStopValue] = ...
     signalEdgesDetection(aebActuatorSignal, aebDefaultValue );
-aebActiveTimeWindow  = timerange(aebActuatorStartTime, aebActuatorStopTime);
-vehAccelOnAebRequest    = ccanTableData.ESP_A4(aebActiveTimeWindow,'VehAccel_X');
-aebTestStartTime        = findLessThanValueTimeStamp(vehAccelOnAebRequest, aebDecelStart);
+aebActiveTimeWindow   = timerange(aebActuatorStartTime, aebActuatorStopTime);
+vehAccelOnAebRequest  = ccanTableData.ESP_A4(aebActiveTimeWindow,'VehAccel_X');
+aebTestStartTime      = findLessThanValueTimeStamp(vehAccelOnAebRequest, aebDecelStart);
+
+%% Test Checks
+% Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
+testCheckTimeWindow = timerange(approachStartTime, aebTestStartTime);
+vehSpeedApproach    = ccanTableData.ESP_A8(testCheckTimeWindow, 'VEH_SPEED');
+
+vehicleSpeedTest    = identifyVehicleSpeedTest(vehSpeedApproach);
+vehicleSpeedCheck   = checkVehicleSpeed(vehicleSpeedTest, vehSpeedApproach);
+
+% Accelerator Pedal Position Check
+% Accelerator pedal position must not fluctuate more than ±5% of the full travel 
+% from the original pedal position at the start of the valid approach phase.
+%acceleratorPedalTolerance = 5; %± 5
+    % ECM_A5.ActlAccelPdlPosn Check
+ecmPedalPosition    = ccanTableData.ECM_A5(testCheckTimeWindow, 'ActlAccelPdlPosn');
+ecmAccelPedalPosCheck  = checkAccelPedalPosition(ecmPedalPosition);
+    % OBD Check (ISO 15031-5.4 PID 49)
+obdPedalPosition = ccanTableData.ECM_SKIM_OBD(testCheckTimeWindow, 'AccelPdlPosn_OBD');
+obdAccelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition);
 
 
+% Yaw Rate Check. Tolerance %± 1 deg/s
+yawRateTolerance = 1;   
+orcYawRate    = ccanTableData.ORC_YRS_DATA(testCheckTimeWindow, 'YawRate');
+yawRateCheck  = checkVehicleYawRate(orcYawRate);
 
 
+if vehicleSpeedCheck && obdAccelPedalPosCheck && yawRateCheck
+  disp('VALID TEST');
+else
+  disp('NOT A VALID TEST');
+end
 
+
+%% ************************ PLOTS ***********************
 % Create 2 figures. Full plot and Focus Area plot.
 % Figure: Plot All Data
 rowsOnFullPlot      = 3;
@@ -107,17 +138,19 @@ set(gcf, 'Position', get(0, 'Screensize'));
 % -------------------------------------------------------------------------
 % FCW Display - Full
 figure(plotAllData)
+hold on;
 fcwDisplayFull      =  ccanTableData.DAS_A3(:, 'As_DispRq');
 plotFcwDisplay      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
   fcwDisplayFull.Time, fcwDisplayFull.As_DispRq, ...
-  'FCW State', 'DAS A3.As DispRq', ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'DAS A3.As DispRq', ...
   'Time (s)', 'FCW State');
 % FCW Display - Focus
 fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
 figure(plotFocusArea);
+hold on;
 plotFcwDisplayFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   fcwDisplayEvent.Time, fcwDisplayEvent.As_DispRq, ...
-  'FCW State', 'FCW Warning Status', ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'FCW Warning Status', ...
   'Time (s)', 'FCW State');
 
 % -------------------------------------------------------------------------
@@ -127,7 +160,7 @@ hold on;
 aebRequestFull      =  ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
 plotAebRequest      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
   aebRequestFull.Time, aebRequestFull.DAS_Rq_ID, ...
-  'AEB Req/Act Status', 'AEB Request Status', ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
   'Time (s)', 'AEB Status');
 % AEB Request Status - Focus Area - DAS_A3.DAS_Rq_ID
 aebRequestEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'DAS_Rq_ID');
@@ -135,7 +168,7 @@ figure(plotFocusArea);
 hold on;
 plotAebRequestFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   aebRequestEvent.Time, aebRequestEvent.DAS_Rq_ID, ...
-  'AEB Req/Act Status', 'AEB Request Status', ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
   'Time (s)', 'AEB Status');
 
 % -------------------------------------------------------------------------
@@ -145,7 +178,7 @@ hold on;
 aebActuatorFull     =  ccanTableData.ESP_A2(:,'DAS_RqActv');
 plotAebActuator     = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
   aebActuatorFull.Time, aebActuatorFull.DAS_RqActv, ...
-  'AEB Req/Act Status', 'AEB Actuator Status', ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Actuator Status', ...
   'Time (s)', 'AEB Status');
 % AEB Actuator Status - Focus Area - ESP_A2.DAS_RqActv
 aebActuatorEvent    = ccanTableData.ESP_A2(focusAreaTimeWindow,'DAS_RqActv');
@@ -153,8 +186,34 @@ figure(plotFocusArea);
 hold on;
 plotAebActuatorFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   aebActuatorEvent.Time, aebActuatorEvent.DAS_RqActv, ...
-  'AEB Req/Act Status', 'AEB Actuator Status', ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Actuator Status', ...
   'Time (s)', 'AEB Status');
+
+% Vehicle Yaw Rate - Full - ORC_YRS_DATA.YawRate;
+figure(plotAllData);
+hold on;
+yyaxis right;
+vehicleYawRateFull     =  ccanTableData.ORC_YRS_DATA(:,'YawRate');
+plotYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+  vehicleYawRateFull.Time, vehicleYawRateFull.YawRate, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'Yaw Rate', ...
+  'Time (s)', 'Yaw Rate deg/s');
+% Vehicle Yaw Rate - Focus Area - ORC_YRS_DATA.YawRate;
+vehicleYawRateEvent    = ccanTableData.ORC_YRS_DATA(focusAreaTimeWindow,'YawRate');
+figure(plotFocusArea);
+hold on;
+yyaxis right;
+plotYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  vehicleYawRateEvent.Time, vehicleYawRateEvent.YawRate, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'Yaw Rate', ...
+  'Time (s)', 'Yaw Rate deg/s');
+
+
+
+
+% -------------------------------------------------------------------------
+plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
+
 
 % -------------------------------------------------------------------------
 % Vehicle Speed - Full - ESP_A8.VEH_SPEED
@@ -195,15 +254,8 @@ plotVehicleAccelerationFocus  = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 
   'Time (s)', 'Acceleration m/s^2');
 
 % -------------------------------------------------------------------------
-% AEB Actuator Active
-lineColor = [0.5, 0.5 , 0.5];
-aebActuatorActiveLine = plotVerticalLine(aebActuatorStartTime, 'AEB Actuator Active', lineColor);
-
-
-% -------------------------------------------------------------------------
-% AEB start -0.5 m/s^2 - Vertical Line
-lineColor = [1.00,0.00,1.00];
-aebTestStartLine = plotVerticalLine(aebTestStartTime, 'AEB Test Start -0.5 m/s^2', lineColor);
+% Vertical Lines
+plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
 
 % -------------------------------------------------------------------------
 % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
@@ -268,75 +320,125 @@ plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, .
   'Distance to Object', 'Distance to Object', ...
   'Time (s)', 'Distance (m)');
 
-
+% -------------------------------------------------------------------------
+plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
 
 
 
 %% Functions
-function checkVehicleAcceleratorPedal(acceleratorPedalMean, acceleratorPedalTolerance, ...
-  acceleratorPedalMax, acceleratorPedalMin)
-  maxPedalAccepted = acceleratorPedalMean + acceleratorPedalTolerance;
-  minPedalAccepted = acceleratorPedalMean - acceleratorPedalTolerance;
-  if acceleratorPedalMax < maxPedalAccepted
+function accelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition)
+  accelPedalTolerance = 5;        %± 5%
+  accelPedalPosStart  = obdPedalPosition.(1)(1);
+  maxPedalAccepted    = accelPedalPosStart + accelPedalTolerance;
+  minPedalAccepted    = accelPedalPosStart - accelPedalTolerance;
+  
+  accelPedalPosMin    = min(obdPedalPosition.(1));
+  accelPedalPosMax    = max(obdPedalPosition.(1));
+
+
+  if accelPedalPosMax <= maxPedalAccepted
     maxPedalCheck = true;
   else 
     maxPedalCheck = false;
   end
-  if acceleratorPedalMin > minPedalAccepted
+  if accelPedalPosMin >= minPedalAccepted
     minPedalCheck = true;
   else 
     minPedalCheck = false;
   end
   
-  %disp([num2str(vehicleSpeedTest), 'km/h test:'])
-  disp(['Vehicle Max Accel Pedal: ', num2str(acceleratorPedalMax), ', Result: ', num2str(maxPedalCheck)])
-  disp(['Vehicle Min Accel Pedal: ', num2str(acceleratorPedalMin), ', Result: ', num2str(minPedalCheck)])
+  disp(['* ACCELERERATOR PEDAL POSITION CHECK. Initial Value: ', num2str(accelPedalPosStart), '%. (Tolerance ± 5%)']);
+  disp(['-- Actual Vehicle Max Accel Pedal: ', num2str(accelPedalPosMax), ', Result: ', num2str(maxPedalCheck), '. Min Accepted: ', num2str(maxPedalAccepted)]);
+  disp(['-- Actual ehicle Min Accel Pedal: ', num2str(accelPedalPosMin), ', Result: ', num2str(minPedalCheck), '. Min Accepted: ', num2str(minPedalAccepted)]);
+  
+  if maxPedalCheck && minPedalCheck
+    disp('--- Accelerator Pedal Position is Valid during Vehicle Approach Phase');
+    accelPedalPosCheck = true;
+  else
+    disp('--- Accelerator Pedal Position is NOT Valid during Vehicle Approach Phase');
+    accelPedalPosCheck = false;
+  end
 end
 
+function detectVehicleSpeedTest = identifyVehicleSpeedTest(vehicleSpeedAproach)
+  vehicleSpeedMean      = mean(vehicleSpeedAproach.(1));
 
-function checkVehicleSpeed(vehicleSpeedTest, vehicleSpeedTolerance, ...
-  vehicleSpeedMax, vehicleSpeedMin)
+  if (35 < vehicleSpeedMean) && (vehicleSpeedMean < 45)
+    detectVehicleSpeedTest = 40;
+  elseif (15 < vehicleSpeedMean) && (vehicleSpeedMean < 25)
+    detectVehicleSpeedTest = 20;
+    checkVehicleSpeed(detectVehicleSpeedTest,vehicleSpeedTolerance, ...
+      vehicleSpeedMax, vehicleSpeedMin);
+  else 
+    error('Average Vehicle Speed out of range')
+  end
+end
+
+function vehicleSpeedCheck = checkVehicleSpeed( ...
+  vehicleSpeedTest, vehicleSpeedAproach)
+
+  vehicleSpeedTolerance = 1; %+- 1 km/h
+  vehicleSpeedMin       = min(vehicleSpeedAproach.(1));
+  vehicleSpeedMax       = max(vehicleSpeedAproach.(1));
+
   maxSpeedAccepted = vehicleSpeedTest + vehicleSpeedTolerance;
   minSpeedAccepted = vehicleSpeedTest - vehicleSpeedTolerance;
-  if vehicleSpeedMax < maxSpeedAccepted
+  if vehicleSpeedMax <= maxSpeedAccepted
     maxSpeedCheck = true;
   else 
     maxSpeedCheck = false;
   end
-  if vehicleSpeedMin > minSpeedAccepted
+  if vehicleSpeedMin >= minSpeedAccepted
     minSpeedCheck = true;
   else 
     minSpeedCheck = false;
   end
   
-  disp([num2str(vehicleSpeedTest), 'km/h test:'])
-  disp(['Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck)])
-  disp(['Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck)])
+  disp(['* VEHICLE SPEED CHECK. TEST SPEED: ', num2str(vehicleSpeedTest), 'km/h test. (Tolerance: ± 1 km/h):']);
+  disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. Max Accepted: ', num2str(maxSpeedAccepted)]);
+  disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. Min Accepted: ', num2str(minSpeedAccepted)]);
+  if maxSpeedCheck && minSpeedCheck
+    disp('--- Speed Check is Valid during Vehicle Approach Phase');
+    vehicleSpeedCheck = true;
+  else
+    disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
+    vehicleSpeedCheck = false;
+  end
   
 end
 
-function [startPlotAtIndex, stopPlotAtIndex] = extractStartStopIndex( ...
-  signalTimeData, startPlotAtTime, stopPlotAtTime)
-%extract Time index for stop plotting for this Signal 
-  for i=1 : numel(signalTimeData)
-    if signalTimeData(i) >= startPlotAtTime
-      startPlotAtIndex = i;
-      %disp(['FCW start plot at index: ', num2str(startPlotAtIndex)])
-      break
-    end
+function yawRateCheck = checkVehicleYawRate(vehicleYawRateTable)
+  yawRateTolerance      = 1;        %+- 1 deg/s     
+  vehicleYawRateMin     = min(vehicleYawRateTable.(1));
+  vehicleYawRateMax     = max(vehicleYawRateTable.(1));
+
+  maxYawRateAccepted = yawRateTolerance;
+  minYawRateAccepted = yawRateTolerance * -1;
+  if vehicleYawRateMax <= maxYawRateAccepted
+    maxYawRateCheck = true;
+  else 
+    maxYawRateCheck = false;
   end
-%extract Time index for stop plotting for this Signal
-  for i= 1 : numel(signalTimeData)
-      if signalTimeData(i) >= stopPlotAtTime
-        stopPlotAtIndex = i;
-        break
-      end
+
+  if vehicleYawRateMin >= minYawRateAccepted
+    minYawRateCheck = true;
+  else 
+    minYawRateCheck = false;
   end
+  
+  disp('* VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
+  disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. Max Accepted: ', num2str(maxYawRateAccepted)]);
+  disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. Min Accepted: ', num2str(minYawRateAccepted)]);
+  if maxYawRateCheck && minYawRateCheck
+    disp('--- Speed Check is Valid during Vehicle Approach Phase');
+    yawRateCheck = true;
+  else
+    disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
+    yawRateCheck = false;
+  end
+
 
 end
-
-
-
 
 function plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, position,...
   xValues, yValues,...
@@ -351,7 +453,7 @@ function plotAttribute = createPlot(rowsOnPlot, columnsOnPlot, position,...
     %plotAttribute.DisplayName = plotLengend;
     %legend('ESP A4.VehAccel X','AEB start -0.5m/s^2');
     %verticalLine.Color = 'r';
-    plotAttribute.LineWidth = 1.5 ;
+    plotAttribute.LineWidth = 2 ;
     %verticalLine.LineStyle = '--';
     
     title(plotTitle) % title
@@ -430,3 +532,16 @@ function verticalLine = plotVerticalLine(timeStamp, legendStr, lineColor)
   verticalLine.LineStyle   = '--';
 end
 
+function plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime)
+  % Vehicle Approach Start
+  lineColor = [0.3, 0.3 , 0.3];
+  vehicleApproachLine = plotVerticalLine(approachStartTime, 'Vehicle Approach Start', lineColor);
+%   % AEB Actuator Active
+%   lineColor = [0.5, 0.5 , 0.5];
+%   aebActuatorActiveLine = plotVerticalLine(aebActuatorStartTime, 'AEB Actuator Active', lineColor);
+  % AEB start -0.5 m/s^2 - Vertical Line
+  lineColor = [1.00,0.00,1.00];
+  aebTestStartLine = plotVerticalLine(aebTestStartTime, 'AEB Test Start -0.5 m/s^2', lineColor);
+
+  % -------------------------------------------------------------------------
+end
