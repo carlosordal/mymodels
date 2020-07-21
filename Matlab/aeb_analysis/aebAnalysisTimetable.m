@@ -76,19 +76,20 @@ focusAreaTimeWindow = timerange(startPlotTime,stopPlotTime);
 
 % Create 2 figures. Full plot and Focus Area plot.
 % Figure: Plot All Data
-rowsOnFullPlot      = 5;
+rowsOnFullPlot      = 3;
 columnsOnFullPlot   = 1;
-figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName]);
-plotAllData = 1;
+plotAllData = figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName]);
+%plotAllData = 1;
 set(gcf, 'Position', get(0, 'Screensize'));     %figure on full screen
 
 % Figure: Plot Focus Area
-rowsOnFocusPlot     = 5;
-columnsOnFocusPlot  = 1;
-figure('NumberTitle', 'off', 'Name', ['Focus Area Plotted: ',fileName]);
-plotFocusArea = 2;
+rowsOnFocusPlot     = rowsOnFullPlot;
+columnsOnFocusPlot  = columnsOnFullPlot;
+plotFocusArea = figure('NumberTitle', 'off', 'Name', ['Focus Area Plotted: ',fileName]);
+%plotFocusArea = 2;
 set(gcf, 'Position', get(0, 'Screensize'));
 
+% -------------------------------------------------------------------------
 % FCW Display - Full
 figure(plotAllData)
 fcwDisplayFull      =  ccanTableData.DAS_A3(:, 'As_DispRq');
@@ -96,15 +97,150 @@ plotFcwDisplay      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
   fcwDisplayFull.Time, fcwDisplayFull.As_DispRq, ...
   'FCW State', 'DAS A3.As DispRq', ...
   'Time (s)', 'FCW State');
-
 % FCW Display - Focus
 fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
-figure(plotFocusArea)
+figure(plotFocusArea);
 plotFcwDisplayFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   fcwDisplayEvent.Time, fcwDisplayEvent.As_DispRq, ...
   'FCW State', 'FCW Warning Status', ...
   'Time (s)', 'FCW State');
 
+% -------------------------------------------------------------------------
+% AEB Request Status - Full
+figure(plotAllData);
+hold on;
+aebRequestFull      =  ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
+plotAebRequest      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+  aebRequestFull.Time, aebRequestFull.DAS_Rq_ID, ...
+  'AEB Req/Act Status', 'AEB Request Status', ...
+  'Time (s)', 'AEB Status');
+% AEB Request Status - Focus Area
+aebRequestEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'DAS_Rq_ID');
+figure(plotFocusArea);
+hold on;
+plotAebRequestFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  aebRequestEvent.Time, aebRequestEvent.DAS_Rq_ID, ...
+  'AEB Req/Act Status', 'AEB Request Status', ...
+  'Time (s)', 'AEB Status');
+
+% -------------------------------------------------------------------------
+% AEB Actuator Status - Full - ESP_A2.DAS_Rq_Act
+figure(plotAllData);
+hold on;
+aebActuatorFull     =  ccanTableData.ESP_A2(:,'DAS_RqActv');
+plotAebActuator     = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+  aebActuatorFull.Time, aebActuatorFull.DAS_RqActv, ...
+  'AEB Req/Act Status', 'AEB Actuator Status', ...
+  'Time (s)', 'AEB Status');
+% AEB Actuator Status - Focus Area - ESP_A2.DAS_RqActv
+aebActuatorEvent    = ccanTableData.ESP_A2(focusAreaTimeWindow,'DAS_RqActv');
+figure(plotFocusArea);
+hold on;
+plotAebActuatorFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  aebActuatorEvent.Time, aebActuatorEvent.DAS_RqActv, ...
+  'AEB Req/Act Status', 'AEB Actuator Status', ...
+  'Time (s)', 'AEB Status');
+
+% -------------------------------------------------------------------------
+% Vehicle Speed - Full - ESP_A8.VEH_SPEED
+figure(plotAllData);
+hold on;
+vehicleSpeedFull          = ccanTableData.ESP_A8(:,'VEH_SPEED');
+plotVehicleSpeed          = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
+  vehicleSpeedFull.Time, vehicleSpeedFull.VEH_SPEED, ...
+  'Vehicle Speed and Acceleration', 'Vehicle Speed', ...
+  'Time (s)', 'Speed km/h');
+% Vehicle Speed - Focus Area - ESP_A8.VEH_SPEED
+vehicleAccelerationEvent  = ccanTableData.ESP_A8(focusAreaTimeWindow,'VEH_SPEED');
+figure(plotFocusArea);
+hold on;
+plotVehicleSpeedFocus     = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 2, ...
+  vehicleAccelerationEvent.Time, vehicleAccelerationEvent.VEH_SPEED, ...
+  'Vehicle Speed and Acceleration', 'Vehicle Speed', ...
+  'Time (s)', 'Speed km/h');
+
+% -------------------------------------------------------------------------
+% Vehicle Acceleration - Full - ESP_A4.VehAccel_X
+figure(plotAllData);
+hold on;
+yyaxis right;
+vehicleAccelerationFull       = ccanTableData.ESP_A4(:,'VehAccel_X');
+plotVehicleAcceleration       = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
+  vehicleAccelerationFull.Time, vehicleAccelerationFull.VehAccel_X, ...
+  'Vehicle Speed and Acceleration', 'Vehicle Acceleration', ...
+  'Time (s)', 'Acceleration m/s^2');
+% Vehicle Acceleration - Focus Area - ESP_A4.VehAccel_X
+vehicleAccelerationEvent      = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehAccel_X');
+figure(plotFocusArea);
+hold on;
+yyaxis right;
+plotVehicleAccelerationFocus  = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 2, ...
+  vehicleAccelerationEvent.Time, vehicleAccelerationEvent.VehAccel_X, ...
+  'Vehicle Speed and Acceleration', 'Vehicle Acceleration', ...
+  'Time (s)', 'Acceleration m/s^2');
+
+% -------------------------------------------------------------------------
+% OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
+figure(plotAllData);
+hold on;
+%yyaxis right;
+accelPedalObdFull      = ccanTableData.ECM_SKIM_OBD(:,'AccelPdlPosn_OBD');
+plotAccelPedalObdFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
+  accelPedalObdFull.Time, accelPedalObdFull.AccelPdlPosn_OBD, ...
+  'Accelerator Pedal Position', 'OBD ISDO 15031 Accel Pedal Pos', ...
+  'Time (s)', 'Position(%)');
+
+% OBD Accelerator Pedal Position - Focus Area - ECM_SKIM_OBD.AccelPdlPosn_OBD
+accelPedalObdFocus     = ccanTableData.ECM_SKIM_OBD(focusAreaTimeWindow,'AccelPdlPosn_OBD');
+figure(plotFocusArea);
+hold on;
+%yyaxis right;
+plotAccelPedalObdFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
+  accelPedalObdFocus.Time, accelPedalObdFocus.AccelPdlPosn_OBD, ...
+  'Accelerator Pedal Position', 'OBD ISDO 15031 Accel Pedal Pos', ...
+  'Time (s)', 'Position(%)');
+
+% -------------------------------------------------------------------------
+% ECM_A5 Accelerator Pedal Position - Full - ECM_A5.ActlAccelPdlPosn
+figure(plotAllData);
+hold on;
+%yyaxis right;
+accelPedalEcmFull     = ccanTableData.ECM_A5(:,'ActlAccelPdlPosn');
+plotAccelPedalEcmFull = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
+  accelPedalEcmFull.Time, accelPedalEcmFull.ActlAccelPdlPosn, ...
+  'Accelerator Pedal Position', 'ECM A5 Accel Pedal Pos', ...
+  'Time (s)', 'Position(%)');
+
+% ECM_A5 Accelerator Pedal Position - Focus Area - ECM_A5.ActlAccelPdlPosn
+accelPedalEcmFocus    = ccanTableData.ECM_A5(focusAreaTimeWindow,'ActlAccelPdlPosn');
+figure(plotFocusArea);
+hold on;
+%yyaxis right;
+plotAccelPedalEcmFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
+  accelPedalEcmFocus.Time, accelPedalEcmFocus.ActlAccelPdlPosn, ...
+  'Accelerator Pedal Position', 'ECM A5 Accel Pedal Pos', ...
+  'Time (s)', 'Position(%)');
+
+% -------------------------------------------------------------------------
+% Distance To Object - Full - DAS_A4.ObjIntrstDist
+figure(plotAllData);
+hold on;
+yyaxis right;
+distanceToObjectFull      = ccanTableData.DAS_A4(:,'ObjIntrstDist');
+plotDistanceToObjectFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
+  distanceToObjectFull .Time, distanceToObjectFull .ObjIntrstDist, ...
+  'Distance to Object', 'Distance to Object', ...
+  'Time (s)', 'Distance (m)');
+
+% Distance To Object - Focus Area - DAS_A4.ObjIntrstDist
+distanceToObjectEvent     = ccanTableData.DAS_A4(focusAreaTimeWindow,'ObjIntrstDist');
+figure(plotFocusArea);
+hold on;
+yyaxis right;
+plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
+  distanceToObjectEvent.Time, distanceToObjectEvent.ObjIntrstDist, ...
+  'Distance to Object', 'Distance to Object', ...
+  'Time (s)', 'Distance (m)');
 
 
 %% Functions
