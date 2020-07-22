@@ -18,7 +18,7 @@
 
 % Example:
 % networksAndChannels = {'ccan_rr.dbc',4;'lyftctrlcan.dbc',2};
-% blfFolder = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\CAN_blf_to_mat_converter\can_logs';
+% blfFolder = 'G:\Shared drives\Vehicle Controls\[05] - Vehicle Platforms\Chrysler Pacifica\GUv0 AEB Testing-docs\1211 AEB weeks testing';
 % dbcFolder = 'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs';
 % can_blf_folder_to_mat_converter(networksAndChannels, dbcFolder, blfFolder)
 %
@@ -92,23 +92,6 @@ function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfD
 
     end
 
-    function checkMatlabVersion(tool, version)
-        %dir([matlabroot '/toolbox'])
-        if verLessThan(tool,version)    
-            matlabVer = ver;
-            table = struct2table(matlabVer);
-            rows = height(table);
-            for i = 1: rows
-                thisApp = char(table{i,1});
-                if isequal(thisApp, 'MATLAB')
-                    matlabVersion = char(table{i,2});
-                    matlabRelease = char(table{i,3});
-                    %disp(['matlab Version: ', matlabVersion, ', Release:', matlabRelease])
-                end
-            end
-            error(['Matlab 9.7 (release: 2019b) or higher is required. Your Matlab version is: ', matlabVersion, ', Release: ' , matlabRelease])
-        end
-    end
 
     function isToolVersionLessThan(toolExpected, versionExpected, errorMessage)
         if verLessThan(toolExpected, versionExpected)    
