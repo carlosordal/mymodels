@@ -121,7 +121,10 @@ yawRateCheck  = checkVehicleYawRate(orcYawRate);
 if vehicleSpeedCheck && obdAccelPedalPosCheck && yawRateCheck
   disp('VALID TEST');
 else
-  disp('NOT A VALID TEST');
+  disp(['NOT A VALID TEST: Speed: ', num2str(vehicleSpeedCheck), ...
+      ', Accel Pedal: ', num2str(obdAccelPedalPosCheck), ...
+      ', Yaw Rate: ', num2str(yawRateCheck),  ...
+        ]);
 end
 
 
@@ -130,16 +133,26 @@ end
 % Figure: Plot All Data
 rowsOnFullPlot      = 3;
 columnsOnFullPlot   = 1;
-plotAllData = figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName]);
-%plotAllData = 1;
-set(gcf, 'Position', get(0, 'Screensize'));     %figure on full screen
+bottomBorderWidth = 150;
+leftBorderWidth = 10;
+bottomOffset = 50;
+set(0,'Units','pixels');
+screensize = get(0,'ScreenSize');
+plotHeight = screensize(4)-bottomBorderWidth;
+plotWidht = screensize(3)/2- leftBorderWidth;
+position = [leftBorderWidth,bottomOffset,plotWidht,plotHeight]; %[left bottom width height]
+plotAllData = figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName], 'Position', position);
+%movegui(plotAllData,'west');
+%set(gcf, 'Position', get(0, 'Screensize'));     %figure on full screen
 
 % Figure: Plot Focus Area
 rowsOnFocusPlot     = rowsOnFullPlot;
 columnsOnFocusPlot  = columnsOnFullPlot;
-plotFocusArea = figure('NumberTitle', 'off', 'Name', ['Focus Area Plotted: ',fileName]);
-%plotFocusArea = 2;
-set(gcf, 'Position', get(0, 'Screensize'));
+leftPosition = leftBorderWidth + plotWidht;
+position2 = [leftPosition,bottomOffset,plotWidht,plotHeight];
+plotFocusArea = figure('NumberTitle', 'off', 'Name', ['Focus Area Plotted: ',fileName], 'Position', position2);
+%movegui(plotFocusArea,'east');
+%set(gcf, 'Position', get(0, 'Screensize'));    % Plot on screen size
 
 % -------------------------------------------------------------------------
 % FCW Display - Full
@@ -337,6 +350,7 @@ plotDistanceToObjectFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
   distanceToObjectFull .Time, distanceToObjectFull .ObjIntrstDist, ...
   'Accelerator Pedal Position & Distance to Object', 'Distance to Object', ...
   'Time (s)', 'Distance (m)');
+ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
 
 % Distance To Object - Focus Area - DAS_A4.ObjIntrstDist
 distanceToObjectEvent     = ccanTableData.DAS_A4(focusAreaTimeWindow,'ObjIntrstDist');
@@ -347,6 +361,7 @@ plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, .
   distanceToObjectEvent.Time, distanceToObjectEvent.ObjIntrstDist, ...
   'Accelerator Pedal Position & Distance to Object', 'Distance to Object', ...
   'Time (s)', 'Distance (m)');
+ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
 
 % -------------------------------------------------------------------------
 plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
