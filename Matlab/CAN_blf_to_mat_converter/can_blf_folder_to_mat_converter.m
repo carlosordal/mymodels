@@ -1,4 +1,7 @@
-%IT REQUIRES MATLAB 2019b or newer and Vehicle Network Toolbox
+%Requirements:
+% - Vehicle Network Toolbox Version 4.3 or higher
+% - Matlab 2019b Version 9.7 or higher
+% - Windows Platform.
 %% This function takes a folder with blfs files and create matfiles with signal tables
 %
 % Inputs:   1) networksAndChannels  - x*2 cell including network name and channel numnber.
@@ -14,27 +17,28 @@
 % Outputs:  1) Matfiles stored on the blf folder.
 
 % Example:
-% networksAndChannels = {'ccan_rr.dbc',1;'lyftctrlcan.dbc',2};
+% networksAndChannels = {'ccan_rr.dbc',4;'lyftctrlcan.dbc',2};
 % blfFolder = 'C:\Users\cordunoalbarran\Repo\mymodels\Matlab\CAN_blf_to_mat_converter\can_logs';
 % dbcFolder = 'C:\Users\cordunoalbarran\Repo\avcampari\guv0_dbcs';
 % can_blf_folder_to_mat_converter(networksAndChannels, dbcFolder, blfFolder)
 %
-% Reference for BU CAN data logger:
+% Reference for GU CAN data logger BLF channels:
 % Golden Unicorn CAN Channels:
-% Ch1 : CAN L5 Power
-% Ch2: CAN L5 Ctrl
+% Ch1: CAN L5 Power
+% Ch2: lyftctrlcan.dbc
 % Ch3: CAN/Ethernet
-% Ch4: CAN C
-% Ch5: CAN ePT
-% Ch6: CAN C - isolated
-% Ch7: CAN ePT - isolated
+% Ch4: ccan_rr.dbc
+% Ch5: eptcan.dbc
+% Ch6: ccan_rr.dbc - isolated
+% Ch7: eptcan.dbc - isolated
 
 
 function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfDirectory)
     
-% check Matlab version is newer than 2019b (9.7)
-
-    checkMatlabVerion('matlab','9.7');
+    % check Vehicle Network Toolbox is equal or higher than 4.3
+    isToolVersionLessThan('vnt', '4.3', 'Vehicle Network Toolbox 4.3 or higher is required');
+    % check Matlab version is equal or higher than 2019b (9.7)
+    isToolVersionLessThan('matlab', '9.7', 'Matlab 2019b 9.7 or higher is required');
     checkPlatform('win64');   
     blfFolder = blfDirectory;
     addpath(dbcDirectory);
@@ -48,7 +52,7 @@ function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfD
     compareDbcRequestedToFilesOnFolder(networksAndChannels, dbcFilesList)
     
     
-    %% new loops for BLF Files and x networks
+    %% loop for BLF Files and x networks
     for nBlfFiles=1 : numel(blfFilesList)   % blf loops
         thisFile = blfFilesList(nBlfFiles);
         disp(['* File conversion started: ', thisFile.name]);
@@ -57,7 +61,7 @@ function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfD
     end
     disp(['*** COMPLETED. Total BLF files converted: ',num2str(nBlfFiles)]);
 
-
+%% Functions
     function createSignalTableMatFile(thisBlfFile, networksAndChannels)
         networks = size(networksAndChannels);
         rows = networks(1);
@@ -88,7 +92,8 @@ function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfD
 
     end
 
-    function checkMatlabVerion(tool, version)
+    function checkMatlabVersion(tool, version)
+        %dir([matlabroot '/toolbox'])
         if verLessThan(tool,version)    
             matlabVer = ver;
             table = struct2table(matlabVer);
@@ -102,6 +107,12 @@ function can_blf_folder_to_mat_converter(networksAndChannels, dbcDirectory, blfD
                 end
             end
             error(['Matlab 9.7 (release: 2019b) or higher is required. Your Matlab version is: ', matlabVersion, ', Release: ' , matlabRelease])
+        end
+    end
+
+    function isToolVersionLessThan(toolExpected, versionExpected, errorMessage)
+        if verLessThan(toolExpected, versionExpected)    
+            error(errorMessage)
         end
     end
 
