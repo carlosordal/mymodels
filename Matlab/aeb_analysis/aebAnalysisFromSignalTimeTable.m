@@ -42,7 +42,7 @@
 %     aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 % references:
 % AEB test procotol: https://docs.google.com/document/d/1pz1lNJWJckO5f-3dfKTAUUEOIpNzPw4-Id30lYpt1wo/edit#
- plot
+% plot
 
 function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 
