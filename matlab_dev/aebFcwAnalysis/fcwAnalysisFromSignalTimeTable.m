@@ -1,8 +1,4 @@
-% This function takes a mat file that contains Signal Time Tables, it
-% identifies AEB events and analyze the test validity during Vehicle
-% approach.
-% Signals reviewed: Pedal Accelerator Position, Vehicle Acceleration and
-% Vehicle Yaw Rate.
+% FCW Analysis.
 % 
 % Inputs:   1) filePath         - String that contains the file Path
 %           2) fileName         - String that contains the file Name with extension.
@@ -13,44 +9,20 @@
 %                                 root of the mat file use dataFieldAddress
 %                                 = '';
 % Outputs:  1) Plots and Checks results displayed on Matlab terminal.
-% Next steps:
-% Does the yaw rate goes negative?
-% move the yaw rate to a different plot?
+%
 % Examples:
 % Analyze a mat file stored on google drive from a Mac Computer.
-%     filePath = '/Volumes/GoogleDrive/Shared drives/Vehicle Controls/[05] - Vehicle Platforms/Chrysler Pacifica/GUv0 AEB Testing-docs/1211 AEB weeks testing/';
-%     fileName = '09 1211 AEB 40kph 11_24.mat';
-%     dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
-%     aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
-%
-% Analyze a mat file stored on mac:
-%     filePath = '/Users/cordunoalbarran/Documents/Repo/mymodels/Matlab/aeb_analysis/can_logs';
-%     fileName = '5-7 P010-Drv not brk bef FCW-40 kph trial 01.mat';
-%     dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
-%     aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
-%
-% Analyze a mat file stored on google driver from a Windows computer:
-%     filePath = 'G:\Shared drives\Vehicle Controls\[05] - Vehicle Platforms\Chrysler Pacifica\GUv0 AEB Testing-docs\1211 AEB weeks testing';
-%     fileName = '09 1211 AEB 40kph 11_24.mat';
-%     dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
-%     aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
-%
-% Analyze a mat file stored on Windows computer
-%     filePath = 'C:\Users\cordunoalbarran\Repo\av-control-design\dspace\lib\AEB_matlab_analysis';
-%     fileName = '5-7_P010-Drv_not_brk_bef_FCW-40_kph_trial_01_ccan_rr_DATA.mat';
-%     dataFieldAddress = 'SignalTable'; 
-%     aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
+    filePath = '/Volumes/GoogleDrive/My Drive/CAN log analysis/FCW testing/';
+    %fileName = '5-7 P010-Drv Brk bef FCW 20 pct-25kph trial 01.mat';
+    fileName = '5-7 P010-Drv Brk bef FCW-20kph trial 03.mat';
+    dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
+%     fcwAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 % references:
-% AEB test procotol: https://docs.google.com/document/d/1pz1lNJWJckO5f-3dfKTAUUEOIpNzPw4-Id30lYpt1wo/edit#
-% plot
+% FCW test procotol: https://docs.google.com/document/d/1v_sqoNpXhQZlxVPPby96P5zLXEhmausLMWLzhzJ6j-I/edit#heading=h.6z95h6k2mnwt
 
-function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
+%function fcwAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 
   fullName = fullfile(filePath, fileName);
-
-
-  
-
 
   %addpath(filePath);
   aebMatFile = load(fullName);            % it contains the canLogSignalsTable
@@ -64,89 +36,78 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
     end
   end
 
-  % Find Approach phase time and AEB End time
-  % Approach Phase Start/Plot Start = Min Distance Report Time - 5.4s
-  % Plot End Time = AEB Request Stop Time + Plot extension Time
 
-  % Find AEB Request Start and End Time
-  aebRequestId            = ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
-  % aebRequestId = ccanTableData.DAS_A3.DAS_Rq_ID;
-  aebRequestDefaultValue  = 0;
-  [aebRequestStartTime, aebRequestStartValue, ...
-    aebRequestStopTime, aebRequestStopValue] = ...
-    signalEdgesDetection(aebRequestId, aebRequestDefaultValue);
+  % Test start.
+  distanceTestStart = 150;      %m
+  vehicleSpeedTest  = 72;       %km/h
+  convertionToMps   = 3.6;      % m/h to m/s
+  deltaTestStart = (distanceTestStart/vehicleSpeedTest)*convertionToMps;
+  
+
+%   % Find FCW Start and Stop Time
+  fcwRequestId                  = ccanTableData.DAS_A3(:, 'As_DispRq');
+  fcwDefaultValue       = 0;
+  [fcwStartTime, fcwStartValue, ...
+    fcwStopTime, fcwStopValue]  = ...
+    signalEdgesDetection(fcwRequestId, fcwDefaultValue);
 
   % detect Distance to Object Stop being published
-  % distanceToObject = ccanTableData.DAS_A4.ObjIntrstDist;
-  % das_a4_Time = ccanTableData.DAS_A4.Time;
-  distanceToObject     = ccanTableData.DAS_A4(:, 'ObjIntrstDist');
-  distanceDefaultValue = 254;
+  distanceToObject      = ccanTableData.DAS_A4(:, 'ObjIntrstDist');
+  distanceDefaultValue  = 254;
   [distanceStartTime, distanceStartValue, ...
     distanceStopTime, distanceStopValue] = ...
     signalEdgesDetection(distanceToObject, distanceDefaultValue);
 
   % find Time when the minimum distance was reported.
-  timeWindow = timerange(distanceStartTime, distanceStopTime);
-  distanceToObjectPublished = distanceToObject(timeWindow,:);
-  approachLength      = duration('0:0:05.4');
-  extendPlotTime      = duration('0:0:1');
-  minDistanceTime     = findEqualToValueTimeStamp(distanceToObjectPublished, distanceStopValue);
+  distanceTimeWindow          = timerange(distanceStartTime, distanceStopTime);
+  distanceToObjectPublished = distanceToObject(distanceTimeWindow,:);
+  testLength            = duration('0:0:05.4');
+  extendPlotTime        = duration('0:0:1');
+  minDistanceTime       = findEqualToValueTimeStamp(distanceToObjectPublished, distanceStopValue);
 
-  approachStartTime   = minDistanceTime - approachLength;
-  startPlotTime       = approachStartTime;
-  stopPlotTime        = aebRequestStopTime + extendPlotTime;
-  focusAreaTimeWindow = timerange(startPlotTime,stopPlotTime);
+  testStartTime         = minDistanceTime - testLength;
+  startPlotTime         = testStartTime;
+  stopPlotTime          = fcwStopTime + extendPlotTime;
+  focusAreaTimeWindow   = timerange(startPlotTime,stopPlotTime);
 
-  % find Time when AEB actually starts -0.5 m/s^2.
-  % AEB actuator used to shorten the acceleration vector
-  aebDefaultValue       = 0;
-  aebDecelStart         = -0.5;
-  aebActuatorSignal     = ccanTableData.ESP_A2(:,'DAS_RqActv');
-  [aebActuatorStartTime, aebActuatorStartValue, ...
-    aebActuatorStopTime, aebActuatorStopValue] = ...
-      signalEdgesDetection(aebActuatorSignal, aebDefaultValue );
-  aebActiveTimeWindow   = timerange(aebActuatorStartTime, aebActuatorStopTime);
-  vehAccelOnAebRequest  = ccanTableData.ESP_A4(aebActiveTimeWindow,'VehAccel_X');
-  aebTestStartTime      = findLessThanValueTimeStamp(vehAccelOnAebRequest, aebDecelStart);
-
-  %% Test Checks
-  disp('******************************************************************************');
-  disp(['**** VEHICLE AEB TEST CHECK. File: ', fileName]);
-  % Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
-  testCheckTimeWindow = timerange(approachStartTime, aebTestStartTime);
-  vehSpeedApproach    = ccanTableData.ESP_A8(testCheckTimeWindow, 'VEH_SPEED');
-
-  vehicleSpeedTest    = identifyVehicleSpeedTest(vehSpeedApproach);
-  vehicleSpeedCheck   = checkVehicleSpeed(vehicleSpeedTest, vehSpeedApproach);
-
-  % Accelerator Pedal Position Check
-  % Accelerator pedal position must not fluctuate more than ±5% of the full travel 
-  % from the original pedal position at the start of the valid approach phase.
-  %acceleratorPedalTolerance = 5; %± 5
-      % ECM_A5.ActlAccelPdlPosn Check
-  ecmPedalPosition    = ccanTableData.ECM_A5(testCheckTimeWindow, 'ActlAccelPdlPosn');
-  ecmAccelPedalPosCheck  = checkAccelPedalPosition(ecmPedalPosition);
-      % OBD Check (ISO 15031-5.4 PID 49)
-  obdPedalPosition = ccanTableData.ECM_SKIM_OBD(testCheckTimeWindow, 'AccelPdlPosn_OBD');
-  obdAccelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition);
-
-
-  % Yaw Rate Check. Tolerance %± 1 deg/s
-  yawRateTolerance = 1;   
-  orcYawRate    = ccanTableData.ORC_YRS_DATA(testCheckTimeWindow, 'YawRate');
-  yawRateCheck  = checkVehicleYawRate(orcYawRate);
-
-
-
-  if vehicleSpeedCheck && ecmPedalPosition && obdAccelPedalPosCheck && yawRateCheck
-    disp('VALID TEST');
-  else
-    disp(['NOT A VALID TEST: Speed: ', num2str(vehicleSpeedCheck), ...
-          ', ECM_A5 Accel Pedal: ', num2str(ecmAccelPedalPosCheck), ...
-          ', OBD Accel Pedal: ', num2str(obdAccelPedalPosCheck), ...
-          ', Yaw Rate: ', num2str(yawRateCheck),  ...
-          ]);
-  end
+%   %% Test Checks
+%   disp('******************************************************************************');
+%   disp(['**** VEHICLE AEB TEST CHECK. File: ', fileName]);
+%   % Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
+%   testCheckTimeWindow = timerange(approachStartTime, aebTestStartTime);
+%   vehSpeedApproach    = ccanTableData.ESP_A8(testCheckTimeWindow, 'VEH_SPEED');
+% 
+%   vehicleSpeedTest    = identifyVehicleSpeedTest(vehSpeedApproach);
+%   vehicleSpeedCheck   = checkVehicleSpeed(vehicleSpeedTest, vehSpeedApproach);
+% 
+%   % Accelerator Pedal Position Check
+%   % Accelerator pedal position must not fluctuate more than ±5% of the full travel 
+%   % from the original pedal position at the start of the valid approach phase.
+%   %acceleratorPedalTolerance = 5; %± 5
+%       % ECM_A5.ActlAccelPdlPosn Check
+%   ecmPedalPosition    = ccanTableData.ECM_A5(testCheckTimeWindow, 'ActlAccelPdlPosn');
+%   ecmAccelPedalPosCheck  = checkAccelPedalPosition(ecmPedalPosition);
+%       % OBD Check (ISO 15031-5.4 PID 49)
+%   obdPedalPosition = ccanTableData.ECM_SKIM_OBD(testCheckTimeWindow, 'AccelPdlPosn_OBD');
+%   obdAccelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition);
+% 
+% 
+%   % Yaw Rate Check. Tolerance %± 1 deg/s
+%   yawRateTolerance = 1;   
+%   orcYawRate    = ccanTableData.ORC_YRS_DATA(testCheckTimeWindow, 'YawRate');
+%   yawRateCheck  = checkVehicleYawRate(orcYawRate);
+% 
+% 
+% 
+%   if vehicleSpeedCheck && ecmPedalPosition && obdAccelPedalPosCheck && yawRateCheck
+%     disp('VALID TEST');
+%   else
+%     disp(['NOT A VALID TEST: Speed: ', num2str(vehicleSpeedCheck), ...
+%           ', ECM_A5 Accel Pedal: ', num2str(ecmAccelPedalPosCheck), ...
+%           ', OBD Accel Pedal: ', num2str(obdAccelPedalPosCheck), ...
+%           ', Yaw Rate: ', num2str(yawRateCheck),  ...
+%           ]);
+%   end
 
 
   %% ************************ PLOTS ***********************
@@ -176,7 +137,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
   %set(gcf, 'Position', get(0, 'Screensize'));    % Plot on screen size
 
   % -------------------------------------------------------------------------
-  % FCW Display - Full
+  % FCW Display - Full - DAS_A3.As_DispRq
   figure(plotAllData)
   hold on;
   fcwDisplayFull      =  ccanTableData.DAS_A3(:, 'As_DispRq');
@@ -184,7 +145,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
     fcwDisplayFull.Time, fcwDisplayFull.As_DispRq, ...
     'FCW State - AEB Req/Act Status - Yaw Rate', 'DAS A3.As DispRq', ...
     'Time (s)', 'FCW State');
-  % FCW Display - Focus
+  % FCW Display - Focus - DAS_A3.As_DispRq
   fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
   figure(plotFocusArea);
   hold on;
@@ -209,24 +170,6 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
   plotAebRequestFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
     aebRequestEvent.Time, aebRequestEvent.DAS_Rq_ID, ...
     'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
-    'Time (s)', 'AEB Status');
-
-  % -------------------------------------------------------------------------
-  % AEB Actuator Status - Full - ESP_A2.DAS_Rq_Act
-  figure(plotAllData);
-  hold on;
-  aebActuatorFull     =  ccanTableData.ESP_A2(:,'DAS_RqActv');
-  plotAebActuator     = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-    aebActuatorFull.Time, aebActuatorFull.DAS_RqActv, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Actuator Status', ...
-    'Time (s)', 'AEB Status');
-  % AEB Actuator Status - Focus Area - ESP_A2.DAS_RqActv
-  aebActuatorEvent    = ccanTableData.ESP_A2(focusAreaTimeWindow,'DAS_RqActv');
-  figure(plotFocusArea);
-  hold on;
-  plotAebActuatorFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-    aebActuatorEvent.Time, aebActuatorEvent.DAS_RqActv, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Actuator Status', ...
     'Time (s)', 'AEB Status');
 
   % -------------------------------------------------------------------------
@@ -269,12 +212,8 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
     'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
     'Time (s)', 'Yaw Rate deg/s');
 
-
-
-
-
   % -------------------------------------------------------------------------
-  plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
+  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
 
 
   % -------------------------------------------------------------------------
@@ -317,7 +256,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 
   % -------------------------------------------------------------------------
   % Vertical Lines
-  plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
+  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
 
   % -------------------------------------------------------------------------
   % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
@@ -385,7 +324,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
   ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
 
   % -------------------------------------------------------------------------
-  plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime);
+   plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
 
 
 
@@ -588,7 +527,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
     end
   end
 
-  function verticalLine = plotVerticalLine(timeStamp, legendStr, lineColor)
+  function plotVerticalLine(timeStamp, legendStr, lineColor)
     verticalLine             = xline(timeStamp);
     verticalLine.DisplayName = legendStr;
     verticalLine.Color       = lineColor;
@@ -596,17 +535,17 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
     verticalLine.LineStyle   = '--';
   end
 
-  function plotVerticalLines(approachStartTime, aebActuatorStartTime, aebTestStartTime)
+  function plotVerticalLines(line1, line1Legend, line2, line2Legend)
     % Vehicle Approach Start
     lineColor = [0.3, 0.3 , 0.3];
-    vehicleApproachLine = plotVerticalLine(approachStartTime, 'Vehicle Approach Start', lineColor);
+    plotVerticalLine(line1, line1Legend, lineColor);
   %   % AEB Actuator Active
   %   lineColor = [0.5, 0.5 , 0.5];
   %   aebActuatorActiveLine = plotVerticalLine(aebActuatorStartTime, 'AEB Actuator Active', lineColor);
     % AEB start -0.5 m/s^2 - Vertical Line
     lineColor = [1.00,0.00,1.00];
-    aebTestStartLine = plotVerticalLine(aebTestStartTime, 'AEB Test Start -0.5 m/s^2', lineColor);
+    plotVerticalLine(line2, line2Legend, lineColor);
 
     % -------------------------------------------------------------------------
   end
-end
+%end

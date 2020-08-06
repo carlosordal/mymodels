@@ -13,9 +13,7 @@
 %                                 root of the mat file use dataFieldAddress
 %                                 = '';
 % Outputs:  1) Plots and Checks results displayed on Matlab terminal.
-% Next steps:
-% Does the yaw rate goes negative?
-% move the yaw rate to a different plot?
+%
 % Examples:
 % Analyze a mat file stored on google drive from a Mac Computer.
 %     filePath = '/Volumes/GoogleDrive/Shared drives/Vehicle Controls/[05] - Vehicle Platforms/Chrysler Pacifica/GUv0 AEB Testing-docs/1211 AEB weeks testing/';
@@ -41,8 +39,7 @@
 %     dataFieldAddress = 'SignalTable'; 
 %     aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 % references:
-% AEB test procotol: https://docs.google.com/document/d/1pz1lNJWJckO5f-3dfKTAUUEOIpNzPw4-Id30lYpt1wo/edit#
-% plot
+% AEB test procotol: https://docs.google.com/document/d/17BL5Nk87arBBAt4O9djfP1hVT-dZoBhMxnMqwrLx3E4/edit#heading=h.6z95h6k2mnwt
 
 function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 
@@ -70,15 +67,12 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 
   % Find AEB Request Start and End Time
   aebRequestId            = ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
-  % aebRequestId = ccanTableData.DAS_A3.DAS_Rq_ID;
   aebRequestDefaultValue  = 0;
   [aebRequestStartTime, aebRequestStartValue, ...
     aebRequestStopTime, aebRequestStopValue] = ...
     signalEdgesDetection(aebRequestId, aebRequestDefaultValue);
 
   % detect Distance to Object Stop being published
-  % distanceToObject = ccanTableData.DAS_A4.ObjIntrstDist;
-  % das_a4_Time = ccanTableData.DAS_A4.Time;
   distanceToObject     = ccanTableData.DAS_A4(:, 'ObjIntrstDist');
   distanceDefaultValue = 254;
   [distanceStartTime, distanceStartValue, ...
@@ -176,7 +170,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
   %set(gcf, 'Position', get(0, 'Screensize'));    % Plot on screen size
 
   % -------------------------------------------------------------------------
-  % FCW Display - Full
+  % FCW Display - Full - DAS_A3.As_DispRq
   figure(plotAllData)
   hold on;
   fcwDisplayFull      =  ccanTableData.DAS_A3(:, 'As_DispRq');
@@ -184,7 +178,7 @@ function aebAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
     fcwDisplayFull.Time, fcwDisplayFull.As_DispRq, ...
     'FCW State - AEB Req/Act Status - Yaw Rate', 'DAS A3.As DispRq', ...
     'Time (s)', 'FCW State');
-  % FCW Display - Focus
+  % FCW Display - Focus - DAS_A3.As_DispRq
   fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
   figure(plotFocusArea);
   hold on;
