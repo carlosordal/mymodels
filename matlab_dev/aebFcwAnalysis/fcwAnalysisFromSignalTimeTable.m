@@ -15,9 +15,15 @@
 % contact between the POV (Principal Other Vehicle) and the SV (Subject Vehicle).
 % Examples:
 % Analyze a mat file stored on google drive from a Mac Computer.
-    filePath = '/Volumes/GoogleDrive/My Drive/CAN log analysis/FCW testing/';
+    %filePath = '/Volumes/GoogleDrive/My Drive/CAN log analysis/FCW testing/';
     %fileName = '5-7 P010-Drv Brk bef FCW 20 pct-25kph trial 01.mat';
-    fileName = '5-7 P010-Drv Brk bef FCW-20kph trial 03.mat';
+    %fileName = '5-7 P010-Drv Brk bef FCW-20kph trial 03.mat';
+    filePath = '/Volumes/GoogleDrive/Shared drives/Vehicle Controls/[05] - Vehicle Platforms/Chrysler Pacifica/GUv0 AEB Testing-docs/5-7 Pacifica AEB testing/70 kph';
+               
+    %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 03 5-07-2019 1-47-59 pm.mat';
+    %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 01 5-07-2019 1-42-03 pm.mat';
+    %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 02 5-07-2019 1-44-15 pm.mat';
+    fileName = '5-7 P010 -Drv not brk bef FCW-70 kph trial 01 5-07-2019 1-30-39 pm.mat';
     dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
 %     fcwAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 % references:
@@ -58,9 +64,12 @@
     signalEdgesDetection(distanceToObject, distanceDefaultValue);
 
   % find initial Time when the minimum distance was reported.
-  distanceTimeWindow        = timerange(distanceStartTime, lastDistanceTime);
-  distanceToObjectPublished = distanceToObject(distanceTimeWindow,:);
-  minDistanceTime           = findEqualToValueTimeStamp(distanceToObjectPublished, minDistanceValue);
+   distanceTimeWindow        = timerange(distanceStartTime, lastDistanceTime);
+   distanceToObjectPublished = distanceToObject(distanceTimeWindow,:);
+  minDistanceTime           = findEqualToValueTimeStamp(distanceToObject, minDistanceValue);
+  
+  %resample Distance To Object
+  resampleDistance = retime(distanceToObjectPublished,'regular','linear','SampleRate',200);
   
   % Find the Test start time.
   distanceTestStart = 150;      % m. Defined on FCW protocol
@@ -72,6 +81,24 @@
   deltaTimeTestStart        = (deltaDitanceToTestStart/vehicleSpeedTest)*convertionToMps;
   deltaDurationTestStart    = duration(strcat('0:0:',num2str(deltaTimeTestStart)));
   extendPlotTime            = duration('0:0:1');
+  
+  % Find Time To Collision (TTC) 2.1s and the limit 90% 1.89 s
+  ttc = 2.1;
+  limitTtc = 1.89;
+  distanceToCollisionNominal  = (vehicleSpeedTest * ttc)/convertionToMps;
+  distanceToCollisionLimit    = (vehicleSpeedTest * limitTtc)/convertionToMps;
+  
+  %find Time Stamp of distanceCollisionLimit
+  timeIndexCollisionLimit = find((resampleDistance.ObjIntrstDist-distanceToCollisionLimit)<10^-1,1,'first');
+  timeStampCollisionLimit = resampleDistance.Time(timeIndexCollisionLimit);
+  
+  
+  % Detect if the FCW was issues on time
+  if distanceToCollisionLimit < distanceStartValue
+    disp('TTC ok');
+  else
+    disp('TTC late');
+  end
   
   testStartTime             = minDistanceTime - deltaDurationTestStart;
   stopPlotTime              = fcwStopTime + extendPlotTime;
@@ -230,7 +257,11 @@
   'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate with Offset', ...
   'Time (s)', 'Yaw Rate deg/s');
   % -------------------------------------------------------------------------
-  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
+  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning', ...
+    timeStampCollisionLimit, 'Time To Collision Limit' );
+
+  
+  
 
 
   % -------------------------------------------------------------------------
@@ -273,7 +304,8 @@
 
   % -------------------------------------------------------------------------
   % Vertical Lines
-  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
+  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning', ...
+    timeStampCollisionLimit, 'Time To Collision Limit' );
 
   % -------------------------------------------------------------------------
   % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
@@ -341,8 +373,8 @@
   ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
 
   % -------------------------------------------------------------------------
-   plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
-
+  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning', ...
+    timeStampCollisionLimit, 'Time To Collision Limit' );
 
 
   %% Functions
@@ -552,16 +584,16 @@
     verticalLine.LineStyle   = '--';
   end
 
-  function plotVerticalLines(line1, line1Legend, line2, line2Legend)
-    % Vehicle Approach Start
+  function plotVerticalLines(line1TimeStamp, line1Legend, line2TimeStamp, line2Legend, line3TimeStamp, line3Legend)
+    % Vertical line 1 - gray
     lineColor = [0.3, 0.3 , 0.3];
-    plotVerticalLine(line1, line1Legend, lineColor);
-  %   % AEB Actuator Active
-  %   lineColor = [0.5, 0.5 , 0.5];
-  %   aebActuatorActiveLine = plotVerticalLine(aebActuatorStartTime, 'AEB Actuator Active', lineColor);
-    % AEB start -0.5 m/s^2 - Vertical Line
+    plotVerticalLine(line1TimeStamp, line1Legend, lineColor);
+    % Vertical Line 2 - pink
     lineColor = [1.00,0.00,1.00];
-    plotVerticalLine(line2, line2Legend, lineColor);
+    plotVerticalLine(line2TimeStamp, line2Legend, lineColor);
+    % Vertical Line 3 - green
+    lineColor = [0, 0.5 , 0];
+    plotVerticalLine(line3TimeStamp, line3Legend, lineColor);
 
     % -------------------------------------------------------------------------
   end
