@@ -10,6 +10,9 @@
 %                                 = '';
 % Outputs:  1) Plots and Checks results displayed on Matlab terminal.
 %
+% Requirements:
+% - Can Data log input should have an FCW event and there shouldn't be a
+% contact between the POV (Principal Other Vehicle) and the SV (Subject Vehicle).
 % Examples:
 % Analyze a mat file stored on google drive from a Mac Computer.
     filePath = '/Volumes/GoogleDrive/My Drive/CAN log analysis/FCW testing/';
@@ -25,10 +28,10 @@
   fullName = fullfile(filePath, fileName);
 
   %addpath(filePath);
-  aebMatFile = load(fullName);            % it contains the canLogSignalsTable
+  matFile = load(fullName);            % it contains the canLogSignalsTable
 
   % Find can log data location within the matfile
-  ccanTableData = aebMatFile;
+  ccanTableData = matFile;
   if ~isempty(dataFieldAddress)
     fields = split(dataFieldAddress, '.');
     for i=1 : numel(fields)
@@ -37,11 +40,7 @@
   end
 
 
-  % Test start.
-  distanceTestStart = 150;      %m
-  vehicleSpeedTest  = 72;       %km/h
-  convertionToMps   = 3.6;      % m/h to m/s
-  deltaTestStart = (distanceTestStart/vehicleSpeedTest)*convertionToMps;
+
   
 
 %   % Find FCW Start and Stop Time
@@ -55,20 +54,28 @@
   distanceToObject      = ccanTableData.DAS_A4(:, 'ObjIntrstDist');
   distanceDefaultValue  = 254;
   [distanceStartTime, distanceStartValue, ...
-    distanceStopTime, distanceStopValue] = ...
+    lastDistanceTime, minDistanceValue] = ...
     signalEdgesDetection(distanceToObject, distanceDefaultValue);
 
-  % find Time when the minimum distance was reported.
-  distanceTimeWindow          = timerange(distanceStartTime, distanceStopTime);
+  % find initial Time when the minimum distance was reported.
+  distanceTimeWindow        = timerange(distanceStartTime, lastDistanceTime);
   distanceToObjectPublished = distanceToObject(distanceTimeWindow,:);
-  testLength            = duration('0:0:05.4');
-  extendPlotTime        = duration('0:0:1');
-  minDistanceTime       = findEqualToValueTimeStamp(distanceToObjectPublished, distanceStopValue);
+  minDistanceTime           = findEqualToValueTimeStamp(distanceToObjectPublished, minDistanceValue);
+  
+  % Find the Test start time.
+  distanceTestStart = 150;      % m. Defined on FCW protocol
+  vehicleSpeedTest  = 72;       % km/h. Defined on FCW protocol
+  convertionToMps   = 3.6;      % m/h to m/s. 
 
-  testStartTime         = minDistanceTime - testLength;
-  startPlotTime         = testStartTime;
-  stopPlotTime          = fcwStopTime + extendPlotTime;
-  focusAreaTimeWindow   = timerange(startPlotTime,stopPlotTime);
+  
+  deltaDitanceToTestStart   = distanceTestStart - minDistanceValue;
+  deltaTimeTestStart        = (deltaDitanceToTestStart/vehicleSpeedTest)*convertionToMps;
+  deltaDurationTestStart    = duration(strcat('0:0:',num2str(deltaTimeTestStart)));
+  extendPlotTime            = duration('0:0:1');
+  
+  testStartTime             = minDistanceTime - deltaDurationTestStart;
+  stopPlotTime              = fcwStopTime + extendPlotTime;
+  focusAreaTimeWindow       = timerange(testStartTime,stopPlotTime);
 
 %   %% Test Checks
 %   disp('******************************************************************************');
@@ -187,10 +194,10 @@
   figure(plotFocusArea);
   hold on;
   yyaxis right;
-  plotOrcYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-    vehicleOrcYawRateEvent.Time, vehicleOrcYawRateEvent.YawRate, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'ORC Yaw Rate', ...
-    'Time (s)', 'Yaw Rate deg/s');
+%   plotOrcYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+%     vehicleOrcYawRateEvent.Time, vehicleOrcYawRateEvent.YawRate, ...
+%     'FCW State - AEB Req/Act Status - Yaw Rate', 'ORC Yaw Rate', ...
+%     'Time (s)', 'Yaw Rate deg/s');
 
   % -------------------------------------------------------------------------
   % Vehicle Yaw Rate - Full - ESP_A4.VehYawRate_Raw
@@ -198,20 +205,30 @@
   hold on;
   yyaxis right;
   vehicleEspYawRateFull     = ccanTableData.ESP_A4(:,'VehYawRate_Raw');
-  plotEspYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-    vehicleEspYawRateFull.Time, vehicleEspYawRateFull.VehYawRate_Raw, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
-    'Time (s)', 'Yaw Rate deg/s');
+%   plotEspYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+%     vehicleEspYawRateFull.Time, vehicleEspYawRateFull.VehYawRate_Raw, ...
+%     'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
+%     'Time (s)', 'Yaw Rate deg/s');
   % Vehicle Yaw Rate - Focus Area - ESP_A4.VehYawRate_Raw
   vehicleEspYawRateEvent    = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Raw');
   figure(plotFocusArea);
   hold on;
   yyaxis right;
-  plotEspYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-    vehicleEspYawRateEvent.Time, vehicleEspYawRateEvent.VehYawRate_Raw, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
-    'Time (s)', 'Yaw Rate deg/s');
+%   plotEspYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+%     vehicleEspYawRateEvent.Time, vehicleEspYawRateEvent.VehYawRate_Raw, ...
+%     'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
+%     'Time (s)', 'Yaw Rate deg/s');
+  vehicleEspYawRateOffset    = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Offset');
+%   plotEspYawRateOffset = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+%   vehicleEspYawRateOffset.Time, vehicleEspYawRateOffset.VehYawRate_Offset, ...
+%   'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate Offset', ...
+%   'Time (s)', 'Yaw Rate deg/s');
 
+  vehicleEspYawRateCalc    = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
+  plotEspYawRateCalc = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  vehicleEspYawRateOffset.Time, vehicleEspYawRateCalc, ...
+  'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate with Offset', ...
+  'Time (s)', 'Yaw Rate deg/s');
   % -------------------------------------------------------------------------
   plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning')
 
@@ -468,7 +485,7 @@
 
   end
 
-  function [edgeStartTime, edgeStartValue, edgeStopTime, edgeSoptValue] = ...
+  function [edgeStartTime, edgeStartValue, edgeStopTime, edgeStopValue] = ...
     signalEdgesDetection(signalData, initialValue)
   % this function detect edges from initial value and returning to the
   % initial value.
@@ -477,7 +494,7 @@
     edgeDetected = false;
     variableName = inputname(1);
     for i=1 : numel(signalData)
-      if (signalData.(1)(i) ~= initialValue) && ~edgeDetected
+      if (signalData.(1)(i) ~= initialValue) && ~edgeDetected   %find change in original value
         edgeDetected = true;
         edgeStartTime = signalData.Time(i);
         edgeStartValue = signalData.(1)(i);
@@ -486,7 +503,7 @@
       end
       if (signalData.(1)(i) == initialValue) && edgeDetected      
         edgeStopTime = signalData.Time(i-1);
-        edgeSoptValue = signalData.(1)(i-1);
+        edgeStopValue = signalData.(1)(i-1);
         break
       else
         edgeStopTime = {};
