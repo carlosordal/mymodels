@@ -30,7 +30,6 @@
 
   fullName = fullfile(filePath, fileName);
 
-  %addpath(filePath);
   matFile = load(fullName);            % it contains the canLogSignalsTable
 
   % Find can log data location within the matfile
@@ -43,12 +42,9 @@
   end
 
 
-
-  
-
 %   % Find FCW Start and Stop Time
-  fcwRequestId                  = ccanTableData.DAS_A3(:, 'As_DispRq');
-  fcwDefaultValue       = 0;
+  fcwRequestId      = ccanTableData.DAS_A3(:, 'As_DispRq');
+  fcwDefaultValue   = 0;
   [fcwStartTime, fcwStartValue, ...
     fcwStopTime, fcwStopValue]  = ...
     signalEdgesDetection(fcwRequestId, fcwDefaultValue);
@@ -66,7 +62,7 @@
   minDistanceTime           = findEqualToValueTimeStamp(distanceToObject, minDistanceValue);
   
   %resample Distance To Object
-  resampleDistance = retime(distanceToObjectPublished,'regular','linear','SampleRate',200);
+  resampleDistance  = retime(distanceToObjectPublished,'regular','linear','SampleRate',200);
   
   % Find the Test start time.
   distanceTestStart = 150;      % m. Defined on FCW protocol
@@ -74,14 +70,14 @@
   convertionToMps   = 3.6;      % m/h to m/s. 
 
   
-  deltaDitanceToTestStart   = distanceTestStart - minDistanceValue;
-  deltaTimeTestStart        = (deltaDitanceToTestStart/vehicleSpeedTest)*convertionToMps;
-  deltaDurationTestStart    = duration(strcat('0:0:',num2str(deltaTimeTestStart)));
-  extendPlotTime            = duration('0:0:0.5');
+  deltaDitanceToTestStart = distanceTestStart - distanceStartValue;
+  deltaTimeTestStart      = (deltaDitanceToTestStart/vehicleSpeedTest)*convertionToMps;
+  deltaDurationTestStart  = duration(strcat('0:0:',num2str(deltaTimeTestStart)));
+  extendPlotTime          = duration('0:0:0.5');
   
   % Find Time To Collision (TTC) 2.1s and the limit 90% 1.89 s
-  ttc = 2.1;
-  limitTtc = 1.89;    % 90% if ttc
+  ttc       = 2.1;
+  limitTtc  = 1.89;    % 90% if ttc
   distanceToCollisionNominal  = (vehicleSpeedTest * ttc)/convertionToMps;
   distanceToCollisionLimit    = (vehicleSpeedTest * limitTtc)/convertionToMps;
   
@@ -120,48 +116,56 @@
   end
     
     
-  testStartTime             = minDistanceTime - deltaDurationTestStart;
+  testStartTime             = distanceStartTime - deltaDurationTestStart;
   stopPlotTime              = fcwStartTime + extendPlotTime;
   focusAreaTimeWindow       = timerange(testStartTime,stopPlotTime);
 
-%   %% Test Checks
-%   disp('******************************************************************************');
-%   disp(['**** VEHICLE AEB TEST CHECK. File: ', fileName]);
-%   % Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
-%   testCheckTimeWindow = timerange(approachStartTime, aebTestStartTime);
-%   vehSpeedApproach    = ccanTableData.ESP_A8(testCheckTimeWindow, 'VEH_SPEED');
-% 
-%   vehicleSpeedTest    = identifyVehicleSpeedTest(vehSpeedApproach);
-%   vehicleSpeedCheck   = checkVehicleSpeed(vehicleSpeedTest, vehSpeedApproach);
-% 
-%   % Accelerator Pedal Position Check
-%   % Accelerator pedal position must not fluctuate more than ±5% of the full travel 
-%   % from the original pedal position at the start of the valid approach phase.
-%   %acceleratorPedalTolerance = 5; %± 5
-%       % ECM_A5.ActlAccelPdlPosn Check
-%   ecmPedalPosition    = ccanTableData.ECM_A5(testCheckTimeWindow, 'ActlAccelPdlPosn');
-%   ecmAccelPedalPosCheck  = checkAccelPedalPosition(ecmPedalPosition);
-%       % OBD Check (ISO 15031-5.4 PID 49)
-%   obdPedalPosition = ccanTableData.ECM_SKIM_OBD(testCheckTimeWindow, 'AccelPdlPosn_OBD');
-%   obdAccelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition);
-% 
-% 
-%   % Yaw Rate Check. Tolerance %± 1 deg/s
-%   yawRateTolerance = 1;   
-%   orcYawRate    = ccanTableData.ORC_YRS_DATA(testCheckTimeWindow, 'YawRate');
-%   yawRateCheck  = checkVehicleYawRate(orcYawRate);
-% 
-% 
-% 
-%   if vehicleSpeedCheck && ecmPedalPosition && obdAccelPedalPosCheck && yawRateCheck
-%     disp('VALID TEST');
-%   else
-%     disp(['NOT A VALID TEST: Speed: ', num2str(vehicleSpeedCheck), ...
-%           ', ECM_A5 Accel Pedal: ', num2str(ecmAccelPedalPosCheck), ...
-%           ', OBD Accel Pedal: ', num2str(obdAccelPedalPosCheck), ...
-%           ', Yaw Rate: ', num2str(yawRateCheck),  ...
-%           ]);
-%   end
+  %% Test Checks
+  disp('******************************************************************************');
+  disp(['**** VEHICLE FCW TEST CHECK. File: ', fileName]);
+  % Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
+  % The SV vehicle speed cannot deviate from the nominal speed by more than 
+  % 1.0 mph (1.6 km/h) for a period of 3.0 seconds prior to (1) the required 
+  % FCW alert or (2) before the range falls to less than 90 percent of the 
+  % minimum allowable range for onset of the required FCW alert.
+  speedWindowCheck    = duration('0:0:03');
+  timeStartCheckSpeed = timeStampCollisionLimit - speedWindowCheck;
+  testSpeedWindow     = timerange(timeStartCheckSpeed, timeStampCollisionLimit);
+  vehSpeedApproach    = ccanTableData.ESP_A8(testSpeedWindow, 'VEH_SPEED');
+  vehicleSpeedCheck   = fcwVehicleSpeedCheck(vehSpeedApproach);
+
+
+
+  % Yaw Rate Check. Tolerance %± 1 deg/s, ESP_A4.VehYawRate_Raw & Offset
+  % The yaw rate of the SV must not exceed ±1.0 deg/sec during the test.
+  yawRateTolerance  = 1;   
+  
+  vehicleEspYawRateEvent      = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Raw');
+  vehicleEspYawRateOffset     = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Offset');
+  vehicleEspYawRateWithOffset = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
+  yawRateWithOffset = timetable(vehicleEspYawRateEvent.Time, vehicleEspYawRateWithOffset);
+  
+  yawRateCheck      = checkVehicleYawRate(yawRateWithOffset);
+
+  % Was the FCW displayed on time
+  
+  if timeStampCollisionLimit > fcwStartTime
+    disp('-- FCW Warning Displayed on time');
+    fcwDisplayCheck =  true;
+  else
+    disp('-- FCW Warning NOT Displayed on time');
+    fcwDisplayCheck =  false;
+  end
+
+
+  if vehicleSpeedCheck && yawRateCheck && fcwDisplayCheck
+    disp('VALID TEST');
+  else
+    disp(['NOT A VALID TEST: Speed Check: ', num2str(vehicleSpeedCheck), ...
+          ', Yaw Rate Check: ', num2str(yawRateCheck),  ...
+          ', FCW Displayed Check: ', num2str(fcwDisplayCheck),  ...
+          ]);
+  end
 
 
   %% ************************ PLOTS ***********************
@@ -226,12 +230,9 @@
   figure(plotFocusArea);
   hold on;
   yyaxis right;
-  vehicleEspYawRateEvent    = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Raw');
-  vehicleEspYawRateOffset   = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Offset');
 
-  vehicleEspYawRateCalc     = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
   plotEspYawRateCalc        = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-  vehicleEspYawRateOffset.Time, vehicleEspYawRateCalc, ...
+  vehicleEspYawRateOffset.Time, vehicleEspYawRateWithOffset, ...
   figure1Title, 'ESP A4 Yaw Rate with Offset', ...
   figure1Xaxis, 'Yaw Rate deg/s');
 
@@ -338,15 +339,14 @@
 
   %% Functions
 
-  function vehicleSpeedCheck = checkVehicleSpeed( ...
-    vehicleSpeedTest, vehicleSpeedAproach)
-
-    vehicleSpeedTolerance = 1; %+- 1 km/h
+  function vehicleSpeedCheck = fcwVehicleSpeedCheck(vehicleSpeedAproach)
+    fcwVehicleSpeedRequired = 72; %72 km/h
+    vehicleSpeedTolerance = 1.6; %± 1.6 km/h
     vehicleSpeedMin       = min(vehicleSpeedAproach.(1));
     vehicleSpeedMax       = max(vehicleSpeedAproach.(1));
 
-    maxSpeedAccepted = vehicleSpeedTest + vehicleSpeedTolerance;
-    minSpeedAccepted = vehicleSpeedTest - vehicleSpeedTolerance;
+    maxSpeedAccepted = fcwVehicleSpeedRequired + vehicleSpeedTolerance;
+    minSpeedAccepted = fcwVehicleSpeedRequired - vehicleSpeedTolerance;
     if vehicleSpeedMax <= maxSpeedAccepted
       maxSpeedCheck = true;
     else 
@@ -358,7 +358,7 @@
       minSpeedCheck = false;
     end
 
-    disp(['* VEHICLE SPEED CHECK. TEST SPEED: ', num2str(vehicleSpeedTest), 'km/h test. (Tolerance: ± 1 km/h):']);
+    disp('* FCW VEHICLE SPEED CHECK. TEST SPEED 72 km/h. (Tolerance: ± 1.6 km/h):');
     disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. (Max Accepted: ', num2str(maxSpeedAccepted),')']);
     disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. (Min Accepted: ', num2str(minSpeedAccepted),')']);
     if maxSpeedCheck && minSpeedCheck
@@ -390,14 +390,14 @@
       minYawRateCheck = false;
     end
 
-    disp('* VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
+    disp('* FCW VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
     disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. (Max Accepted: ', num2str(maxYawRateAccepted),')']);
     disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. (Min Accepted: ', num2str(minYawRateAccepted),')']);
     if maxYawRateCheck && minYawRateCheck
-      disp('--- Speed Check is Valid during Vehicle Approach Phase');
+      disp('--- Yaw Rate is Valid during Vehicle Approach Phase');
       yawRateCheck = true;
     else
-      disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
+      disp('--- Yaw Rate is NOT Valid during Vehicle Approach Phase');
       yawRateCheck = false;
     end
 
