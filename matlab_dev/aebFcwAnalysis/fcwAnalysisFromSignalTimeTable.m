@@ -22,8 +22,8 @@
                
     %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 03 5-07-2019 1-47-59 pm.mat';
     %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 01 5-07-2019 1-42-03 pm.mat';
-    %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 02 5-07-2019 1-44-15 pm.mat';
-    fileName = '5-7 P010 -Drv not brk bef FCW-70 kph trial 01 5-07-2019 1-30-39 pm.mat';
+    fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 02 5-07-2019 1-44-15 pm.mat';     %distance to object ok. starts at 42
+    %fileName = '5-7 P010 -Drv not brk bef FCW-70 kph trial 01 5-07-2019 1-30-39 pm.mat';  %distance to object starts at 37, FCW was triggered just before that
     dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
 %     fcwAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 % references:
@@ -64,8 +64,8 @@
     signalEdgesDetection(distanceToObject, distanceDefaultValue);
 
   % find initial Time when the minimum distance was reported.
-   distanceTimeWindow        = timerange(distanceStartTime, lastDistanceTime);
-   distanceToObjectPublished = distanceToObject(distanceTimeWindow,:);
+  distanceTimeWindow        = timerange(distanceStartTime, lastDistanceTime);
+  distanceToObjectPublished = distanceToObject(distanceTimeWindow,:);
   minDistanceTime           = findEqualToValueTimeStamp(distanceToObject, minDistanceValue);
   
   %resample Distance To Object
@@ -84,24 +84,47 @@
   
   % Find Time To Collision (TTC) 2.1s and the limit 90% 1.89 s
   ttc = 2.1;
-  limitTtc = 1.89;
+  limitTtc = 1.89;    % 90% if ttc
   distanceToCollisionNominal  = (vehicleSpeedTest * ttc)/convertionToMps;
   distanceToCollisionLimit    = (vehicleSpeedTest * limitTtc)/convertionToMps;
   
-  %find Time Stamp of distanceCollisionLimit
-  timeIndexCollisionLimit = find((resampleDistance.ObjIntrstDist-distanceToCollisionLimit)<10^-1,1,'first');
-  timeStampCollisionLimit = resampleDistance.Time(timeIndexCollisionLimit);
-  
-  
-  % Detect if the FCW was issues on time
+  % Detect if the distance to Collision Limit is part of the CAN publication
   if distanceToCollisionLimit < distanceStartValue
-    disp('TTC ok');
+    disp('TTC published on CAN');
+      %find Time Stamp of distanceCollisionLimit on resampled ObjIntrstDist
+    timeIndexCollisionLimit = find((resampleDistance.ObjIntrstDist-distanceToCollisionLimit)<10^-1,1,'first');
+    timeStampCollisionLimit = resampleDistance.Time(timeIndexCollisionLimit);
+
   else
-    disp('TTC late');
+    %vehicle speed at First Distance Published.
+    disp(['** TTC limit was''not published. First Value: ', num2str(distanceStartValue)]);
+      % Calculate timeStampCollisionLimit if distanceToCollisionLimit is
+      % greater than values published, based on vehicle speed and distance
+      % missing.
+    minMissingDistance = distanceToCollisionLimit - distanceStartValue;
+    minMissingTime = (minMissingDistance * convertionToMps)/vehicleSpeedTest;
+    timeStampCollisionLimit = distanceToObjectPublished.Time(1) - duration(strcat('0:0:', num2str(minMissingTime)));
+
   end
   
+  
+  % Detect if the distance to Collision Nominal is part of the CAN publication
+  if distanceToCollisionNominal < distanceStartValue
+    % find Time Stamp of distanceCollisionNominal on resampled ObjIntrstDist
+    timeIndexCollisionNominal = find((resampleDistance.ObjIntrstDist-distanceToCollisionNominal)<10^-1,1,'first');
+    timeStampCollisionNominal = resampleDistance.Time(timeIndexCollisionNominal);
+  else
+      % Calculate timeStampCollisionNominal if distanceToCollisionLimit is
+      % greater than values published, based on vehicle speed and distance
+      % missing.
+    minMissingDistance = distanceToCollisionNominal - distanceStartValue;
+    minMissingTime = (minMissingDistance * convertionToMps)/vehicleSpeedTest;
+    timeStampCollisionNominal = distanceToObjectPublished.Time(1) - duration(strcat('0:0:', num2str(minMissingTime)));
+  end
+    
+    
   testStartTime             = minDistanceTime - deltaDurationTestStart;
-  stopPlotTime              = fcwStopTime + extendPlotTime;
+  stopPlotTime              = fcwStartTime + extendPlotTime;
   focusAreaTimeWindow       = timerange(testStartTime,stopPlotTime);
 
 %   %% Test Checks
@@ -182,29 +205,33 @@
   % FCW Display - Focus - DAS_A3.As_DispRq
   fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
   figure(plotFocusArea);
+  figure1Title = 'FCW State - AEB Req/Act Status - Yaw Rate';
+  figure1Xaxis = 'Time (s)';
+  figure1Yaxis = 'FCW State';
+
   hold on;
   plotFcwDisplayFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
     fcwDisplayEvent.Time, fcwDisplayEvent.As_DispRq, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'FCW Warning Status', ...
-    'Time (s)', 'FCW State');
+    figure1Title, 'FCW Warning Status', ...
+    figure1Xaxis, figure1Yaxis);
 
   % -------------------------------------------------------------------------
-  % AEB Request Status - Full - DAS_A3.DAS_Rq_ID
-  figure(plotAllData);
-  hold on;
-  aebRequestFull      =  ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
-  plotAebRequest      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-    aebRequestFull.Time, aebRequestFull.DAS_Rq_ID, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
-    'Time (s)', 'AEB Status');
-  % AEB Request Status - Focus Area - DAS_A3.DAS_Rq_ID
-  aebRequestEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'DAS_Rq_ID');
-  figure(plotFocusArea);
-  hold on;
-  plotAebRequestFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-    aebRequestEvent.Time, aebRequestEvent.DAS_Rq_ID, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
-    'Time (s)', 'AEB Status');
+%   % AEB Request Status - Full - DAS_A3.DAS_Rq_ID
+%   figure(plotAllData);
+%   hold on;
+%   aebRequestFull      =  ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
+%   plotAebRequest      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
+%     aebRequestFull.Time, aebRequestFull.DAS_Rq_ID, ...
+%     'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
+%     'Time (s)', 'AEB Status');
+%   % AEB Request Status - Focus Area - DAS_A3.DAS_Rq_ID
+%   aebRequestEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'DAS_Rq_ID');
+%   figure(plotFocusArea);
+%   hold on;
+%   plotAebRequestFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+%     aebRequestEvent.Time, aebRequestEvent.DAS_Rq_ID, ...
+%     'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
+%     'Time (s)', 'AEB Status');
 
   % -------------------------------------------------------------------------
   % Vehicle Yaw Rate - Full - ORC_YRS_DATA.YawRate;
@@ -214,8 +241,9 @@
   vehicleOrcYawRateFull     =  ccanTableData.ORC_YRS_DATA(:,'YawRate');
   plotOrcYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
     vehicleOrcYawRateFull.Time, vehicleOrcYawRateFull.YawRate, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'ORC Yaw Rate', ...
-    'Time (s)', 'Yaw Rate deg/s');
+    figure1Title, 'ORC Yaw Rate', ...
+    figure1Xaxis, 'Yaw Rate deg/s');
+
   % Vehicle Yaw Rate - Focus Area - ORC_YRS_DATA.YawRate;
   vehicleOrcYawRateEvent    = ccanTableData.ORC_YRS_DATA(focusAreaTimeWindow,'YawRate');
   figure(plotFocusArea);
@@ -254,11 +282,14 @@
   vehicleEspYawRateCalc    = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
   plotEspYawRateCalc = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   vehicleEspYawRateOffset.Time, vehicleEspYawRateCalc, ...
-  'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate with Offset', ...
-  'Time (s)', 'Yaw Rate deg/s');
+  figure1Title, 'ESP A4 Yaw Rate with Offset', ...
+  figure1Xaxis, 'Yaw Rate deg/s');
+
   % -------------------------------------------------------------------------
-  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning', ...
-    timeStampCollisionLimit, 'Time To Collision Limit' );
+  plotVerticalLines(testStartTime, 'Test Start', ...
+    fcwStartTime, 'FCW Warning', ...
+    timeStampCollisionNominal, 'Time To Collision Nominal', ...
+    timeStampCollisionLimit, 'Time To Collision Limit');
 
   
   
@@ -267,20 +298,23 @@
   % -------------------------------------------------------------------------
   % Vehicle Speed - Full - ESP_A8.VEH_SPEED
   figure(plotAllData);
+  figure2Title = 'Vehicle Speed and Acceleration';
+  figure2Xaxis = 'Time (s)';
+  figure2Yaxis = 'Speed km/h';
   hold on;
   vehicleSpeedFull          = ccanTableData.ESP_A8(:,'VEH_SPEED');
   plotVehicleSpeed          = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
     vehicleSpeedFull.Time, vehicleSpeedFull.VEH_SPEED, ...
-    'Vehicle Speed and Acceleration', 'Vehicle Speed', ...
-    'Time (s)', 'Speed km/h');
+    figure2Title, 'Vehicle Speed', ...
+    figure2Xaxis, figure2Yaxis);
   % Vehicle Speed - Focus Area - ESP_A8.VEH_SPEED
   vehicleAccelerationEvent  = ccanTableData.ESP_A8(focusAreaTimeWindow,'VEH_SPEED');
   figure(plotFocusArea);
   hold on;
   plotVehicleSpeedFocus     = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 2, ...
     vehicleAccelerationEvent.Time, vehicleAccelerationEvent.VEH_SPEED, ...
-    'Vehicle Speed and Acceleration', 'Vehicle Speed', ...
-    'Time (s)', 'Speed km/h');
+    figure2Title, 'Vehicle Speed', ...
+    figure2Xaxis, figure2Yaxis);
 
   % -------------------------------------------------------------------------
   % Vehicle Acceleration - Full - ESP_A4.VehAccel_X
@@ -290,8 +324,9 @@
   vehicleAccelerationFull       = ccanTableData.ESP_A4(:,'VehAccel_X');
   plotVehicleAcceleration       = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
     vehicleAccelerationFull.Time, vehicleAccelerationFull.VehAccel_X, ...
-    'Vehicle Speed and Acceleration', 'Vehicle Acceleration', ...
-    'Time (s)', 'Acceleration m/s^2');
+    figure2Title, 'Vehicle Acceleration', ...
+    figure2Xaxis, 'Acceleration m/s^2');
+
   % Vehicle Acceleration - Focus Area - ESP_A4.VehAccel_X
   vehicleAccelerationEvent      = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehAccel_X');
   figure(plotFocusArea);
@@ -299,24 +334,29 @@
   yyaxis right;
   plotVehicleAccelerationFocus  = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 2, ...
     vehicleAccelerationEvent.Time, vehicleAccelerationEvent.VehAccel_X, ...
-    'Vehicle Speed and Acceleration', 'Vehicle Acceleration', ...
-    'Time (s)', 'Acceleration m/s^2');
+    figure2Title, 'Vehicle Acceleration', ...
+    figure2Xaxis, 'Acceleration m/s^2');
 
   % -------------------------------------------------------------------------
   % Vertical Lines
-  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning', ...
-    timeStampCollisionLimit, 'Time To Collision Limit' );
+  plotVerticalLines(testStartTime, 'Test Start', ...
+    fcwStartTime, 'FCW Warning', ...
+    timeStampCollisionNominal, 'Time To Collision Nominal', ...
+    timeStampCollisionLimit, 'Time To Collision Limit');
 
   % -------------------------------------------------------------------------
   % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
   figure(plotAllData);
+  figure3Title = 'Accelerator Pedal Position & Distance to Object';
+  figure3Xaxis = 'Time (s)';
+  figure3Yaxis = 'Position(%)';
   hold on;
   %yyaxis right;
   accelPedalObdFull      = ccanTableData.ECM_SKIM_OBD(:,'AccelPdlPosn_OBD');
   plotAccelPedalObdFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
     accelPedalObdFull.Time, accelPedalObdFull.AccelPdlPosn_OBD, ...
-    'Accelerator Pedal Position & Distance to Object', 'OBD ISDO 15031 Accel Pedal Pos', ...
-    'Time (s)', 'Position(%)');
+    figure3Title, 'OBD ISDO 15031 Accel Pedal Pos', ...
+    figure3Xaxis, figure3Yaxis);
 
   % OBD Accelerator Pedal Position - Focus Area - ECM_SKIM_OBD.AccelPdlPosn_OBD
   accelPedalObdFocus     = ccanTableData.ECM_SKIM_OBD(focusAreaTimeWindow,'AccelPdlPosn_OBD');
@@ -325,8 +365,8 @@
   %yyaxis right;
   plotAccelPedalObdFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
     accelPedalObdFocus.Time, accelPedalObdFocus.AccelPdlPosn_OBD, ...
-    'Accelerator Pedal Position & Distance to Object', 'OBD ISDO 15031 Accel Pedal Pos', ...
-    'Time (s)', 'Position(%)');
+    figure3Title, 'OBD ISDO 15031 Accel Pedal Pos', ...
+    figure3Xaxis, figure3Yaxis);
 
   % -------------------------------------------------------------------------
   % ECM_A5 Accelerator Pedal Position - Full - ECM_A5.ActlAccelPdlPosn
@@ -336,8 +376,9 @@
   accelPedalEcmFull     = ccanTableData.ECM_A5(:,'ActlAccelPdlPosn');
   plotAccelPedalEcmFull = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
     accelPedalEcmFull.Time, accelPedalEcmFull.ActlAccelPdlPosn, ...
-    'Accelerator Pedal Position & Distance to Object', 'ECM A5 Accel Pedal Pos', ...
-    'Time (s)', 'Position(%)');
+    figure3Title, 'ECM A5 Accel Pedal Pos', ...
+    figure3Xaxis, figure3Yaxis);
+
 
   % ECM_A5 Accelerator Pedal Position - Focus Area - ECM_A5.ActlAccelPdlPosn
   accelPedalEcmFocus    = ccanTableData.ECM_A5(focusAreaTimeWindow,'ActlAccelPdlPosn');
@@ -346,9 +387,10 @@
   %yyaxis right;
   plotAccelPedalEcmFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
     accelPedalEcmFocus.Time, accelPedalEcmFocus.ActlAccelPdlPosn, ...
-    'Accelerator Pedal Position & Distance to Object', 'ECM A5 Accel Pedal Pos', ...
-    'Time (s)', 'Position(%)');
+    figure3Title, 'ECM A5 Accel Pedal Pos', ...
+    figure3Xaxis, figure3Yaxis);
 
+  
   % -------------------------------------------------------------------------
   % Distance To Object - Full - DAS_A4.ObjIntrstDist
   figure(plotAllData);
@@ -357,8 +399,9 @@
   distanceToObjectFull      = ccanTableData.DAS_A4(:,'ObjIntrstDist');
   plotDistanceToObjectFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
     distanceToObjectFull .Time, distanceToObjectFull .ObjIntrstDist, ...
-    'Accelerator Pedal Position & Distance to Object', 'Distance to Object', ...
-    'Time (s)', 'Distance (m)');
+    figure3Title, 'Distance to Object', ...
+    figure3Xaxis, 'Distance (m)');
+
   ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
 
   % Distance To Object - Focus Area - DAS_A4.ObjIntrstDist
@@ -368,13 +411,16 @@
   yyaxis right;
   plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
     distanceToObjectEvent.Time, distanceToObjectEvent.ObjIntrstDist, ...
-    'Accelerator Pedal Position & Distance to Object', 'Distance to Object', ...
-    'Time (s)', 'Distance (m)');
+    figure3Title, 'Distance to Object', ...
+    figure3Xaxis, 'Distance (m)');
+
   ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
 
   % -------------------------------------------------------------------------
-  plotVerticalLines(testStartTime, 'Test Start', fcwStartTime, 'FCW Warning', ...
-    timeStampCollisionLimit, 'Time To Collision Limit' );
+  plotVerticalLines(testStartTime, 'Test Start', ...
+    fcwStartTime, 'FCW Warning', ...
+    timeStampCollisionNominal, 'Time To Collision Nominal', ...
+    timeStampCollisionLimit, 'Time To Collision Limit');
 
 
   %% Functions
@@ -501,15 +547,11 @@
 
       plotAttribute = plot(xValues, yValues, 'DisplayName',plotLengend);
       legend show;
+      legend('location', 'south');
 
-      %plotAttribute.DisplayName = plotLengend;
-      %legend('ESP A4.VehAccel X','AEB start -0.5m/s^2');
-      %verticalLine.Color = 'r';
       plotAttribute.LineWidth = 2 ;
-      %verticalLine.LineStyle = '--';
 
       title(plotTitle) % title
-      %legend([plotAttribute],{plotLengend})
       xlabel(xPlotLabel) % label for x axis
       ylabel(yPlotLabel) % label for y axis
 
@@ -576,24 +618,38 @@
     end
   end
 
-  function plotVerticalLine(timeStamp, legendStr, lineColor)
+  function plotVerticalLine(timeStamp, legendStr, lineColor, lineStyle)
     verticalLine             = xline(timeStamp);
     verticalLine.DisplayName = legendStr;
     verticalLine.Color       = lineColor;
     verticalLine.LineWidth   = 2;
-    verticalLine.LineStyle   = '--';
+    verticalLine.LineStyle   = lineStyle;
   end
 
-  function plotVerticalLines(line1TimeStamp, line1Legend, line2TimeStamp, line2Legend, line3TimeStamp, line3Legend)
+  function plotVerticalLines(line1TimeStamp, line1Legend, ...
+    line2TimeStamp, line2Legend, ...
+    line3TimeStamp, line3Legend, ...
+    line4TimeStamp, line4Legend)
     % Vertical line 1 - gray
     lineColor = [0.3, 0.3 , 0.3];
-    plotVerticalLine(line1TimeStamp, line1Legend, lineColor);
-    % Vertical Line 2 - pink
-    lineColor = [1.00,0.00,1.00];
-    plotVerticalLine(line2TimeStamp, line2Legend, lineColor);
+    lineStyle = '--';
+    plotVerticalLine(line1TimeStamp, line1Legend, lineColor, lineStyle);
+    % Vertical Line 2 - purple; pink [1.00,0.00,1.00];
+    lineColor = [0.4940, 0.1840, 0.5560];
+    lineStyle = ':';
+    plotVerticalLine(line2TimeStamp, line2Legend, lineColor, lineStyle);
     % Vertical Line 3 - green
-    lineColor = [0, 0.5 , 0];
-    plotVerticalLine(line3TimeStamp, line3Legend, lineColor);
+    % dark orange [0.91 0.41 0.17]
+    lineColor = [0 0.5 0];
+
+    lineStyle = '-.';
+    plotVerticalLine(line3TimeStamp, line3Legend, lineColor, lineStyle);
+    % Vertical Line 4 - red
+    lineColor = [1 0 0];
+    lineStyle = '-.';
+    plotVerticalLine(line4TimeStamp, line4Legend, lineColor, lineStyle);
+    
+    
 
     % -------------------------------------------------------------------------
   end
