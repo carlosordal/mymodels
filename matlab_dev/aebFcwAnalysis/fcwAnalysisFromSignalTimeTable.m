@@ -15,15 +15,12 @@
 % contact between the POV (Principal Other Vehicle) and the SV (Subject Vehicle).
 % Examples:
 % Analyze a mat file stored on google drive from a Mac Computer.
-    %filePath = '/Volumes/GoogleDrive/My Drive/CAN log analysis/FCW testing/';
-    %fileName = '5-7 P010-Drv Brk bef FCW 20 pct-25kph trial 01.mat';
-    %fileName = '5-7 P010-Drv Brk bef FCW-20kph trial 03.mat';
     filePath = '/Volumes/GoogleDrive/Shared drives/Vehicle Controls/[05] - Vehicle Platforms/Chrysler Pacifica/GUv0 AEB Testing-docs/5-7 Pacifica AEB testing/70 kph';
-               
-    %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 03 5-07-2019 1-47-59 pm.mat';
+
     %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 01 5-07-2019 1-42-03 pm.mat';
-    fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 02 5-07-2019 1-44-15 pm.mat';     %distance to object ok. starts at 42
-    %fileName = '5-7 P010 -Drv not brk bef FCW-70 kph trial 01 5-07-2019 1-30-39 pm.mat';  %distance to object starts at 37, FCW was triggered just before that
+    fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 02 5-07-2019 1-44-15 pm.mat';     %distance to object ok. starts at 42, 68 kph at FCW actication.
+    %fileName = '5-7 P010 -Drv brk aft FCW-70 kph trial 03 5-07-2019 1-47-59 pm.mat';  % FCW activated at 67 kph. FCW ok.
+    %fileName = '5-7 P010 -Drv not brk bef FCW-70 kph trial 01 5-07-2019 1-30-39 pm.mat';  %distance to object starts at 37, FCW was triggered just before that. 66 kph at the moment of FCW activation
     dataFieldAddress = 'canLogSignalsTable.ccan_rr_log';
 %     fcwAnalysisFromSignalTimeTable(filePath, fileName, dataFieldAddress)
 % references:
@@ -80,7 +77,7 @@
   deltaDitanceToTestStart   = distanceTestStart - minDistanceValue;
   deltaTimeTestStart        = (deltaDitanceToTestStart/vehicleSpeedTest)*convertionToMps;
   deltaDurationTestStart    = duration(strcat('0:0:',num2str(deltaTimeTestStart)));
-  extendPlotTime            = duration('0:0:1');
+  extendPlotTime            = duration('0:0:0.5');
   
   % Find Time To Collision (TTC) 2.1s and the limit 90% 1.89 s
   ttc = 2.1;
@@ -181,8 +178,6 @@
   plotWidht = screensize(3)/2- leftBorderWidth;
   position = [leftBorderWidth,bottomOffset,plotWidht,plotHeight]; %[left bottom width height]
   plotAllData = figure('NumberTitle', 'off', 'Name', ['All Data Plotted: ',fileName], 'Position', position);
-  %movegui(plotAllData,'west');
-  %set(gcf, 'Position', get(0, 'Screensize'));     %figure on full screen
 
   % Figure: Plot Focus Area
   rowsOnFocusPlot     = rowsOnFullPlot;
@@ -205,7 +200,7 @@
   % FCW Display - Focus - DAS_A3.As_DispRq
   fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
   figure(plotFocusArea);
-  figure1Title = 'FCW State - AEB Req/Act Status - Yaw Rate';
+  figure1Title = 'FCW State - FCW Warning Status & Yaw Rate (with offset)';
   figure1Xaxis = 'Time (s)';
   figure1Yaxis = 'FCW State';
 
@@ -214,24 +209,6 @@
     fcwDisplayEvent.Time, fcwDisplayEvent.As_DispRq, ...
     figure1Title, 'FCW Warning Status', ...
     figure1Xaxis, figure1Yaxis);
-
-  % -------------------------------------------------------------------------
-%   % AEB Request Status - Full - DAS_A3.DAS_Rq_ID
-%   figure(plotAllData);
-%   hold on;
-%   aebRequestFull      =  ccanTableData.DAS_A3(:, 'DAS_Rq_ID');
-%   plotAebRequest      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-%     aebRequestFull.Time, aebRequestFull.DAS_Rq_ID, ...
-%     'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
-%     'Time (s)', 'AEB Status');
-%   % AEB Request Status - Focus Area - DAS_A3.DAS_Rq_ID
-%   aebRequestEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'DAS_Rq_ID');
-%   figure(plotFocusArea);
-%   hold on;
-%   plotAebRequestFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-%     aebRequestEvent.Time, aebRequestEvent.DAS_Rq_ID, ...
-%     'FCW State - AEB Req/Act Status - Yaw Rate', 'AEB Request Status', ...
-%     'Time (s)', 'AEB Status');
 
   % -------------------------------------------------------------------------
   % Vehicle Yaw Rate - Full - ORC_YRS_DATA.YawRate;
@@ -244,52 +221,32 @@
     figure1Title, 'ORC Yaw Rate', ...
     figure1Xaxis, 'Yaw Rate deg/s');
 
-  % Vehicle Yaw Rate - Focus Area - ORC_YRS_DATA.YawRate;
-  vehicleOrcYawRateEvent    = ccanTableData.ORC_YRS_DATA(focusAreaTimeWindow,'YawRate');
+  % Vehicle Yaw Rate - Focus - ESP_A4.VehYawRate_Raw and Offset calculus
+
   figure(plotFocusArea);
   hold on;
   yyaxis right;
-%   plotOrcYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-%     vehicleOrcYawRateEvent.Time, vehicleOrcYawRateEvent.YawRate, ...
-%     'FCW State - AEB Req/Act Status - Yaw Rate', 'ORC Yaw Rate', ...
-%     'Time (s)', 'Yaw Rate deg/s');
-
-  % -------------------------------------------------------------------------
-  % Vehicle Yaw Rate - Full - ESP_A4.VehYawRate_Raw
-  figure(plotAllData);
-  hold on;
-  yyaxis right;
-  vehicleEspYawRateFull     = ccanTableData.ESP_A4(:,'VehYawRate_Raw');
-%   plotEspYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-%     vehicleEspYawRateFull.Time, vehicleEspYawRateFull.VehYawRate_Raw, ...
-%     'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
-%     'Time (s)', 'Yaw Rate deg/s');
-  % Vehicle Yaw Rate - Focus Area - ESP_A4.VehYawRate_Raw
   vehicleEspYawRateEvent    = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Raw');
-  figure(plotFocusArea);
-  hold on;
-  yyaxis right;
-%   plotEspYawRateFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-%     vehicleEspYawRateEvent.Time, vehicleEspYawRateEvent.VehYawRate_Raw, ...
-%     'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate', ...
-%     'Time (s)', 'Yaw Rate deg/s');
-  vehicleEspYawRateOffset    = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Offset');
-%   plotEspYawRateOffset = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-%   vehicleEspYawRateOffset.Time, vehicleEspYawRateOffset.VehYawRate_Offset, ...
-%   'FCW State - AEB Req/Act Status - Yaw Rate', 'ESP A4 Yaw Rate Offset', ...
-%   'Time (s)', 'Yaw Rate deg/s');
+  vehicleEspYawRateOffset   = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehYawRate_Offset');
 
-  vehicleEspYawRateCalc    = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
-  plotEspYawRateCalc = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
+  vehicleEspYawRateCalc     = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
+  plotEspYawRateCalc        = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   vehicleEspYawRateOffset.Time, vehicleEspYawRateCalc, ...
   figure1Title, 'ESP A4 Yaw Rate with Offset', ...
   figure1Xaxis, 'Yaw Rate deg/s');
 
   % -------------------------------------------------------------------------
+  % Vertical lines
   plotVerticalLines(testStartTime, 'Test Start', ...
     fcwStartTime, 'FCW Warning', ...
     timeStampCollisionNominal, 'Time To Collision Nominal', ...
     timeStampCollisionLimit, 'Time To Collision Limit');
+  % Horizontal lines
+  maxYawRateLimit = yline(1,':','LineWidth',2);
+  maxYawRateLimit.DisplayName = 'Max Yaw Rate Limit';
+  minYawRateLimit = yline(-1,'-.','LineWidth',2);
+  minYawRateLimit.DisplayName = 'Min Yaw Rate Limit';
+  ylim([-1.1, 1.1])    % adjust Vehicle Speed axis
 
   
   
@@ -298,9 +255,10 @@
   % -------------------------------------------------------------------------
   % Vehicle Speed - Full - ESP_A8.VEH_SPEED
   figure(plotAllData);
-  figure2Title = 'Vehicle Speed and Acceleration';
+
+  figure2Title = 'Vehicle Speed';
   figure2Xaxis = 'Time (s)';
-  figure2Yaxis = 'Speed km/h';
+  figure2Yaxis = 'Speed (km/h)';
   hold on;
   vehicleSpeedFull          = ccanTableData.ESP_A8(:,'VEH_SPEED');
   plotVehicleSpeed          = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
@@ -308,34 +266,19 @@
     figure2Title, 'Vehicle Speed', ...
     figure2Xaxis, figure2Yaxis);
   % Vehicle Speed - Focus Area - ESP_A8.VEH_SPEED
-  vehicleAccelerationEvent  = ccanTableData.ESP_A8(focusAreaTimeWindow,'VEH_SPEED');
+
+  vehicleSpeedEvent  = ccanTableData.ESP_A8(focusAreaTimeWindow,'VEH_SPEED');
+  vehicleSpeedAtFcwLimitIndex = find((timeStampCollisionLimit - vehicleSpeedEvent.Time)< duration('0:0:0.01'), 1, 'first');
+  vehicleSpeedAtFcwLimit      = vehicleSpeedEvent.VEH_SPEED(vehicleSpeedAtFcwLimitIndex);
+
   figure(plotFocusArea);
   hold on;
   plotVehicleSpeedFocus     = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 2, ...
-    vehicleAccelerationEvent.Time, vehicleAccelerationEvent.VEH_SPEED, ...
+    vehicleSpeedEvent.Time, vehicleSpeedEvent.VEH_SPEED, ...
     figure2Title, 'Vehicle Speed', ...
     figure2Xaxis, figure2Yaxis);
+ %ylim([vehicleSpeedAtFcwLimit - 1, 74])    % adjust Vehicle Speed axis
 
-  % -------------------------------------------------------------------------
-  % Vehicle Acceleration - Full - ESP_A4.VehAccel_X
-  figure(plotAllData);
-  hold on;
-  yyaxis right;
-  vehicleAccelerationFull       = ccanTableData.ESP_A4(:,'VehAccel_X');
-  plotVehicleAcceleration       = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
-    vehicleAccelerationFull.Time, vehicleAccelerationFull.VehAccel_X, ...
-    figure2Title, 'Vehicle Acceleration', ...
-    figure2Xaxis, 'Acceleration m/s^2');
-
-  % Vehicle Acceleration - Focus Area - ESP_A4.VehAccel_X
-  vehicleAccelerationEvent      = ccanTableData.ESP_A4(focusAreaTimeWindow,'VehAccel_X');
-  figure(plotFocusArea);
-  hold on;
-  yyaxis right;
-  plotVehicleAccelerationFocus  = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 2, ...
-    vehicleAccelerationEvent.Time, vehicleAccelerationEvent.VehAccel_X, ...
-    figure2Title, 'Vehicle Acceleration', ...
-    figure2Xaxis, 'Acceleration m/s^2');
 
   % -------------------------------------------------------------------------
   % Vertical Lines
@@ -343,72 +286,41 @@
     fcwStartTime, 'FCW Warning', ...
     timeStampCollisionNominal, 'Time To Collision Nominal', ...
     timeStampCollisionLimit, 'Time To Collision Limit');
+  
+  % Horizontal lines
+  maxSpeedLineLimit = yline(73.6,':','LineWidth',2);
+  maxSpeedLineLimit.DisplayName = 'Max Speed Limit';
+  minSpeedLineLimit = yline(70.4,'-.','LineWidth',2);
+  minSpeedLineLimit.DisplayName = 'Min Speed Limit';
+  
+  
 
   % -------------------------------------------------------------------------
   % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
   figure(plotAllData);
-  figure3Title = 'Accelerator Pedal Position & Distance to Object';
+  figure3Title = 'Distance to Object';
   figure3Xaxis = 'Time (s)';
   figure3Yaxis = 'Position(%)';
-  hold on;
-  %yyaxis right;
-  accelPedalObdFull      = ccanTableData.ECM_SKIM_OBD(:,'AccelPdlPosn_OBD');
-  plotAccelPedalObdFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
-    accelPedalObdFull.Time, accelPedalObdFull.AccelPdlPosn_OBD, ...
-    figure3Title, 'OBD ISDO 15031 Accel Pedal Pos', ...
-    figure3Xaxis, figure3Yaxis);
-
-  % OBD Accelerator Pedal Position - Focus Area - ECM_SKIM_OBD.AccelPdlPosn_OBD
-  accelPedalObdFocus     = ccanTableData.ECM_SKIM_OBD(focusAreaTimeWindow,'AccelPdlPosn_OBD');
-  figure(plotFocusArea);
-  hold on;
-  %yyaxis right;
-  plotAccelPedalObdFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
-    accelPedalObdFocus.Time, accelPedalObdFocus.AccelPdlPosn_OBD, ...
-    figure3Title, 'OBD ISDO 15031 Accel Pedal Pos', ...
-    figure3Xaxis, figure3Yaxis);
-
-  % -------------------------------------------------------------------------
-  % ECM_A5 Accelerator Pedal Position - Full - ECM_A5.ActlAccelPdlPosn
-  figure(plotAllData);
-  hold on;
-  %yyaxis right;
-  accelPedalEcmFull     = ccanTableData.ECM_A5(:,'ActlAccelPdlPosn');
-  plotAccelPedalEcmFull = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
-    accelPedalEcmFull.Time, accelPedalEcmFull.ActlAccelPdlPosn, ...
-    figure3Title, 'ECM A5 Accel Pedal Pos', ...
-    figure3Xaxis, figure3Yaxis);
-
-
-  % ECM_A5 Accelerator Pedal Position - Focus Area - ECM_A5.ActlAccelPdlPosn
-  accelPedalEcmFocus    = ccanTableData.ECM_A5(focusAreaTimeWindow,'ActlAccelPdlPosn');
-  figure(plotFocusArea);
-  hold on;
-  %yyaxis right;
-  plotAccelPedalEcmFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
-    accelPedalEcmFocus.Time, accelPedalEcmFocus.ActlAccelPdlPosn, ...
-    figure3Title, 'ECM A5 Accel Pedal Pos', ...
-    figure3Xaxis, figure3Yaxis);
 
   
   % -------------------------------------------------------------------------
   % Distance To Object - Full - DAS_A4.ObjIntrstDist
   figure(plotAllData);
   hold on;
-  yyaxis right;
+  %yyaxis right;
   distanceToObjectFull      = ccanTableData.DAS_A4(:,'ObjIntrstDist');
   plotDistanceToObjectFull  = createPlot(rowsOnFullPlot, columnsOnFullPlot, 3, ...
-    distanceToObjectFull .Time, distanceToObjectFull .ObjIntrstDist, ...
+    distanceToObjectFull.Time, distanceToObjectFull .ObjIntrstDist, ...
     figure3Title, 'Distance to Object', ...
     figure3Xaxis, 'Distance (m)');
 
-  ylim([0 distanceStartValue + 2])    % adjust Distance to Object Scale
+
 
   % Distance To Object - Focus Area - DAS_A4.ObjIntrstDist
   distanceToObjectEvent     = ccanTableData.DAS_A4(focusAreaTimeWindow,'ObjIntrstDist');
   figure(plotFocusArea);
   hold on;
-  yyaxis right;
+  %yyaxis right;
   plotDistanceToObjectFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 3, ...
     distanceToObjectEvent.Time, distanceToObjectEvent.ObjIntrstDist, ...
     figure3Title, 'Distance to Object', ...
@@ -423,54 +335,8 @@
     timeStampCollisionLimit, 'Time To Collision Limit');
 
 
+
   %% Functions
-  function accelPedalPosCheck = checkAccelPedalPosition(obdPedalPosition)
-    accelPedalTolerance = 5;        %± 5%
-    accelPedalPosStart  = obdPedalPosition.(1)(1);
-    maxPedalAccepted    = accelPedalPosStart + accelPedalTolerance;
-    minPedalAccepted    = accelPedalPosStart - accelPedalTolerance;
-
-    accelPedalPosMin    = min(obdPedalPosition.(1));
-    accelPedalPosMax    = max(obdPedalPosition.(1));
-
-
-    if accelPedalPosMax <= maxPedalAccepted
-      maxPedalCheck = true;
-    else 
-      maxPedalCheck = false;
-    end
-    if accelPedalPosMin >= minPedalAccepted
-      minPedalCheck = true;
-    else 
-      minPedalCheck = false;
-    end
-
-    disp(['* ACCELERERATOR PEDAL POSITION CHECK. Initial Value: ', num2str(accelPedalPosStart), '%. (Tolerance ± 5%)']);
-    disp(['-- Actual Vehicle Max Accel Pedal: ', num2str(accelPedalPosMax), ', Result: ', num2str(maxPedalCheck), '. (Max Accepted: ', num2str(maxPedalAccepted),')']);
-    disp(['-- Actual Vehicle Min Accel Pedal: ', num2str(accelPedalPosMin), ', Result: ', num2str(minPedalCheck), '. (Min Accepted: ', num2str(minPedalAccepted),')']);
-
-    if maxPedalCheck && minPedalCheck
-      disp('--- Accelerator Pedal Position is Valid during Vehicle Approach Phase');
-      accelPedalPosCheck = true;
-    else
-      disp('--- Accelerator Pedal Position is NOT Valid during Vehicle Approach Phase');
-      accelPedalPosCheck = false;
-    end
-  end
-
-  function detectVehicleSpeedTest = identifyVehicleSpeedTest(vehicleSpeedAproach)
-    vehicleSpeedMean      = mean(vehicleSpeedAproach.(1));
-
-    if (35 < vehicleSpeedMean) && (vehicleSpeedMean < 45)
-      detectVehicleSpeedTest = 40;
-    elseif (15 < vehicleSpeedMean) && (vehicleSpeedMean < 25)
-      detectVehicleSpeedTest = 20;
-      checkVehicleSpeed(detectVehicleSpeedTest,vehicleSpeedTolerance, ...
-        vehicleSpeedMax, vehicleSpeedMin);
-    else 
-      error('Average Vehicle Speed out of range')
-    end
-  end
 
   function vehicleSpeedCheck = checkVehicleSpeed( ...
     vehicleSpeedTest, vehicleSpeedAproach)
@@ -630,17 +496,19 @@
     line2TimeStamp, line2Legend, ...
     line3TimeStamp, line3Legend, ...
     line4TimeStamp, line4Legend)
-    % Vertical line 1 - gray
-    lineColor = [0.3, 0.3 , 0.3];
+    % Vertical line 1 - green
+    lineColor = [0 0.5 0];
+
     lineStyle = '--';
     plotVerticalLine(line1TimeStamp, line1Legend, lineColor, lineStyle);
     % Vertical Line 2 - purple; pink [1.00,0.00,1.00];
     lineColor = [0.4940, 0.1840, 0.5560];
     lineStyle = ':';
     plotVerticalLine(line2TimeStamp, line2Legend, lineColor, lineStyle);
-    % Vertical Line 3 - green
+    % Vertical Line 3 - gray
     % dark orange [0.91 0.41 0.17]
-    lineColor = [0 0.5 0];
+    %lineColor = [0.3, 0.3 , 0.3]; %gray
+    lineColor = [0.8 0.41 0.17];  %orange
 
     lineStyle = '-.';
     plotVerticalLine(line3TimeStamp, line3Legend, lineColor, lineStyle);
