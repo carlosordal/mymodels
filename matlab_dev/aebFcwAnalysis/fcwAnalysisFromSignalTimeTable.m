@@ -53,11 +53,11 @@
 
   %% Locate Point of Intereres and Calculates TTC
 %   % Find FCW Start and Stop Time
-  fcwRequestId      = ccanTableData.DAS_A3(:, 'As_DispRq');
+  fcwDisplayRequest = ccanTableData.DAS_A3(:, 'As_DispRq');
   fcwDefaultValue   = 0;
   [fcwStartTime, fcwStartValue, ...
     fcwStopTime, fcwStopValue]  = ...
-    signalEdgesDetection(fcwRequestId, fcwDefaultValue);
+    signalEdgesDetection(fcwDisplayRequest, fcwDefaultValue);
 
   % detect Distance to Object Stop being published
   distanceToObject      = ccanTableData.DAS_A4(:, 'ObjIntrstDist');
@@ -75,13 +75,15 @@
   resampleDistance  = retime(distanceToObjectPublished,'regular','linear','SampleRate',200);
   
   % Find the Test start time.
-  distanceTestStart = 150;      % m. Defined on FCW protocol
-  vehicleSpeedTest  = 72;       % km/h. Defined on FCW protocol
+  distanceTestStart = 150;      % units: m. Defined on FCW protocol
+  vehicleSpeedTest  = 72;       % units: km/h. Defined on FCW protocol
   convertionToMps   = 3.6;      % m/h to m/s. 
 
   
-  deltaDitanceToTestStart = distanceTestStart - distanceStartValue;
-  deltaTimeTestStart      = (deltaDitanceToTestStart/vehicleSpeedTest)*convertionToMps;
+  % Find Distance to Test Start from First Distance to Object known
+  deltaDistanceToTestStart = distanceTestStart - distanceStartValue;
+  % calculate delta time to Test Start based on vehicle speed of 72 km/h
+  deltaTimeTestStart      = (deltaDistanceToTestStart/vehicleSpeedTest)*convertionToMps;
   deltaDurationTestStart  = duration(strcat('0:0:',num2str(deltaTimeTestStart)));
   extendPlotTime          = duration('0:0:0.5');
   
@@ -131,17 +133,20 @@
   focusAreaTimeWindow       = timerange(testStartTime,stopPlotTime);
   
   %% Create Table for final results
-fcwResultsTable = table('Size',[8 3],'VariableTypes',{'double','double', 'double'});  %preallocate table
-fcwResultsTable.Properties.VariableNames = { ...
-  'FCW_Veh_Speed_Check_km_per_h', ...
-  'FCW_Veh_Yaw_Rate_deg_per_s', ...
-  'FCW_Warning_Displayed_On_Time'};
-fcwResultsTable.Properties.RowNames = {'Tolerance', ...
-  'Max valid', 'Max (actual)', 'Is max valid', ...
-  'Min Valid', 'Min (actual)', 'is min valid', ...
-  'Final Result'};
-% fcwResultsTable{'Tolerance', 'FCW_Veh_Speed_Check_km_per_h'} = 1.6;
-% fcwResultsTable{'Max valid', 'FCW_Veh_Speed_Check_km_per_h'} = 73.6;
+
+fcwChecksTable = table('Size',[3 8],'VariableTypes',{'double',...
+  'double', 'double', 'logical', ...
+  'double', 'double', 'logical', ...
+  'logical'});
+fcwChecksTable.Properties.VariableNames = {'Tolerance', ...
+  'Max_Valid', 'Max_Actual', 'Is_Max_Valid', ...
+  'Min_Valid', 'Min_Actual', 'Is_Min_Valid', ...
+  'Result'};
+fcwChecksTable.Properties.RowNames = { ...
+  'FCW Veh Speed Check (km/h)', ...
+  'FCW Veh Yaw Rate (deg/s)', ...
+  'FCW Warning Displayed On Time'};
+
 
   %% Test Checks
   disp('******************************************************************************');
@@ -155,7 +160,7 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
   timeStartCheckSpeed = timeStampCollisionLimit - speedWindowCheck;
   testSpeedWindow     = timerange(timeStartCheckSpeed, timeStampCollisionLimit);
   vehSpeedApproach    = ccanTableData.ESP_A8(testSpeedWindow, 'VEH_SPEED');
-  [vehicleSpeedCheck, fcwResultsTable]   = fcwVehicleSpeedCheck(vehSpeedApproach, fcwResultsTable);
+  [vehicleSpeedCheck, fcwChecksTable]   = fcwVehicleSpeedCheck(vehSpeedApproach, fcwChecksTable);
 
 
 
@@ -168,34 +173,43 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
   vehicleEspYawRateWithOffset = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
   yawRateWithOffset = timetable(vehicleEspYawRateEvent.Time, vehicleEspYawRateWithOffset);
   
-  [yawRateCheck, fcwResultsTable]      = checkVehicleYawRate(yawRateWithOffset, fcwResultsTable);
+  [yawRateCheck, fcwChecksTable]      = checkVehicleYawRate(yawRateWithOffset, fcwChecksTable);
 
   % Was the FCW displayed on time
   
-  if timeStampCollisionLimit > fcwStartTime
-    disp('-- FCW Warning Displayed on time');
-    fcwDisplayCheck =  true;
-  else
-    disp('-- FCW Warning NOT Displayed on time');
-    fcwDisplayCheck =  false;
-  end
+%   if timeStampCollisionLimit > fcwStartTime
+%     disp('-- FCW Warning Displayed on time');
+%     fcwDisplayCheck =  true;
+%   else
+%     disp('-- FCW Warning NOT Displayed on time');
+%     fcwDisplayCheck =  false;
+%   end
 
 
-  if vehicleSpeedCheck && yawRateCheck && fcwDisplayCheck
-    disp('VALID TEST');
-  else
-    disp(['NOT A VALID TEST: Speed Check: ', num2str(vehicleSpeedCheck), ...
-          ', Yaw Rate Check: ', num2str(yawRateCheck),  ...
-          ', FCW Displayed Check: ', num2str(fcwDisplayCheck),  ...
-          ]);
-  end
-
-
-
-
-
-
+%   if vehicleSpeedCheck && yawRateCheck && fcwDisplayCheck
+%     disp('VALID TEST');
+%   else
+%     disp(['NOT A VALID TEST: Speed Check: ', num2str(vehicleSpeedCheck), ...
+%           ', Yaw Rate Check: ', num2str(yawRateCheck),  ...
+%           ', FCW Displayed Check: ', num2str(fcwDisplayCheck),  ...
+%           ]);
+%   end
   
+  ttcCheckRowName = 'FCW Warning Displayed On Time';
+%   fcwChecksTable{ttcCheckRowName, 'Tolerance'}     = yawRateTolerance;
+%   fcwChecksTable{ttcCheckRowName, 'Max_Valid'}     = maxYawRateAccepted;
+%   fcwChecksTable{ttcCheckRowName, 'Max_Actual'}    = vehicleYawRateMax;
+%   fcwChecksTable{ttcCheckRowName, 'Is_Max_Valid'}  = maxYawRateCheck;
+  fcwChecksTable{ttcCheckRowName, 'Min_Valid'}     = limitTtc;
+  %fcwChecksTable{ttcCheckRowName, 'Min_Actual'}    = vehicleYawRateMin;
+  fcwChecksTable{ttcCheckRowName, 'Is_Min_Valid'}  = fcwDisplayCheck;
+  fcwChecksTable{ttcCheckRowName, 'Result'}        = fcwDisplayCheck;
+
+
+
+
+    ttc       = 2.1;
+  limitTtc  = 1.89; 
 
   %% ************************ PLOTS ***********************
   % Create 2 figures: Full plot and Focus Area plot.
@@ -363,7 +377,7 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
 
   %% Functions
 
-  function [vehicleSpeedCheck,  fcwResultsTable] = fcwVehicleSpeedCheck(vehicleSpeedAproach, fcwResultsTable)
+  function [vehicleSpeedCheck,  fcwChecksTable] = fcwVehicleSpeedCheck(vehicleSpeedAproach, fcwChecksTable)
     fcwVehicleSpeedRequired = 72; %72 km/h
     vehicleSpeedTolerance = 1.6; %± 1.6 km/h
     vehicleSpeedMin       = min(vehicleSpeedAproach.(1));
@@ -383,27 +397,28 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
     end
     
     
-    disp('* FCW VEHICLE SPEED CHECK. TEST SPEED 72 km/h. (Tolerance: ± 1.6 km/h):');
-    disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. (Max Accepted: ', num2str(maxSpeedAccepted),')']);
-    disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. (Min Accepted: ', num2str(minSpeedAccepted),')']);
+%     disp('* FCW VEHICLE SPEED CHECK. TEST SPEED 72 km/h. (Tolerance: ± 1.6 km/h):');
+%     disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. (Max Accepted: ', num2str(maxSpeedAccepted),')']);
+%     disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. (Min Accepted: ', num2str(minSpeedAccepted),')']);
     if maxSpeedCheck && minSpeedCheck
-      disp('--- Speed Check is Valid during Vehicle Approach Phase');
+%       disp('--- Speed Check is Valid during Vehicle Approach Phase');
       vehicleSpeedCheck = true;
     else
-      disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
+%       disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
       vehicleSpeedCheck = false;
     end
-    fcwResultsTable{'Tolerance',    'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedTolerance;
-    fcwResultsTable{'Max valid',    'FCW_Veh_Speed_Check_km_per_h'} = maxSpeedAccepted;
-    fcwResultsTable{'Max (actual)', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedMax;
-    fcwResultsTable{'Is max valid', 'FCW_Veh_Speed_Check_km_per_h'} = maxSpeedCheck;
-    fcwResultsTable{'Min Valid',    'FCW_Veh_Speed_Check_km_per_h'} = minSpeedAccepted;
-    fcwResultsTable{'Min (actual)', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedMin;
-    fcwResultsTable{'is min valid', 'FCW_Veh_Speed_Check_km_per_h'} = minSpeedCheck;
-    fcwResultsTable{'Final Result', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
+    vehCheckRowName = 'FCW Veh Speed Check (km/h)';
+    fcwChecksTable{vehCheckRowName, 'Tolerance'}     = vehicleSpeedTolerance;
+    fcwChecksTable{vehCheckRowName, 'Max_Valid'}     = maxSpeedAccepted;
+    fcwChecksTable{vehCheckRowName, 'Max_Actual'}    = vehicleSpeedMax;
+    fcwChecksTable{vehCheckRowName, 'Is_Max_Valid'}  = maxSpeedCheck;
+    fcwChecksTable{vehCheckRowName, 'Min_Valid'}     = minSpeedAccepted;
+    fcwChecksTable{vehCheckRowName, 'Min_Actual'}    = vehicleSpeedMin;
+    fcwChecksTable{vehCheckRowName, 'Is_Min_Valid'}  = minSpeedCheck;
+    fcwChecksTable{vehCheckRowName, 'Result'}        = vehicleSpeedCheck;
   end
 
-  function [yawRateCheck, fcwResultsTable] = checkVehicleYawRate(vehicleYawRateTable, fcwResultsTable)
+  function [yawRateCheck, fcwChecksTable] = checkVehicleYawRate(vehicleYawRateTable, fcwChecksTable)
     yawRateTolerance      = 1;        %+- 1 deg/s     
     vehicleYawRateMin     = min(vehicleYawRateTable.(1));
     vehicleYawRateMax     = max(vehicleYawRateTable.(1));
@@ -422,25 +437,26 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
       minYawRateCheck = false;
     end
 
-    disp('* FCW VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
-    disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. (Max Accepted: ', num2str(maxYawRateAccepted),')']);
-    disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. (Min Accepted: ', num2str(minYawRateAccepted),')']);
+%     disp('* FCW VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
+%     disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. (Max Accepted: ', num2str(maxYawRateAccepted),')']);
+%     disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. (Min Accepted: ', num2str(minYawRateAccepted),')']);
     if maxYawRateCheck && minYawRateCheck
-      disp('--- Yaw Rate is Valid during Vehicle Approach Phase');
+%       disp('--- Yaw Rate is Valid during Vehicle Approach Phase');
       yawRateCheck = true;
     else
-      disp('--- Yaw Rate is NOT Valid during Vehicle Approach Phase');
+%       disp('--- Yaw Rate is NOT Valid during Vehicle Approach Phase');
       yawRateCheck = false;
     end
     
-    fcwResultsTable{'Tolerance',    'FCW_Veh_Yaw_Rate_deg_per_s'} = yawRateTolerance;
-    fcwResultsTable{'Max valid',    'FCW_Veh_Yaw_Rate_deg_per_s'} = maxYawRateAccepted;
-    fcwResultsTable{'Max (actual)', 'FCW_Veh_Yaw_Rate_deg_per_s'} = vehicleYawRateMax;
-    fcwResultsTable{'Is max valid', 'FCW_Veh_Yaw_Rate_deg_per_s'} = maxYawRateCheck;
-    fcwResultsTable{'Min Valid',    'FCW_Veh_Yaw_Rate_deg_per_s'} = minYawRateAccepted;
-    fcwResultsTable{'Min (actual)', 'FCW_Veh_Yaw_Rate_deg_per_s'} = vehicleYawRateMin;
-    fcwResultsTable{'is min valid', 'FCW_Veh_Yaw_Rate_deg_per_s'} = minYawRateCheck;
-    fcwResultsTable{'Final Result', 'FCW_Veh_Yaw_Rate_deg_per_s'} = yawRateCheck;
+    yawCheckRowName = 'FCW Veh Yaw Rate (deg/s)';
+    fcwChecksTable{yawCheckRowName, 'Tolerance'}     = yawRateTolerance;
+    fcwChecksTable{yawCheckRowName, 'Max_Valid'}     = maxYawRateAccepted;
+    fcwChecksTable{yawCheckRowName, 'Max_Actual'}    = vehicleYawRateMax;
+    fcwChecksTable{yawCheckRowName, 'Is_Max_Valid'}  = maxYawRateCheck;
+    fcwChecksTable{yawCheckRowName, 'Min_Valid'}     = minYawRateAccepted;
+    fcwChecksTable{yawCheckRowName, 'Min_Actual'}    = vehicleYawRateMin;
+    fcwChecksTable{yawCheckRowName, 'Is_Min_Valid'}  = minYawRateCheck;
+    fcwChecksTable{yawCheckRowName, 'Result'}        = yawRateCheck;
 
   end
 
