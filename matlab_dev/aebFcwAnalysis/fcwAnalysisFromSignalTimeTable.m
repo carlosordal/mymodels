@@ -11,8 +11,7 @@
 % Outputs:  1) Plots and Checks results displayed on Matlab terminal.
 %
 % Requirements:
-% - Can Data log input should have an FCW event and there shouldn't be a
-% contact between the POV (Principal Other Vehicle) and the SV (Subject Vehicle).
+% - Can Data log input should have an FCW event.
 % Examples:
 % Analyze a mat file stored on google drive from a Mac Computer.
     filePath = '/Volumes/GoogleDrive/Shared drives/Vehicle Controls/[05] - Vehicle Platforms/Chrysler Pacifica/GUv0 AEB Testing-docs/5-7 Pacifica AEB testing/70 kph';
@@ -41,7 +40,7 @@
     end
   end
 
-
+  %% Locate Point of Intereres and Calculates TTC
 %   % Find FCW Start and Stop Time
   fcwRequestId      = ccanTableData.DAS_A3(:, 'As_DispRq');
   fcwDefaultValue   = 0;
@@ -169,7 +168,7 @@
 
 
   %% ************************ PLOTS ***********************
-  % Create 2 figures. Full plot and Focus Area plot.
+  % Create 2 figures: Full plot and Focus Area plot.
   % Figure: Plot All Data
   rowsOnFullPlot      = 3;
   columnsOnFullPlot   = 1;
@@ -192,7 +191,8 @@
   %movegui(plotFocusArea,'east');
   %set(gcf, 'Position', get(0, 'Screensize'));    % Plot on screen size
 
-  % -------------------------------------------------------------------------
+  % -----------------------------------------------------------------------
+  % PLOT 1
   % FCW Display - Full - DAS_A3.As_DispRq
   figure(plotAllData)
   hold on;
@@ -236,7 +236,7 @@
   figure1Title, 'ESP A4 Yaw Rate with Offset', ...
   figure1Xaxis, 'Yaw Rate deg/s');
 
-  % -------------------------------------------------------------------------
+  % -----------------------------------------------------------------------
   % Vertical lines
   plotVerticalLines(testStartTime, 'Test Start', ...
     fcwStartTime, 'FCW Warning', ...
@@ -249,25 +249,23 @@
   minYawRateLimit.DisplayName = 'Min Yaw Rate Limit';
   ylim([-1.1, 1.1])    % adjust Vehicle Speed axis
 
-  
-  
+  % -----------------------------------------------------------------------
+  % PLOT 2
 
-
-  % -------------------------------------------------------------------------
-  % Vehicle Speed - Full - ESP_A8.VEH_SPEED
   figure(plotAllData);
-
   figure2Title = 'Vehicle Speed';
   figure2Xaxis = 'Time (s)';
   figure2Yaxis = 'Speed (km/h)';
+  
+  % Vehicle Speed - Full - ESP_A8.VEH_SPEED
   hold on;
   vehicleSpeedFull          = ccanTableData.ESP_A8(:,'VEH_SPEED');
   plotVehicleSpeed          = createPlot(rowsOnFullPlot, columnsOnFullPlot, 2, ...
     vehicleSpeedFull.Time, vehicleSpeedFull.VEH_SPEED, ...
     figure2Title, 'Vehicle Speed', ...
     figure2Xaxis, figure2Yaxis);
+  
   % Vehicle Speed - Focus Area - ESP_A8.VEH_SPEED
-
   vehicleSpeedEvent  = ccanTableData.ESP_A8(focusAreaTimeWindow,'VEH_SPEED');
   vehicleSpeedAtFcwLimitIndex = find((timeStampCollisionLimit - vehicleSpeedEvent.Time)< duration('0:0:0.01'), 1, 'first');
   vehicleSpeedAtFcwLimit      = vehicleSpeedEvent.VEH_SPEED(vehicleSpeedAtFcwLimitIndex);
@@ -278,10 +276,9 @@
     vehicleSpeedEvent.Time, vehicleSpeedEvent.VEH_SPEED, ...
     figure2Title, 'Vehicle Speed', ...
     figure2Xaxis, figure2Yaxis);
- %ylim([vehicleSpeedAtFcwLimit - 1, 74])    % adjust Vehicle Speed axis
 
 
-  % -------------------------------------------------------------------------
+  % -----------------------------------------------------------------------
   % Vertical Lines
   plotVerticalLines(testStartTime, 'Test Start', ...
     fcwStartTime, 'FCW Warning', ...
@@ -295,16 +292,13 @@
   minSpeedLineLimit.DisplayName = 'Min Speed Limit';
   
   
-
-  % -------------------------------------------------------------------------
-  % OBD Accelerator Pedal Position - Full - ECM_SKIM_OBD.AccelPdlPosn_OBD
+  % -----------------------------------------------------------------------
+  % PLOT 3
   figure(plotAllData);
   figure3Title = 'Distance to Object';
   figure3Xaxis = 'Time (s)';
   figure3Yaxis = 'Position(%)';
-
   
-  % -------------------------------------------------------------------------
   % Distance To Object - Full - DAS_A4.ObjIntrstDist
   figure(plotAllData);
   hold on;
@@ -490,6 +484,9 @@
     verticalLine.Color       = lineColor;
     verticalLine.LineWidth   = 2;
     verticalLine.LineStyle   = lineStyle;
+    verticalLine.Label = seconds(timeStamp);
+    %verticalLine.LabelHorizontalAlignment = 
+
   end
 
   function plotVerticalLines(line1TimeStamp, line1Legend, ...
