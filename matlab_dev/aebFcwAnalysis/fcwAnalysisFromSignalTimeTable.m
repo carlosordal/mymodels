@@ -168,7 +168,7 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
   vehicleEspYawRateWithOffset = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
   yawRateWithOffset = timetable(vehicleEspYawRateEvent.Time, vehicleEspYawRateWithOffset);
   
-  yawRateCheck      = checkVehicleYawRate(yawRateWithOffset);
+  [yawRateCheck, fcwResultsTable]      = checkVehicleYawRate(yawRateWithOffset, fcwResultsTable);
 
   % Was the FCW displayed on time
   
@@ -396,14 +396,14 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
     fcwResultsTable{'Tolerance',    'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedTolerance;
     fcwResultsTable{'Max valid',    'FCW_Veh_Speed_Check_km_per_h'} = maxSpeedAccepted;
     fcwResultsTable{'Max (actual)', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedMax;
-    fcwResultsTable{'Is max valid', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
+    fcwResultsTable{'Is max valid', 'FCW_Veh_Speed_Check_km_per_h'} = maxSpeedCheck;
     fcwResultsTable{'Min Valid',    'FCW_Veh_Speed_Check_km_per_h'} = minSpeedAccepted;
     fcwResultsTable{'Min (actual)', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedMin;
-    fcwResultsTable{'is min valid', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
+    fcwResultsTable{'is min valid', 'FCW_Veh_Speed_Check_km_per_h'} = minSpeedCheck;
     fcwResultsTable{'Final Result', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
   end
 
-  function yawRateCheck = checkVehicleYawRate(vehicleYawRateTable)
+  function [yawRateCheck, fcwResultsTable] = checkVehicleYawRate(vehicleYawRateTable, fcwResultsTable)
     yawRateTolerance      = 1;        %+- 1 deg/s     
     vehicleYawRateMin     = min(vehicleYawRateTable.(1));
     vehicleYawRateMax     = max(vehicleYawRateTable.(1));
@@ -432,7 +432,15 @@ fcwResultsTable.Properties.RowNames = {'Tolerance', ...
       disp('--- Yaw Rate is NOT Valid during Vehicle Approach Phase');
       yawRateCheck = false;
     end
-
+    
+    fcwResultsTable{'Tolerance',    'FCW_Veh_Yaw_Rate_deg_per_s'} = yawRateTolerance;
+    fcwResultsTable{'Max valid',    'FCW_Veh_Yaw_Rate_deg_per_s'} = maxYawRateAccepted;
+    fcwResultsTable{'Max (actual)', 'FCW_Veh_Yaw_Rate_deg_per_s'} = vehicleYawRateMax;
+    fcwResultsTable{'Is max valid', 'FCW_Veh_Yaw_Rate_deg_per_s'} = maxYawRateCheck;
+    fcwResultsTable{'Min Valid',    'FCW_Veh_Yaw_Rate_deg_per_s'} = minYawRateAccepted;
+    fcwResultsTable{'Min (actual)', 'FCW_Veh_Yaw_Rate_deg_per_s'} = vehicleYawRateMin;
+    fcwResultsTable{'is min valid', 'FCW_Veh_Yaw_Rate_deg_per_s'} = minYawRateCheck;
+    fcwResultsTable{'Final Result', 'FCW_Veh_Yaw_Rate_deg_per_s'} = yawRateCheck;
 
   end
 
