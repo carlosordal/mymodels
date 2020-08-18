@@ -1,5 +1,16 @@
 % FCW Analysis.
-% 
+% Next steps:
+% declare tolerances and speed on a single place,
+% transpose results table?
+% add checks for max and min values.
+% Display check's report needs to be converted to delta time, in order to
+% compare it with 2.1 s.
+% Fill in the rest of the checks.
+% create a final struct in order to add information, file name to the
+% report.
+% do I need to plot the delta of vehicle speed and yaw rate for the result?
+%
+%
 % Inputs:   1) filePath         - String that contains the file Path
 %           2) fileName         - String that contains the file Name with extension.
 %           3) dataFieldAddress - String that contains the field names 
@@ -118,6 +129,19 @@
   testStartTime             = distanceStartTime - deltaDurationTestStart;
   stopPlotTime              = fcwStartTime + extendPlotTime;
   focusAreaTimeWindow       = timerange(testStartTime,stopPlotTime);
+  
+  %% Create Table for final results
+fcwResultsTable = table('Size',[8 3],'VariableTypes',{'double','double', 'double'});  %preallocate table
+fcwResultsTable.Properties.VariableNames = { ...
+  'FCW_Veh_Speed_Check_km_per_h', ...
+  'FCW_Veh_Yaw_Rate_deg_per_s', ...
+  'FCW_Warning_Displayed_On_Time'};
+fcwResultsTable.Properties.RowNames = {'Tolerance', ...
+  'Max valid', 'Max (actual)', 'Is max valid', ...
+  'Min Valid', 'Min (actual)', 'is min valid', ...
+  'Final Result'};
+% fcwResultsTable{'Tolerance', 'FCW_Veh_Speed_Check_km_per_h'} = 1.6;
+% fcwResultsTable{'Max valid', 'FCW_Veh_Speed_Check_km_per_h'} = 73.6;
 
   %% Test Checks
   disp('******************************************************************************');
@@ -131,7 +155,7 @@
   timeStartCheckSpeed = timeStampCollisionLimit - speedWindowCheck;
   testSpeedWindow     = timerange(timeStartCheckSpeed, timeStampCollisionLimit);
   vehSpeedApproach    = ccanTableData.ESP_A8(testSpeedWindow, 'VEH_SPEED');
-  vehicleSpeedCheck   = fcwVehicleSpeedCheck(vehSpeedApproach);
+  [vehicleSpeedCheck, fcwResultsTable]   = fcwVehicleSpeedCheck(vehSpeedApproach, fcwResultsTable);
 
 
 
@@ -166,6 +190,12 @@
           ]);
   end
 
+
+
+
+
+
+  
 
   %% ************************ PLOTS ***********************
   % Create 2 figures: Full plot and Focus Area plot.
@@ -333,7 +363,7 @@
 
   %% Functions
 
-  function vehicleSpeedCheck = fcwVehicleSpeedCheck(vehicleSpeedAproach)
+  function [vehicleSpeedCheck,  fcwResultsTable] = fcwVehicleSpeedCheck(vehicleSpeedAproach, fcwResultsTable)
     fcwVehicleSpeedRequired = 72; %72 km/h
     vehicleSpeedTolerance = 1.6; %± 1.6 km/h
     vehicleSpeedMin       = min(vehicleSpeedAproach.(1));
@@ -351,7 +381,8 @@
     else 
       minSpeedCheck = false;
     end
-
+    
+    
     disp('* FCW VEHICLE SPEED CHECK. TEST SPEED 72 km/h. (Tolerance: ± 1.6 km/h):');
     disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. (Max Accepted: ', num2str(maxSpeedAccepted),')']);
     disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. (Min Accepted: ', num2str(minSpeedAccepted),')']);
@@ -362,7 +393,14 @@
       disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
       vehicleSpeedCheck = false;
     end
-
+    fcwResultsTable{'Tolerance',    'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedTolerance;
+    fcwResultsTable{'Max valid',    'FCW_Veh_Speed_Check_km_per_h'} = maxSpeedAccepted;
+    fcwResultsTable{'Max (actual)', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedMax;
+    fcwResultsTable{'Is max valid', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
+    fcwResultsTable{'Min Valid',    'FCW_Veh_Speed_Check_km_per_h'} = minSpeedAccepted;
+    fcwResultsTable{'Min (actual)', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedMin;
+    fcwResultsTable{'is min valid', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
+    fcwResultsTable{'Final Result', 'FCW_Veh_Speed_Check_km_per_h'} = vehicleSpeedCheck;
   end
 
   function yawRateCheck = checkVehicleYawRate(vehicleYawRateTable)
