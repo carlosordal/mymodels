@@ -1,13 +1,5 @@
 % FCW Analysis.
 % Next steps:
-% declare tolerances and speed on a single place,
-% transpose results table?
-% add checks for max and min values.
-% Display check's report needs to be converted to delta time, in order to
-% compare it with 2.1 s.
-% Fill in the rest of the checks.
-% create a final struct in order to add information, file name to the
-% report.
 % do I need to plot the delta of vehicle speed and yaw rate for the result?
 %
 %
@@ -97,19 +89,19 @@
   
   % Detect if the distance to Collision Limit is part of the CAN publication
   if distanceToCollisionLimit < distanceStartValue
-    disp('TTC published on CAN');
-      %find Time Stamp of distanceCollisionLimit on resampled ObjIntrstDist
+    isTtcNominalEstimated   = false;
     timeIndexCollisionLimit = find((resampleDistance.ObjIntrstDist-distanceToCollisionLimit)<10^-1,1,'first');
     timeStampCollisionLimit = resampleDistance.Time(timeIndexCollisionLimit);
 
   else
     %vehicle speed at First Distance Published.
-    disp(['** TTC limit was''not published. First Value: ', num2str(distanceStartValue)]);
+%     disp(['** TTC limit was''not published. First Value: ', num2str(distanceStartValue)]);
       % Calculate timeStampCollisionLimit if distanceToCollisionLimit is
       % greater than values published, based on vehicle speed and distance
       % missing.
-    minMissingDistance = distanceToCollisionLimit - distanceStartValue;
-    minMissingTime = (minMissingDistance * kphToMps)/vehicleSpeedTest;
+    isTtcNominalEstimated   = true;
+    minMissingDistance      = distanceToCollisionLimit - distanceStartValue;
+    minMissingTime          = (minMissingDistance * kphToMps)/vehicleSpeedTest;
     timeStampCollisionLimit = distanceToObjectPublished.Time(1) - duration(strcat('0:0:', num2str(minMissingTime)));
 
   end
@@ -136,8 +128,8 @@
   % convert fcw time stamp to ttc, calculating ttc distance
   ttcActual           = (distanceStartValue*kphToMps)/vehicleSpeedTest;
   
-  %% Create Table for final results
-
+  %% Create Table and struct for final results
+%table with results
 fcwChecksTable = table('Size',[3 9],'VariableTypes',{'double', 'double',...
   'double', 'double', 'logical', ...
   'double', 'double', 'logical', ...
@@ -151,10 +143,14 @@ fcwChecksTable.Properties.RowNames = { ...
   'FCW Veh Yaw Rate (deg/s)', ...
   'FCW Warning Displayed On Time'};
 
+%struct with information
+Info.FileName = fileName;
+Info.DistanceToCollisionNominal = distanceToCollisionNominal;
+Info.DistanceToCollisionLimit   = distanceToCollisionLimit;
+Info.FirstDistanceReported      = distanceStartValue;
+Info.IsTtcNominalEstimated      = isTtcNominalEstimated;
 
   %% Test Checks
-  disp('******************************************************************************');
-  disp(['**** VEHICLE FCW TEST CHECK. File: ', fileName]);
   % Vehicle Speed Max and Min during vehicle approach ESP_A8.VEH_SPEED
   % The SV vehicle speed cannot deviate from the nominal speed by more than 
   % 1.0 mph (1.6 km/h) for a period of 3.0 seconds prior to (1) the required 
@@ -164,7 +160,8 @@ fcwChecksTable.Properties.RowNames = { ...
   timeStartCheckSpeed = timeStampCollisionLimit - speedWindowCheck;
   testSpeedWindow     = timerange(timeStartCheckSpeed, timeStampCollisionLimit);
   vehSpeedApproach    = ccanTableData.ESP_A8(testSpeedWindow, 'VEH_SPEED');
-  [vehicleSpeedCheck, fcwChecksTable]   = fcwVehicleSpeedCheck(vehSpeedApproach, fcwChecksTable);
+  vehicleSpeedTolerance = 1.6;
+  fcwChecksTable      = fcwVehicleSpeedCheck(vehSpeedApproach, fcwChecksTable, vehicleSpeedTest, vehicleSpeedTolerance);
 
 
 
@@ -177,15 +174,14 @@ fcwChecksTable.Properties.RowNames = { ...
   vehicleEspYawRateWithOffset = vehicleEspYawRateEvent.VehYawRate_Raw - vehicleEspYawRateOffset.VehYawRate_Offset;
   yawRateWithOffset = timetable(vehicleEspYawRateEvent.Time, vehicleEspYawRateWithOffset);
   
-  [yawRateCheck, fcwChecksTable]      = checkVehicleYawRate(yawRateWithOffset, fcwChecksTable);
+
+  fcwChecksTable      = checkVehicleYawRate(yawRateWithOffset, fcwChecksTable, yawRateTolerance);
 
   % Was the FCW displayed on time
   
   if ttcActual < ttcLimit
-%     disp('-- FCW Warning Displayed on time');
     fcwDisplayCheck =  true;
   else
-%     disp('-- FCW Warning NOT Displayed on time');
     fcwDisplayCheck =  false;
   end
 
@@ -198,10 +194,6 @@ fcwChecksTable.Properties.RowNames = { ...
   fcwChecksTable{ttcCheckRowName, 'Result'}       = fcwDisplayCheck;
 
 
-
-
-%     ttcNominal       = 2.1;
-%   TtcLimit  = 1.89; 
 
   %% ************************ PLOTS ***********************
   % Create 2 figures: Full plot and Focus Area plot.
@@ -229,32 +221,15 @@ fcwChecksTable.Properties.RowNames = { ...
 
   % -----------------------------------------------------------------------
   % PLOT 1
-  % FCW Display - Full - DAS_A3.As_DispRq
   figure(plotAllData)
   hold on;
-  fcwDisplayFull      =  ccanTableData.DAS_A3(:, 'As_DispRq');
-  plotFcwDisplay      = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
-    fcwDisplayFull.Time, fcwDisplayFull.As_DispRq, ...
-    'FCW State - AEB Req/Act Status - Yaw Rate', 'DAS A3.As DispRq', ...
-    'Time (s)', 'FCW State');
-  % FCW Display - Focus - DAS_A3.As_DispRq
-  fcwDisplayEvent     = ccanTableData.DAS_A3(focusAreaTimeWindow,'As_DispRq');
-  figure(plotFocusArea);
-  figure1Title = 'FCW State - FCW Warning Status & Yaw Rate (with offset)';
+  figure1Title = 'Yaw Rate (with offset)';
   figure1Xaxis = 'Time (s)';
   figure1Yaxis = 'FCW State';
 
-  hold on;
-  plotFcwDisplayFocus = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
-    fcwDisplayEvent.Time, fcwDisplayEvent.As_DispRq, ...
-    figure1Title, 'FCW Warning Status', ...
-    figure1Xaxis, figure1Yaxis);
-
   % -------------------------------------------------------------------------
   % Vehicle Yaw Rate - Full - ORC_YRS_DATA.YawRate;
-  figure(plotAllData);
-  hold on;
-  yyaxis right;
+
   vehicleOrcYawRateFull     =  ccanTableData.ORC_YRS_DATA(:,'YawRate');
   plotOrcYawRateFull        = createPlot(rowsOnFullPlot, columnsOnFullPlot, 1, ...
     vehicleOrcYawRateFull.Time, vehicleOrcYawRateFull.YawRate, ...
@@ -262,10 +237,9 @@ fcwChecksTable.Properties.RowNames = { ...
     figure1Xaxis, 'Yaw Rate deg/s');
 
   % Vehicle Yaw Rate - Focus - ESP_A4.VehYawRate_Raw and Offset calculus
-
   figure(plotFocusArea);
   hold on;
-  yyaxis right;
+  %yyaxis right;
 
   plotEspYawRateCalc        = createPlot(rowsOnFocusPlot, columnsOnFocusPlot, 1, ...
   vehicleEspYawRateOffset.Time, vehicleEspYawRateWithOffset, ...
@@ -365,13 +339,18 @@ fcwChecksTable.Properties.RowNames = { ...
     timeStampCollisionNominal, 'Time To Collision Nominal', ...
     timeStampCollisionLimit, 'Time To Collision Limit');
 
+%create report struct
+  fcwReport.('Info')        = Info;
+  fcwReport.('FCW_Results') = fcwChecksTable;
 
+
+  
 
   %% Functions
 
-  function [vehicleSpeedCheck,  fcwChecksTable] = fcwVehicleSpeedCheck(vehicleSpeedAproach, fcwChecksTable)
-    fcwVehicleSpeedRequired = 72; %72 km/h
-    vehicleSpeedTolerance = 1.6; %± 1.6 km/h
+  function fcwChecksTable = fcwVehicleSpeedCheck(vehicleSpeedAproach, fcwChecksTable, fcwVehicleSpeedRequired, vehicleSpeedTolerance)
+%     fcwVehicleSpeedRequired = 72; %72 km/h
+%     vehicleSpeedTolerance = 1.6; %± 1.6 km/h
     vehicleSpeedMin       = min(vehicleSpeedAproach.(1));
     vehicleSpeedMax       = max(vehicleSpeedAproach.(1));
 
@@ -388,15 +367,10 @@ fcwChecksTable.Properties.RowNames = { ...
       minSpeedCheck = false;
     end
     
-    
-%     disp('* FCW VEHICLE SPEED CHECK. TEST SPEED 72 km/h. (Tolerance: ± 1.6 km/h):');
-%     disp(['-- Actual Vehicle Max Speed: ', num2str(vehicleSpeedMax), ', Result: ', num2str(maxSpeedCheck), '. (Max Accepted: ', num2str(maxSpeedAccepted),')']);
-%     disp(['-- Actual Vehicle Min Speed: ', num2str(vehicleSpeedMin), ', Result: ', num2str(minSpeedCheck), '. (Min Accepted: ', num2str(minSpeedAccepted),')']);
+
     if maxSpeedCheck && minSpeedCheck
-%       disp('--- Speed Check is Valid during Vehicle Approach Phase');
       vehicleSpeedCheck = true;
     else
-%       disp('--- Speed Check is NOT Valid during Vehicle Approach Phase');
       vehicleSpeedCheck = false;
     end
     speedCheckRowName = 'FCW Veh Speed Check (km/h)';
@@ -411,8 +385,8 @@ fcwChecksTable.Properties.RowNames = { ...
     fcwChecksTable{speedCheckRowName, 'Result'}       = vehicleSpeedCheck;
   end
 
-  function [yawRateCheck, fcwChecksTable] = checkVehicleYawRate(vehicleYawRateTable, fcwChecksTable)
-    yawRateTolerance      = 1;        %+- 1 deg/s     
+  function fcwChecksTable = checkVehicleYawRate(vehicleYawRateTable, fcwChecksTable, yawRateTolerance)
+    %yawRateTolerance      = 1;        %+- 1 deg/s     
     vehicleYawRateMin     = min(vehicleYawRateTable.(1));
     vehicleYawRateMax     = max(vehicleYawRateTable.(1));
 
@@ -429,15 +403,9 @@ fcwChecksTable.Properties.RowNames = { ...
     else 
       minYawRateCheck = false;
     end
-
-%     disp('* FCW VEHICLE YAW RATE CHECK. (Tolerance: ± 1 deg/s):');
-%     disp(['-- Actual Vehicle Max Yaw Rate: ', num2str(vehicleYawRateMax), ', Result: ', num2str(maxYawRateCheck), '. (Max Accepted: ', num2str(maxYawRateAccepted),')']);
-%     disp(['-- Actual Vehicle Min Yaw Rate: ', num2str(vehicleYawRateMin), ', Result: ', num2str(minYawRateCheck), '. (Min Accepted: ', num2str(minYawRateAccepted),')']);
     if maxYawRateCheck && minYawRateCheck
-%       disp('--- Yaw Rate is Valid during Vehicle Approach Phase');
       yawRateCheck = true;
     else
-%       disp('--- Yaw Rate is NOT Valid during Vehicle Approach Phase');
       yawRateCheck = false;
     end
     
@@ -541,7 +509,8 @@ fcwChecksTable.Properties.RowNames = { ...
     verticalLine.LineWidth   = 2;
     verticalLine.LineStyle   = lineStyle;
     verticalLine.Label = seconds(timeStamp);
-    %verticalLine.LabelHorizontalAlignment = 
+%     verticalLine.Label = strcat('ts: ', num2str(seconds(timeStamp)), ', ttc: 1.0');
+    verticalLine.LabelVerticalAlignment = 'bottom'; 
 
   end
 
